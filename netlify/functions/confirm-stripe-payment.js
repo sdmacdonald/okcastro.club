@@ -5,17 +5,17 @@ require("dotenv").config();
 
 const stripe = require("stripe")(process.env.VITE_REACT_APP_STRIPE_SK);
 const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 exports.handler = async (event, context) => {
   const endpointSecret = process.env.STRIPE_ES;
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
   const sig = event.headers["stripe-signature"];
   let stripeEvent;
 
   try {
     // Verifies that the event was sent by Stripe and deserializes the event
-    stripeEvent = stripe.webhooks.constructEvent(
+    stripeEvent = await stripe.webhooks.constructEvent(
       event.body,
       sig,
       endpointSecret
@@ -24,14 +24,11 @@ exports.handler = async (event, context) => {
     return { statusCode: 400, stripeEvent: stripeEvent };
   }
 
-  // Handle the event
   switch (stripeEvent.type) {
     case "payment_intent.succeeded":
-      const paymentIntent = stripeEvent.data.object;
-      const { id, metadata } = paymentIntent;
       // hey if you come back to this because it doesn't work, check the .env keys and recommit even if they look right.
       const msg = {
-        to: metadata.email,
+        to: event.body.data.object.metadata.email,
         // cc: process.env.SENDGRID_CC,
         from: "danny@dannymacdonald.me",
         subject: "Hi mom",
@@ -39,8 +36,8 @@ exports.handler = async (event, context) => {
         // text: id,
         html: `<html><body><p><strong>id</strong></p>hi mom</p></body></html>`,
       };
-
       sgMail.send(msg);
+
       break;
     case "charge.dispute.created":
       const charge = stripeEvent.data.object;
