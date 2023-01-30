@@ -55,7 +55,5 @@ exports.handler = async (event, context) => {
   // Return a 200 response to acknowledge receipt of the event
   return {
     statusCode: 200,
-    body: JSON.stringify(msg),
-    error: JSON.stringify(err),
   };
 };
