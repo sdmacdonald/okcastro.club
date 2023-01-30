@@ -6,10 +6,10 @@ require("dotenv").config();
 const stripe = require("stripe")(process.env.VITE_REACT_APP_STRIPE_SK);
 const sgMail = require("@sendgrid/mail");
 
-const endpointSecret = process.env.STRIPE_ES;
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
 exports.handler = async (event, context) => {
+  const endpointSecret = process.env.STRIPE_ES;
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
   const sig = event.headers["stripe-signature"];
   let stripeEvent;
 
@@ -36,7 +36,7 @@ exports.handler = async (event, context) => {
         from: "danny@dannymacdonald.me",
         subject: "Hi mom",
         //   text: `${id}: We have a new club member. Data captured: ${metadata}.`,
-        text: id,
+        // text: id,
         html: `<html><body><p><strong>id</strong></p>hi mom</p></body></html>`,
       };
 
