@@ -40,7 +40,7 @@ exports.handler = async (event, context) => {
       };
 
       sgMail.send(msg);
-      console.log(process.env.SENDGRID_API, process.env.STRIPE_ES);
+      console.log(msg, id, metadata);
       break;
     case "charge.dispute.created":
       const charge = stripeEvent.data.object;
