@@ -9,6 +9,7 @@ const sgMail = require("@sendgrid/mail");
 const endpointSecret = process.env.STRIPE_ES;
 
 exports.handler = async (event, context) => {
+  sgMail.setApiKey(process.env.SG_API);
   const sig = event.headers["stripe-signature"];
   let stripeEvent;
 
@@ -30,7 +31,6 @@ exports.handler = async (event, context) => {
       const { id, metadata } = paymentIntent;
       console.log(paymentIntent);
       let data = JSON.stringify(metadata);
-      sgMail.setApiKey(process.env.SG_API);
       let welcome = "We have a new club member";
       // hey if you come back to this because it doesn't work, check the .env keys and recommit even if they look right.
       const msg = {
