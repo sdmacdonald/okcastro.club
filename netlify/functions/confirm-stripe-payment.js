@@ -4,6 +4,7 @@
 require("dotenv").config();
 
 const stripe = require("stripe")(process.env.VITE_REACT_APP_STRIPE_SK);
+const sgMail = require("@sendgrid/mail");
 
 const endpointSecret = process.env.STRIPE_ES;
 
@@ -25,8 +26,22 @@ exports.handler = async (event, context) => {
   // Handle the event
   switch (stripeEvent.type) {
     case "payment_intent.succeeded":
-      const paymentIntent = stripeEvent.data.object;
+      // const paymentIntent = stripeEvent.data.object;
+      const { id, metadata } = event.body;
+      let data = JSON.stringify(metadata);
+      sgMail.setApiKey(process.env.SENDGRID);
+      let welcome = "We have a new club member";
+      // hey if you come back to this because it doesn't work, check the .env keys and recommit even if they look right.
+      const msg = {
+        to: "sdm@dannymacdonald.me",
+        // cc: process.env.SENDGRID_CC,
+        from: "danny@dannymacdonald.me",
+        subject: `${welcome}`,
+        //   text: `${id}: We have a new club member. Data captured: ${metadata}.`,
+        html: `<html><body><p><strong>${id}</strong></p>${data}</p></body></html>`,
+      };
 
+      sgMail.send(msg);
       break;
     case "charge.dispute.created":
       const charge = stripeEvent.data.object;
@@ -39,5 +54,5 @@ exports.handler = async (event, context) => {
   }
 
   // Return a 200 response to acknowledge receipt of the event
-  return { statusCode: 200, evt: JSON.stringify(paymentIntent) };
+  return { statusCode: 200 };
 };
