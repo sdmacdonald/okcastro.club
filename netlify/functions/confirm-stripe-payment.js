@@ -29,17 +29,14 @@ exports.handler = async (event, context) => {
     case "payment_intent.succeeded":
       const paymentIntent = stripeEvent.data.object;
       const { id, metadata } = paymentIntent;
-      console.log(paymentIntent);
-      let data = JSON.stringify(metadata);
-      let welcome = "We have a new club member";
       // hey if you come back to this because it doesn't work, check the .env keys and recommit even if they look right.
       const msg = {
-        to: "sdm@dannymacdonald.me",
+        to: metadata.email,
         // cc: process.env.SENDGRID_CC,
         from: "danny@dannymacdonald.me",
-        subject: `${welcome}`,
+        subject: "Hi mom",
         //   text: `${id}: We have a new club member. Data captured: ${metadata}.`,
-        html: `<html><body><p><strong>${id}</strong></p>${data}</p></body></html>`,
+        html: `<html><body><p><strong>${id}</strong></p>hi mom</p></body></html>`,
       };
 
       sgMail.send(msg);
