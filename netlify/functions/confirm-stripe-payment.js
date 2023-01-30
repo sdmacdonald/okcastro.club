@@ -9,7 +9,7 @@ const sgMail = require("@sendgrid/mail");
 const endpointSecret = process.env.STRIPE_ES;
 
 exports.handler = async (event, context) => {
-  sgMail.setApiKey(process.env.SG_API);
+  sgMail.setApiKey(process.env.SENDGRID_API);
   const sig = event.headers["stripe-signature"];
   let stripeEvent;
 
@@ -36,7 +36,7 @@ exports.handler = async (event, context) => {
         from: "danny@dannymacdonald.me",
         subject: "Hi mom",
         //   text: `${id}: We have a new club member. Data captured: ${metadata}.`,
-        html: `<html><body><p><strong>${id}</strong></p>hi mom</p></body></html>`,
+        html: `<html><body><p><strong>id</strong></p>hi mom</p></body></html>`,
       };
 
       sgMail.send(msg);
