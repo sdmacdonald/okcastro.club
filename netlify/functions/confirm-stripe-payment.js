@@ -26,13 +26,7 @@ exports.handler = async (event, context) => {
   switch (stripeEvent.type) {
     case "payment_intent.succeeded":
       const paymentIntent = stripeEvent.data.object;
-      console.log("object", paymentIntent);
-      // console.log(
-      //   "Payment was successful! Charge information:",
-      //   paymentIntent.charges.data.filter(
-      //     (charge) => charge.status === "succeeded"
-      //   )
-      // );
+
       break;
     case "charge.dispute.created":
       const charge = stripeEvent.data.object;
@@ -45,5 +39,5 @@ exports.handler = async (event, context) => {
   }
 
   // Return a 200 response to acknowledge receipt of the event
-  return { statusCode: 200 };
+  return { statusCode: 200, evt: JSON.stringify(paymentIntent) };
 };
