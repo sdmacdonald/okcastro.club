@@ -29,7 +29,7 @@ exports.handler = async (event, context) => {
       // const paymentIntent = stripeEvent.data.object;
       const { id, metadata } = event.body;
       let data = JSON.stringify(metadata);
-      sgMail.setApiKey(process.env.SENDGRID);
+      sgMail.setApiKey(process.env.SG_API);
       let welcome = "We have a new club member";
       // hey if you come back to this because it doesn't work, check the .env keys and recommit even if they look right.
       const msg = {
