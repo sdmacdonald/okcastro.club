@@ -3,7 +3,7 @@
 // For more information read https://stripe.com/docs/webhooks
 require("dotenv").config();
 
-const stripe = require("stripe")(process.env.STRIPE_SK);
+const stripe = require("stripe")(process.env.VITE_REACT_APP_STRIPE_SK);
 
 const endpointSecret = process.env.STRIPE_ES;
 
