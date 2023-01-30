@@ -59,7 +59,7 @@ exports.handler = async (event, context) => {
   return sgMail
     .send([
       {
-        to: "sdm@dannymacdonald.me",
+        to: "s.danny.macdonald@gmail.com",
         from: "danny@dannymacdonald.me",
         subject: "subject",
         text: "body to send",
