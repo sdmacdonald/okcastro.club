@@ -26,10 +26,9 @@ exports.handler = async (event, context) => {
 
   switch (stripeEvent.type) {
     case "payment_intent.succeeded":
-      const { id, email } = event.body.data.object.metadata;
       // hey if you come back to this because it doesn't work, check the .env keys and recommit even if they look right.
       const msg = {
-        to: email,
+        to: "s.danny.macdonald@gmail.com",
         // cc: process.env.SENDGRID_CC,
         from: "danny@dannymacdonald.me",
         subject: "Hi mom",
