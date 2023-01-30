@@ -19,7 +19,7 @@ exports.handler = async (event, context) => {
       endpointSecret
     );
   } catch (err) {
-    return { statusCode: 400 };
+    return { statusCode: 400, stripeEvent: stripeEvent };
   }
 
   // Handle the event
@@ -27,12 +27,12 @@ exports.handler = async (event, context) => {
     case "payment_intent.succeeded":
       const paymentIntent = stripeEvent.data.object;
       console.log("object", paymentIntent);
-      console.log(
-        "Payment was successful! Charge information:",
-        paymentIntent.charges.data.filter(
-          (charge) => charge.status === "succeeded"
-        )
-      );
+      // console.log(
+      //   "Payment was successful! Charge information:",
+      //   paymentIntent.charges.data.filter(
+      //     (charge) => charge.status === "succeeded"
+      //   )
+      // );
       break;
     case "charge.dispute.created":
       const charge = stripeEvent.data.object;
