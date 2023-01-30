@@ -26,8 +26,9 @@ exports.handler = async (event, context) => {
   // Handle the event
   switch (stripeEvent.type) {
     case "payment_intent.succeeded":
-      // const paymentIntent = stripeEvent.data.object;
-      const { id, metadata } = event.body;
+      const paymentIntent = stripeEvent.data.object;
+      const { id, metadata } = paymentIntent;
+      console.log(paymentIntent);
       let data = JSON.stringify(metadata);
       sgMail.setApiKey(process.env.SG_API);
       let welcome = "We have a new club member";
