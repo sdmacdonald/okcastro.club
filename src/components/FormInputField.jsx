@@ -20,6 +20,7 @@ export const FormInputField = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        disabled
       />
       {children}
     </FormControl>

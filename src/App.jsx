@@ -16,11 +16,7 @@ export const App = () => {
       bgImage="linear-gradient(rgba(44, 82, 130, 0.9),rgba(44, 82, 130, 0.5)) , url('./bg.jpg')"
     >
       <Stack direction="row" align="baseline" justify="end" spacing={6} p={4}>
-        <LinkIcon
-          link="mailto:danny@dannymacdonald.me"
-          icon={FiMail}
-          isExternal
-        />
+        <LinkIcon link="" icon={FiMail} isExternal />
         <LinkIcon
           link="https://github.com/sdmacdonald/okcastro.club"
           icon={FaGithub}
