@@ -10,7 +10,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { Accordion } from "../components";
-import { CheckoutForm } from "./organisms";
+import { CheckoutForm } from "../organisms";
 import { FaStripe } from "react-icons/fa";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
