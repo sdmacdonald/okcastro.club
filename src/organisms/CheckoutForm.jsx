@@ -6,7 +6,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { Box, Button } from "@chakra-ui/react";
 
-export default function CheckoutForm(props) {
+export const CheckoutForm = (props) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -91,4 +91,4 @@ export default function CheckoutForm(props) {
       </Button>
     </Box>
   );
-}
+};
