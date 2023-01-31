@@ -1,18 +1,18 @@
 require("dotenv").config();
 
 const stripe = require("stripe")(process.env.STRIPE_SK);
-// headers = {
-//   "Access-Control-Allow-Origin": "*",
-//   "Access-Control-Allow-Headers": "Content-Type",
-// };
+headers = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
 
 exports.handler = async (event, context) => {
-  // if (event.httpMethod === "OPTIONS") {
-  //   return {
-  //     statusCode: 200,
-  //     headers,
-  //   };
-  // }
+  if (event.httpMethod === "OPTIONS") {
+    return {
+      statusCode: 200,
+      headers,
+    };
+  }
 
   const data = JSON.parse(event.body);
 
@@ -21,7 +21,7 @@ exports.handler = async (event, context) => {
 
     return {
       statusCode: 400,
-      // headers,
+      headers,
       body: JSON.stringify({
         status: "missing information",
       }),
@@ -51,7 +51,7 @@ exports.handler = async (event, context) => {
 
     return {
       statusCode: 200,
-      // headers,
+      headers,
       body: JSON.stringify({
         clientSecret: paymentIntent.client_secret,
       }),
@@ -61,7 +61,7 @@ exports.handler = async (event, context) => {
 
     return {
       statusCode: 400,
-      // headers,
+      headers,
       body: JSON.stringify({
         status: err,
       }),
