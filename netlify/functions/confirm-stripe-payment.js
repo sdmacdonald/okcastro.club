@@ -21,15 +21,15 @@ exports.handler = async (event, context) => {
   const { id, metadata } = paymentIntent;
 
   const msg = {
-    to: "s.danny.macdonald@gmail.com",
+    to: "editor@okcastroclub.com",
     // cc: process.env.SENDGRID_CC,
     from: "danny@dannymacdonald.me",
-    subject: "Hi mom",
+    subject: `Sent on ${new Date().getDate()}`,
     //   text: `${id}: We have a new club member. Data captured: ${metadata}.`,
     // text: id,
     html: `<html><body><p><strong>id</strong></p>hi mom</p></body></html>`,
   };
-
+  console.log(stripeEvent);
   sgMail.send(msg);
   // Return a 200 response to acknowledge receipt of the event
   return {
