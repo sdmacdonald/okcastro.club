@@ -3,17 +3,22 @@ import { Form } from "../templates/Form";
 import { CheckoutModal, FormInputField, FormSelectField } from "../components";
 import { registrationInitialValues, states } from "../data";
 import {
+  Button,
   Divider,
   Flex,
+  FormControl,
+  FormHelperText,
   Heading,
   HStack,
   Image,
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { getPrice } from "../components/getPrice";
 
 export const Register = () => {
   const [member, setMember] = useState(registrationInitialValues);
+  const price = getPrice();
 
   const handleChange = (e) =>
     setMember({ ...member, [e.target.name]: e.target.value });
@@ -75,12 +80,15 @@ export const Register = () => {
           maxW="lg"
           w="100%"
           p={12}
-          mt={12}
           shadow="sm"
           borderRadius="md"
           bgColor="white"
         >
-          <Form name="register" button="Register" onSubmit={handleSubmit}>
+          <Form
+            name="register"
+            button={`Join Tonight for $${price}*`}
+            onSubmit={handleSubmit}
+          >
             <FormInputField
               name="name"
               type="text"
@@ -95,19 +103,29 @@ export const Register = () => {
               onChange={handleChange}
               placeholder="cosmo@example.com"
             />
+            <Divider />
+
             <FormInputField
               name="address"
               type="text"
               value={member.address}
               onChange={handleChange}
               placeholder={"A1A Beachfront Ave"}
-            />
+            >
+              <FormHelperText fontSize="sm" color="gray.400">
+                Providing your address is optional and is used by the
+                Astronomical League to mail quarterly issues of{" "}
+                <Button variant="link" fontSize="sm" color="gray.400">
+                  The Reflector
+                </Button>
+              </FormHelperText>
+            </FormInputField>
             <FormInputField
               name="city"
               type="text"
               value={member.city}
               onChange={handleChange}
-              placeholder={"Oklahoma City"}
+              placeholder="Oklahoma City"
             />
             <HStack justify="space-between">
               <FormSelectField

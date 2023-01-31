@@ -4,13 +4,12 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import { Box, Button, VStack } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 
 export default function CheckoutForm(props) {
   const stripe = useStripe();
   const elements = useElements();
 
-  const [email, setEmail] = useState("");
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -48,11 +47,7 @@ export default function CheckoutForm(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!stripe || !elements) {
-      // Stripe.js has not yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
-      return;
-    }
+    if (!stripe || !elements) return;
 
     setIsLoading(true);
 
