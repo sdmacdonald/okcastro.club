@@ -15,7 +15,7 @@ import { FaStripe } from "react-icons/fa";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
-export const CheckoutModal = ({ data }) => {
+export const StripeCheckout = ({ data }) => {
   const stripePromise = loadStripe(`${import.meta.env.VITE_STRIPE_PK}`);
   const { isOpen, onOpen, onClose } = useDisclosure({ isOpen: true });
 
