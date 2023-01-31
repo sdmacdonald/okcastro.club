@@ -30,7 +30,8 @@ exports.handler = async (event, context) => {
     html: `<html><body><p><strong>id</strong></p>hi mom</p></body></html>`,
   };
   console.log(stripeEvent);
-  sgMail.send(msg);
+
+  await sgMail.send(msg);
   // Return a 200 response to acknowledge receipt of the event
   return {
     statusCode: 200,
