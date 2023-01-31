@@ -5,12 +5,13 @@ export const FormInputField = ({
   children,
   name,
   onChange,
+  placeholder,
   type,
   value,
-  placeholder,
+  width,
 }) => {
   return (
-    <FormControl>
+    <FormControl w={width || "100%"}>
       <Label name={name} />
       <Input
         as="input"

@@ -5,4 +5,5 @@ export const registrationInitialValues = {
   city: "",
   state: "Oklahoma",
   zip: "",
+  item: "membership",
 };
