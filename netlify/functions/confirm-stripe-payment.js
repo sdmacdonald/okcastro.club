@@ -17,29 +17,21 @@ exports.handler = async (event, context) => {
     endpointSecret
   );
 
-  switch (stripeEvent.type) {
-    case "payment_intent.succeeded":
-      const paymentIntent = stripeEvent.data.object;
-      const { id, metadata } = paymentIntent;
-
-      const msg = {
-        to: "s.danny.macdonald@gmail.com",
-        // cc: process.env.SENDGRID_CC,
-        from: "danny@dannymacdonald.me",
-        subject: `New Club Member: ${metadata.name}`,
-        text: `${id}: We have a new club member. Data captured: ${metadata}.`,
-        html: `<html><body><ul>${metadata.forEach((data) => (
-          <li>data</li>
-        ))}</ul><sub>${id}</sub></body></html>`,
-      };
-      break;
-    default:
-      // Unexpected event type
-      return { statusCode: 400, err: "unexpected event type" };
-  }
-  await sgMail.send(msg);
-  // Return a 200 response to acknowledge receipt of the event
-  return {
-    statusCode: 200,
+  const msg = {
+    to: "s.danny.macdonald@gmail.com",
+    // cc: process.env.SENDGRID_CC,
+    from: "danny@dannymacdonald.me",
+    subject: `New Club Member: ${metadata.name}`,
+    text: `${id}: We have a new club member. Data captured: ${metadata}.`,
+    html: `<html><body><ul>${metadata.forEach((data) => (
+      <li>data</li>
+    ))}</ul><sub>${id}</sub></body></html>`,
   };
+
+  if (stripeEvent.type === "payment_intent.succeeded") {
+    await sgMail.send(msg);
+    return { statusCode: 200 };
+  } else {
+    return { statusCode: 400, err: "unexpected event type" };
+  }
 };
