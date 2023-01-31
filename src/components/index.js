@@ -1,5 +1,4 @@
-export { FormInputField } from "./FormInputField";
-export { FormSelectField } from "./FormSelectField";
-export { CheckoutModal } from "./CheckoutModal";
+export { Accordion } from "./Accordion";
 export { Label } from "./Label";
 export { LinkIcon } from "./LinkIcon";
+export { TextBlock } from "./TextBlock";

@@ -1,151 +1,85 @@
-import React, { useState } from "react";
-import { Form } from "../templates/Form";
-import { CheckoutModal, FormInputField, FormSelectField } from "../components";
-import { registrationInitialValues, states } from "../data";
-import {
-  Button,
-  Divider,
-  Flex,
-  FormControl,
-  FormHelperText,
-  Heading,
-  HStack,
-  Image,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
-import { getPrice } from "../components/getPrice";
+import React, { useEffect, useState } from "react";
+import { registrationInitialValues } from "../data";
+import { Divider, Image, Text } from "@chakra-ui/react";
+import { Page, Segment } from "../templates";
+import { CheckoutModal } from "../organisms";
+import { RegForm } from "../organisms";
+import { TextBlock } from "../components";
 
 export const Register = () => {
   const [member, setMember] = useState(registrationInitialValues);
-  const price = getPrice();
+  const [loading, isLoading] = useState(false);
 
   const handleChange = (e) =>
     setMember({ ...member, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    isLoading(true);
 
-    fetch(
-      `${
-        import.meta.env.VITE_BASE_URL
-      }/.netlify/functions/create-payment-intent`,
-      {
-        method: "post",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(member),
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setMember((prevMember) => ({ ...prevMember, pi: data.clientSecret }));
-        console.log(data);
-        localStorage.setItem("data", JSON.stringify(member));
-      })
-      .then((error) => console.error(error));
+    const url = `${
+      import.meta.env.VITE_BASE_URL
+    }/.netlify/functions/create-payment-intent`;
+
+    const method = {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(member),
+    };
+
+    const res = await fetch(url, method);
+
+    if (!res.ok) throw Error(res.message);
+
+    try {
+      const data = await res.json();
+      setMember((prevMember) => ({
+        ...prevMember,
+        pi: data.clientSecret,
+        amount: data.metadata.amount,
+      }));
+      isLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
-    <>
-      {member.pi && <CheckoutModal member={member} />}
-      <Flex
-        direction={{ base: "column", md: "row" }}
-        justify={{ base: "flex-start", md: "space-evenly" }}
-        align="center"
+    <Page>
+      {member.pi && <CheckoutModal data={member} />}
+      <Segment
+        rest={{
+          color: "white",
+          mt: "-20px",
+          spacing: 8,
+          justify: "center",
+          textAlign: "center",
+        }}
+        top={
+          <Image src="./okcac-logo__white.png" w="350px" alignSelf="center" />
+        }
+        heading="Explore the Night Sky with Us."
+        as="h1"
+        fontSize="48px"
+        fontWeight="thin"
       >
-        <Stack
-          maxW="md"
-          w="100%"
-          mt="-20px"
-          p={12}
-          color="white"
-          spacing={8}
-          justify="center"
-          textAlign="center"
-        >
-          <Image src="./okcac-logo__white.png" w="350px" />
-          <Heading fontWeight="thin" fontSize="42px">
-            Explore the Night Sky with Us.
-          </Heading>
-          <Divider />
-          <Text lineHeight="taller">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facere
-            nesciunt aut veritatis impedit doloremque optio voluptatibus autem
-            nemo obcaecati voluptate voluptatem qui, provident laudantium
-            quisquam ad reiciendis assumenda non minus.
-          </Text>
-        </Stack>
+        <Divider />
+        <TextBlock>
+          The Oklahoma City Astronomy Club has been helping metro area residents
+          observe the mysteries that our night sky has to offer since 1958. We
+          use telescopes, binoculars, cameras and our own two eyes to observe
+          and deepen our understanding of our universe.
+        </TextBlock>
+      </Segment>
 
-        <Stack
-          maxW="lg"
-          w="100%"
-          p={12}
-          shadow="sm"
-          borderRadius="md"
-          bgColor="white"
-        >
-          <Form
-            name="register"
-            button={`Join Tonight for $${price}*`}
-            onSubmit={handleSubmit}
-          >
-            <FormInputField
-              name="name"
-              type="text"
-              value={member.name}
-              onChange={handleChange}
-              placeholder="Leo Spaceman"
-            />
-            <FormInputField
-              name="email"
-              type="email"
-              value={member.email}
-              onChange={handleChange}
-              placeholder="cosmo@example.com"
-            />
-            <Divider />
-
-            <FormInputField
-              name="address"
-              type="text"
-              value={member.address}
-              onChange={handleChange}
-              placeholder={"A1A Beachfront Ave"}
-            >
-              <FormHelperText fontSize="sm" color="gray.400">
-                Providing your address is optional and is used by the
-                Astronomical League to mail quarterly issues of{" "}
-                <Button variant="link" fontSize="sm" color="gray.400">
-                  The Reflector
-                </Button>
-              </FormHelperText>
-            </FormInputField>
-            <FormInputField
-              name="city"
-              type="text"
-              value={member.city}
-              onChange={handleChange}
-              placeholder="Oklahoma City"
-            />
-            <HStack justify="space-between">
-              <FormSelectField
-                name="state"
-                placeholder="Oklahoma"
-                options={states}
-                onChange={handleChange}
-                value={member.state}
-              />
-              <FormInputField
-                name="zip"
-                type="number"
-                value={member.zip}
-                onChange={handleChange}
-                placeholder="73013"
-              />
-            </HStack>
-          </Form>
-        </Stack>
-      </Flex>
-    </>
+      <Segment rest={{ bgColor: "white", shadow: "md", borderRadius: "md" }}>
+        <RegForm
+          data={member}
+          loading={loading}
+          onChange={handleChange}
+          onSubmit={handleSubmit}
+        />
+      </Segment>
+    </Page>
   );
 };

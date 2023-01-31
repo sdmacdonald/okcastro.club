@@ -54,6 +54,7 @@ exports.handler = async (event, context) => {
       headers,
       body: JSON.stringify({
         clientSecret: paymentIntent.client_secret,
+        metadata: { ...paymentIntent.metadata, amount: paymentIntent.amount },
       }),
     };
   } catch (err) {
