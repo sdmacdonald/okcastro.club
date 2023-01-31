@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import {
   Icon,
   Modal,
@@ -6,15 +7,13 @@ import {
   ModalHeader,
   ModalBody,
   useDisclosure,
-  HStack,
   Flex,
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import { Accordion } from "../components";
+import { CheckoutForm } from "./organisms";
 import { FaStripe } from "react-icons/fa";
 import { Elements } from "@stripe/react-stripe-js";
-import CheckoutForm from "../pages/CheckoutForm";
 import { loadStripe } from "@stripe/stripe-js";
-import { Accordion } from "../components";
 
 export const CheckoutModal = ({ data }) => {
   const stripePromise = loadStripe(`${import.meta.env.VITE_STRIPE_PK}`);

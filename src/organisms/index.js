@@ -1,2 +1,2 @@
 export { RegForm } from "./RegForm";
-export { CheckoutModal } from "./CheckoutModal";
+export { CheckoutForm } from "./CheckoutForm";

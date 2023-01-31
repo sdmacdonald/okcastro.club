@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { registrationInitialValues } from "../data";
-import { Divider, Image, Text } from "@chakra-ui/react";
-import { Page, Segment } from "../templates";
-import { CheckoutModal } from "../organisms";
-import { RegForm } from "../organisms";
+import React, { useState } from "react";
+import { Divider, Image } from "@chakra-ui/react";
+import { registrationInitialValues } from "../assets/data";
 import { TextBlock } from "../components";
+import { RegForm } from "../organisms";
+import { Page, Segment, StripeCheckout } from "../templates";
 
 export const Register = () => {
   const [member, setMember] = useState(registrationInitialValues);
@@ -46,7 +45,7 @@ export const Register = () => {
 
   return (
     <Page>
-      {member.pi && <CheckoutModal data={member} />}
+      {member.pi && <StripeCheckout data={member} />}
       <Segment
         rest={{
           color: "white",
@@ -66,13 +65,16 @@ export const Register = () => {
         <Divider />
         <TextBlock>
           The Oklahoma City Astronomy Club has been helping metro area residents
-          observe the mysteries that our night sky has to offer since 1958. We
-          use telescopes, binoculars, cameras and our own two eyes to observe
-          and deepen our understanding of our universe.
+          observe the wonders and mysteries of our night sky since 1958. We use
+          telescopes, binoculars, cameras and our own eyes to observe and deepen
+          our understanding of the universe.
         </TextBlock>
       </Segment>
 
-      <Segment rest={{ bgColor: "white", shadow: "md", borderRadius: "md" }}>
+      <Segment
+        rest={{ bgColor: "white", shadow: "md", borderRadius: "md" }}
+        my={3}
+      >
         <RegForm
           data={member}
           loading={loading}

@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, FormInputField, FormSelectField } from "../molecules";
 import { Button, Divider, FormHelperText, HStack } from "@chakra-ui/react";
-import { getPrice, states } from "../data";
+import { getPrice, states } from "../assets/data";
 
 export const RegForm = (props) => {
   const { data, loading, onChange, onSubmit } = props;
@@ -39,12 +39,20 @@ export const RegForm = (props) => {
         onChange={onChange}
         placeholder={"A1A Beachfront Ave"}
       >
-        <FormHelperText fontSize="xs" color="gray.400">
+        <FormHelperText
+          fontSize="xs"
+          color={data.address ? "black" : "gray.400"}
+        >
           Providing your address is optional and is used by the Astronomical
           League to mail quarterly issues of{" "}
-          <Button variant="link" fontSize="xs" color="gray.400">
+          <Button
+            variant="link"
+            fontSize="xs"
+            color={data.address ? "black" : "gray.400"}
+          >
             The Reflector
           </Button>
+          .
         </FormHelperText>
       </FormInputField>
       <FormInputField
