@@ -1,6 +1,3 @@
-// Webhook that listens for events sent from Stripe
-// Requires configuration in the Stripe Dashboard
-// For more information read https://stripe.com/docs/webhooks
 const {
   SENDGRID_TO,
   SENDGRID_FROM,
