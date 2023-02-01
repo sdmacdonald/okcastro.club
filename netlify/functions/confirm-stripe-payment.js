@@ -17,25 +17,49 @@ exports.handler = async (event, context) => {
     endpointSecret
   );
 
-  switch (stripeEvent.type) {
-    case "payment_intent.succeeded":
-      const paymentIntent = stripeEvent.data.object;
-      const { id, metadata } = paymentIntent;
+  if (stripeEvent.type === "payment_intent.succeeded") {
+    const blob = stripeEvent.data.object;
+    const { id, amount, amount_received, created, metadata } = blob;
 
-      const msg = {
-        to: process.env.SENDGRID_TO,
-        // cc: process.env.SENDGRID_CC,
-        from: process.env.SENDGRID_FROM,
-        subject: `New Club Member: ${metadata.name}`,
-        text: `${id}: We have a new club member. Data captured: ${metadata}.`,
-        html: `<html><body><ul></ul><sub>${metadata}</sub></body></html>`,
-      };
-      await sgMail.send(msg);
-      break;
-    default:
-      // Unexpected event type
-      return { statusCode: 400, err: "unexpected event type" };
+    const msg = {
+      to: process.env.SENDGRID_TO,
+      from: process.env.SENDGRID_FROM,
+      templateId: "d-d7ebf1195f7f4da2a5450a620abd74ff",
+      dynamicTemplateData: {
+        name: metadata.name,
+        email: metadata.email,
+        amount: `$${amount / 100}`,
+        amount_received: `$${amount_received / 100}`,
+      },
+    };
+    await sgMail.send(msg);
+    return { statusCode: 200 };
+  } else {
+    return { statusCode: 400 };
   }
+
+  // switch (stripeEvent.type) {
+  //   case "payment_intent.succeeded":
+  //     // const paymentIntent = stripeEvent.data.object;
+  //     // const { id, amount, amount_received, created, metadata } = paymentIntent;
+
+  //     const msg = {
+  //       to: process.env.SENDGRID_TO,
+  //       from: process.env.SENDGRID_FROM,
+  //       templateId: "d-d7ebf1195f7f4da2a5450a620abd74ff",
+  //       dynamicTemplateData: {
+  //         name: metadata.name,
+  //         email: metadata.email,
+  //         amount: `$${amount / 100}`,
+  //         amount_received: `$${amount_received}`
+  //       },
+  //     };
+  //     await sgMail.send(msg);
+  //     break;
+  //   default:
+  //     // Unexpected event type
+  //     return { statusCode: 400, err: "unexpected event type" };
+  // }
 
   // Return a 200 response to acknowledge receipt of the event
   return {
