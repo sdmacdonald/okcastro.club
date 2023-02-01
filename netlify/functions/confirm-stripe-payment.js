@@ -17,8 +17,6 @@ exports.handler = async (event, context) => {
     endpointSecret
   );
 
-  const { metadata } = await event.body.data;
-
   const msg = {
     to: "s.danny.macdonald@gmail.com",
     // cc: process.env.SENDGRID_CC,
