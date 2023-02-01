@@ -56,7 +56,7 @@ export const RegForm = (props) => {
             fontSize="xs"
             color={data.address ? "black" : "gray.400"}
           >
-            <Link isExternal href="">
+            <Link isExternal href="https://www.astroleague.org/reflector">
               The Reflector
             </Link>
           </Button>
