@@ -17,15 +17,15 @@ exports.handler = async (event, context) => {
     endpointSecret
   );
 
+  const { id, metadata } = event.body;
+
   const msg = {
     to: "s.danny.macdonald@gmail.com",
     // cc: process.env.SENDGRID_CC,
     from: "danny@dannymacdonald.me",
     subject: `New Club Member: ${metadata.name}`,
     text: `${id}: We have a new club member. Data captured: ${metadata}.`,
-    html: `<html><body><ul>${metadata.forEach((data) => (
-      <li>data</li>
-    ))}</ul><sub>${id}</sub></body></html>`,
+    html: `<html><body>${metadata}</body></html>`,
   };
 
   if (stripeEvent.type === "payment_intent.succeeded") {
