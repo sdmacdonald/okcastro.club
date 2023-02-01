@@ -21,9 +21,9 @@ exports.handler = async (event, context) => {
     to: "s.danny.macdonald@gmail.com",
     // cc: process.env.SENDGRID_CC,
     from: "danny@dannymacdonald.me",
-    subject: `New Club Member: ${metadata}`,
-    text: `We have a new club member. Data captured: ${metadata}.`,
-    html: `<html><body>${metadata}</body></html>`,
+    subject: `New Club Member: metadata`,
+    text: `${event.body}.`,
+    // html: `<html><body>${metadata}</body></html>`,
   };
 
   if (stripeEvent.type === "payment_intent.succeeded") {
