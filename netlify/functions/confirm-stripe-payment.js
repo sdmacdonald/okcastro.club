@@ -36,8 +36,8 @@ exports.handler = async (event, context) => {
         name: metadata.name,
         pi: id,
         email: metadata.email,
-        paid: "$" + paid,
-        joined: joinedOn,
+        paid: amount,
+        joined: created,
         blob: JSON.stringify(blob),
       },
     };
