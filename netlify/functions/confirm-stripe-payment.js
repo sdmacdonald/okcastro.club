@@ -23,12 +23,12 @@ exports.handler = async (event, context) => {
       const { id, metadata } = paymentIntent;
 
       const msg = {
-        to: "s.danny.macdonald@gmail.com",
+        to: process.env.SENDGRIP_TO,
         // cc: process.env.SENDGRID_CC,
-        from: "danny@dannymacdonald.me",
+        from: process.env.SENDGRID_FROM,
         subject: `New Club Member: ${metadata.name}`,
         text: `${id}: We have a new club member. Data captured: ${metadata}.`,
-        html: `<html><body><ul></ul><sub>${id}</sub></body></html>`,
+        html: `<html><body><ul></ul><sub>${metadata}</sub></body></html>`,
       };
       await sgMail.send(msg);
       break;

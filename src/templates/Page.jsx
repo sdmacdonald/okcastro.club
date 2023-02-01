@@ -6,9 +6,10 @@ export const Page = (props) => {
 
   return (
     <Flex
-      direction={{ base: "column", md: "row" }}
+      direction={{ base: "column", lg: "row" }}
       justify={{ base: "flex-start", md: "space-evenly" }}
       align="center"
+      pb={12}
       {...rest}
     >
       {children}
