@@ -28,8 +28,9 @@ exports.handler = async (event, context) => {
       dynamicTemplateData: {
         name: metadata.name,
         email: metadata.email,
-        amount: `$${amount / 100}`,
-        amount_received: `$${amount_received / 100}`,
+        paid: `$${amount / 100}`,
+        joined: new Date(created),
+        blob: JSON.stringify(blob),
       },
     };
     await sgMail.send(msg);
