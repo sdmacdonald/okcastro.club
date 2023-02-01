@@ -37,7 +37,12 @@ exports.handler = async (event, context) => {
         pi: id,
         email: metadata.email,
         paid: amount,
-        joined: created,
+        joined: new Date(created).toLocaleDateString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }),
         blob: JSON.stringify(blob),
       },
     };
