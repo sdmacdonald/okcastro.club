@@ -23,7 +23,7 @@ exports.handler = async (event, context) => {
       const { id, metadata } = paymentIntent;
 
       const msg = {
-        to: process.env.SENDGRIP_TO,
+        to: process.env.SENDGRID_TO,
         // cc: process.env.SENDGRID_CC,
         from: process.env.SENDGRID_FROM,
         subject: `New Club Member: ${metadata.name}`,
