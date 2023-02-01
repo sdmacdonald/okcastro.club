@@ -20,6 +20,8 @@ exports.handler = async (event, context) => {
   if (stripeEvent.type === "payment_intent.succeeded") {
     const blob = stripeEvent.data.object;
     const { id, amount, amount_received, created, metadata } = blob;
+    let paid = amount / 100;
+    let joinedOn = new Date(created);
 
     const msg = {
       to: process.env.SENDGRID_TO,
@@ -27,9 +29,10 @@ exports.handler = async (event, context) => {
       templateId: "d-d7ebf1195f7f4da2a5450a620abd74ff",
       dynamicTemplateData: {
         name: metadata.name,
+        pi: id,
         email: metadata.email,
-        paid: `$${amount / 100}`,
-        joined: new Date(created),
+        paid: `$${paid}`,
+        joined: joinedOn,
         blob: JSON.stringify(blob),
       },
     };
