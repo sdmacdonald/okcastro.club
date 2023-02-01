@@ -1,6 +1,12 @@
 import React from "react";
 import { Form, FormInputField, FormSelectField } from "../molecules";
-import { Button, Divider, FormHelperText, HStack } from "@chakra-ui/react";
+import {
+  Button,
+  Divider,
+  FormHelperText,
+  HStack,
+  Link,
+} from "@chakra-ui/react";
 import { getPrice, states } from "../assets/data";
 
 export const RegForm = (props) => {
@@ -50,7 +56,9 @@ export const RegForm = (props) => {
             fontSize="xs"
             color={data.address ? "black" : "gray.400"}
           >
-            The Reflector
+            <Link isExternal href="">
+              The Reflector
+            </Link>
           </Button>
           .
         </FormHelperText>
