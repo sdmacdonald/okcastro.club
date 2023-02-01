@@ -23,7 +23,7 @@ exports.handler = async (event, context) => {
     to: "s.danny.macdonald@gmail.com",
     // cc: process.env.SENDGRID_CC,
     from: "danny@dannymacdonald.me",
-    subject: `New Club Member: ${metadata.name}`,
+    subject: `New Club Member: ${metadata}`,
     text: `${id}: We have a new club member. Data captured: ${metadata}.`,
     html: `<html><body>${metadata}</body></html>`,
   };
