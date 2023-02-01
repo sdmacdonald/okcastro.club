@@ -1,20 +1,10 @@
-const {
-  SENDGRID_TO,
-  SENDGRID_FROM,
-  SENDGRID_CC,
-  SENDGRID_BCC,
-  SENDGRID_API_KEY,
-  STRIPE_ES,
-  STRIPE_SK,
-} = import.meta.env;
-
 require("dotenv").config();
-const stripe = require("stripe")(STRIPE_SK);
+const stripe = require("stripe")(import.meta.env.STRIPE_SK);
 const sgMail = require("@sendgrid/mail");
-sgMail.setApiKey(SENDGRID_API_KEY);
+sgMail.setApiKey(import.meta.env.SENDGRID_API_KEY);
 
 exports.handler = async (event, context) => {
-  const endpointSecret = STRIPE_ES;
+  const endpointSecret = import.meta.env.STRIPE_ES;
   const sig = event.headers["stripe-signature"];
 
   let stripeEvent = await stripe.webhooks.constructEvent(
@@ -26,10 +16,10 @@ exports.handler = async (event, context) => {
   const { id, metadata } = await event.body.data.object;
 
   const msg = {
-    to: SENDGRID_TO,
-    cc: SENDGRID_CC,
-    bcc: SENDGRID_BCC,
-    from: SENDGRID_FROM,
+    to: import.meta.env.SENDGRID_TO,
+    cc: import.meta.env.SENDGRID_CC,
+    bcc: import.meta.env.SENDGRID_BCC,
+    from: import.meta.env.SENDGRID_FROM,
     subject: `New Club Member: ${metadata.name}`,
     text: `${id}: We have a new club member. Data captured: ${metadata}.`,
     html: `<html><body><p>${metadata}</p></body></html>`,
