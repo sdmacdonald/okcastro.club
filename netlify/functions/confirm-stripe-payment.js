@@ -19,14 +19,8 @@ exports.handler = async (event, context) => {
 
   if (stripeEvent.type === "payment_intent.succeeded") {
     const blob = stripeEvent.data.object;
-    const { id, amount, amount_received, created, metadata } = blob;
+    const { id, amount, metadata } = blob;
     let paid = `$${parseInt(amount / 100)}`;
-    let joinedOn = new Date(created).toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
 
     const msg = {
       to: process.env.SENDGRID_TO,
@@ -38,6 +32,7 @@ exports.handler = async (event, context) => {
         email: metadata.email,
         address: metadata.address,
         city: metadata.city,
+        state: metadata.state,
         zip: metadata.zip,
         paid: paid,
         blob: JSON.stringify(blob),
@@ -48,32 +43,4 @@ exports.handler = async (event, context) => {
   } else {
     return { statusCode: 400 };
   }
-
-  // switch (stripeEvent.type) {
-  //   case "payment_intent.succeeded":
-  //     // const paymentIntent = stripeEvent.data.object;
-  //     // const { id, amount, amount_received, created, metadata } = paymentIntent;
-
-  //     const msg = {
-  //       to: process.env.SENDGRID_TO,
-  //       from: process.env.SENDGRID_FROM,
-  //       templateId: "d-d7ebf1195f7f4da2a5450a620abd74ff",
-  //       dynamicTemplateData: {
-  //         name: metadata.name,
-  //         email: metadata.email,
-  //         amount: `$${amount / 100}`,
-  //         amount_received: `$${amount_received}`
-  //       },
-  //     };
-  //     await sgMail.send(msg);
-  //     break;
-  //   default:
-  //     // Unexpected event type
-  //     return { statusCode: 400, err: "unexpected event type" };
-  // }
-
-  // Return a 200 response to acknowledge receipt of the event
-  return {
-    statusCode: 200,
-  };
 };
