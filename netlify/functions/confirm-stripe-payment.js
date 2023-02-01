@@ -1,4 +1,5 @@
 require("dotenv").config();
+
 const stripe = require("stripe")(import.meta.env.STRIPE_SK);
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(import.meta.env.SENDGRID_API_KEY);
