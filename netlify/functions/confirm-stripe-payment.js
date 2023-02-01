@@ -20,7 +20,7 @@ exports.handler = async (event, context) => {
   if (stripeEvent.type === "payment_intent.succeeded") {
     const blob = stripeEvent.data.object;
     const { id, amount, amount_received, created, metadata } = blob;
-    let paid = amount / 100;
+    let paid = `$${parseInt(amount / 100)}`;
     let joinedOn = new Date(created).toLocaleDateString("en-US", {
       weekday: "long",
       year: "numeric",
@@ -36,13 +36,10 @@ exports.handler = async (event, context) => {
         name: metadata.name,
         pi: id,
         email: metadata.email,
-        paid: amount,
-        joined: new Date(created).toLocaleDateString("en-US", {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        }),
+        address: metadata.address,
+        city: metadata.city,
+        zip: metadata.zip,
+        paid: paid,
         blob: JSON.stringify(blob),
       },
     };
