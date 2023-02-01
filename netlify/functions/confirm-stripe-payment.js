@@ -21,7 +21,12 @@ exports.handler = async (event, context) => {
     const blob = stripeEvent.data.object;
     const { id, amount, amount_received, created, metadata } = blob;
     let paid = amount / 100;
-    let joinedOn = new Date(created);
+    let joinedOn = new Date(created).toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
 
     const msg = {
       to: process.env.SENDGRID_TO,
@@ -31,7 +36,7 @@ exports.handler = async (event, context) => {
         name: metadata.name,
         pi: id,
         email: metadata.email,
-        paid: `$${paid}`,
+        paid: "$" + paid,
         joined: joinedOn,
         blob: JSON.stringify(blob),
       },
