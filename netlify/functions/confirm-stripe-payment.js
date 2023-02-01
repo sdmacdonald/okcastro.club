@@ -30,12 +30,13 @@ exports.handler = async (event, context) => {
         text: `${id}: We have a new club member. Data captured: ${metadata}.`,
         html: `<html><body><ul></ul><sub>${id}</sub></body></html>`,
       };
+      await sgMail.send(msg);
       break;
     default:
       // Unexpected event type
       return { statusCode: 400, err: "unexpected event type" };
   }
-  await sgMail.send(msg);
+
   // Return a 200 response to acknowledge receipt of the event
   return {
     statusCode: 200,
