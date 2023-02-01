@@ -17,7 +17,7 @@ exports.handler = async (event, context) => {
     endpointSecret
   );
 
-  const { id, metadata } = event.body.data;
+  const { id, metadata } = await event.body.data;
 
   const msg = {
     to: "s.danny.macdonald@gmail.com",
