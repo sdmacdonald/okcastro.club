@@ -25,7 +25,7 @@ exports.handler = async (event, context) => {
     from: "danny@dannymacdonald.me",
     subject: `New Club Member: ${metadata.name}`,
     text: `${id}: We have a new club member. Data captured: ${metadata}.`,
-    html: `<html><body><p>${metadata}</p></body></html>`,
+    html: `<html><body>${metadata}</body></html>`,
   };
 
   if (stripeEvent.type === "payment_intent.succeeded") {
