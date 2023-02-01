@@ -17,7 +17,7 @@ exports.handler = async (event, context) => {
     endpointSecret
   );
 
-  const { id, metadata } = event.body.data.object;
+  const { id, metadata } = event.data.object;
 
   const msg = {
     to: process.env.SENDGRID_TO,
