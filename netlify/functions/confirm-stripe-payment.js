@@ -17,13 +17,13 @@ exports.handler = async (event, context) => {
     endpointSecret
   );
 
-  const { id, metadata } = event.body;
+  const { id, metadata } = event.body.data;
 
   const msg = {
     to: "s.danny.macdonald@gmail.com",
     // cc: process.env.SENDGRID_CC,
     from: "danny@dannymacdonald.me",
-    subject: `New Club Member: ${metadata}`,
+    subject: `New Club Member: ${metadata.name}`,
     text: `${id}: We have a new club member. Data captured: ${metadata}.`,
     html: `<html><body>${metadata}</body></html>`,
   };
