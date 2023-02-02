@@ -4,8 +4,10 @@ import React from "react";
 export const TextBlock = (props) => {
   const { children, color, textAlign } = props;
   return (
-    <Box color={color} textAlign={textAlign || "center"} my={2}>
-      <Text lineHeight="taller">{children}</Text>
+    <Box color={color} textAlign={textAlign || "center"}>
+      <Text lineHeight="taller" display="block" my={2}>
+        {children}
+      </Text>
     </Box>
   );
 };

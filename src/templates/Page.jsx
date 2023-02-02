@@ -1,18 +1,30 @@
 import React from "react";
-import { Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
+import { Navigation } from "../organisms";
 
 export const Page = (props) => {
-  const { children, rest } = props;
+  const { children, direction, rest } = props;
 
   return (
-    <Flex
-      direction={{ base: "column", lg: "row" }}
-      justify={{ base: "flex-start", md: "space-evenly" }}
-      align="center"
-      pb={12}
-      {...rest}
+    <Box
+      className="App"
+      minH="100vh"
+      bgPosition="center"
+      bgAttachment="fixed"
+      bgSize="cover"
+      bgImage="linear-gradient(rgba(44, 82, 130, 0.9),rgba(44, 82, 130, 0.5)) , url('./bg.jpg')"
     >
-      {children}
-    </Flex>
+      <Navigation />
+
+      <Flex
+        direction={direction}
+        justify={{ base: "flex-start", md: "space-evenly" }}
+        align="center"
+        pb={4}
+        {...rest}
+      >
+        {children}
+      </Flex>
+    </Box>
   );
 };

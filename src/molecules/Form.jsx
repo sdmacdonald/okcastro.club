@@ -17,7 +17,7 @@ export const Form = ({
         type="submit"
         w="100%"
         colorScheme="blue"
-        mt={12}
+        mt={6}
         isLoading={loading}
       >
         {button}

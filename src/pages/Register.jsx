@@ -44,7 +44,7 @@ export const Register = () => {
   };
 
   return (
-    <Page>
+    <Page direction={{ base: "column", lg: "row" }}>
       {member.pi && <StripeCheckout data={member} />}
       <Segment
         rest={{
