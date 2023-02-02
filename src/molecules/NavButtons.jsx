@@ -3,10 +3,19 @@ import { Stack } from "@chakra-ui/react";
 import { LinkIcon } from "../components";
 import { FiMail } from "react-icons/fi";
 import { FaGithub } from "react-icons/fa";
+import { GoTelescope } from "react-icons/go";
 
 export const NavButtons = () => {
   return (
-    <Stack direction="row" align="baseline" justify="end" spacing={6} p={4}>
+    <Stack
+      direction="row"
+      align="baseline"
+      justify="end"
+      spacing={6}
+      px={4}
+      pt="1"
+    >
+      <LinkIcon link="observing" icon={GoTelescope} />
       <LinkIcon link={import.meta.env.VITE_CONTACT} icon={FiMail} isExternal />
       <LinkIcon
         link="https://github.com/sdmacdonald/okcastro.club"

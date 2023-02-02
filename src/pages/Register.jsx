@@ -49,17 +49,13 @@ export const Register = () => {
       <Segment
         rest={{
           color: "white",
-          mt: "-20px",
           spacing: 8,
           justify: "center",
           textAlign: "center",
         }}
-        top={
-          <Image src="./okcac-logo__white.png" w="350px" alignSelf="center" />
-        }
-        heading="Explore the Night Sky with Us."
+        heading={`Explore the Night Sky with Us.`}
         as="h1"
-        fontSize="48px"
+        fontSize="42px"
         fontWeight="thin"
       >
         <Divider />
