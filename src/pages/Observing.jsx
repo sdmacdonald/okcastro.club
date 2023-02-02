@@ -34,7 +34,6 @@ export const Observing = (props) => {
           placeholder="Change Month"
           size="sm"
           maxW="sm"
-          colorScheme="blue"
           onChange={handleMonth}
         >
           {monthOptions.map((m, index) => (

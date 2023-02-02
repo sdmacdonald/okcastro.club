@@ -24,7 +24,7 @@ export const TargetTable = (props) => {
         id={id}
         color="black"
         bgColor="white"
-        fontSize="xs"
+        fontSize="sm"
         w="100%"
       >
         <Table>
