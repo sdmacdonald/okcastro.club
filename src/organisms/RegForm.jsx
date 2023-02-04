@@ -24,13 +24,6 @@ export const RegForm = (props) => {
       name="register"
       onSubmit={onSubmit}
     >
-      <Alert status="info" fontSize="xs">
-        <AlertIcon />
-        <AlertTitle>Test mode!</AlertTitle>
-        <AlertDescription>
-          Do NOT put CC info into this form. Use 4242 4242 4242 4242 to demo.
-        </AlertDescription>
-      </Alert>
       <FormInputField
         name="name"
         required={true}
