@@ -50,12 +50,11 @@ export const Register = () => {
         rest={{
           color: "white",
           spacing: 8,
-          justify: "center",
           textAlign: "center",
         }}
         heading={`Explore the Night Sky with Us.`}
         as="h1"
-        fontSize="42px"
+        fontSize={{ base: "42px", xl: "64px" }}
         fontWeight="thin"
       >
         <Divider />
@@ -68,8 +67,12 @@ export const Register = () => {
       </Segment>
 
       <Segment
-        rest={{ bgColor: "white", shadow: "md", borderRadius: "md" }}
-        my={3}
+        rest={{
+          bgColor: "white",
+          borderRadius: { base: "none", md: "md" },
+          shadow: "md",
+        }}
+        mx={3}
       >
         <RegForm
           data={member}

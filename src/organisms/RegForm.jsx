@@ -1,10 +1,6 @@
 import React from "react";
 import { Form, FormInputField, FormSelectField } from "../molecules";
 import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
   Button,
   Divider,
   FormHelperText,
@@ -19,7 +15,7 @@ export const RegForm = (props) => {
 
   return (
     <Form
-      button={`Join Tonight for $${price}*`}
+      button={`Join Tonight for $${price}`}
       loading={loading}
       name="register"
       onSubmit={onSubmit}
