@@ -34,8 +34,8 @@ exports.handler = async (event, context) => {
     switch (item) {
       case "membership":
         const items = [9, 6, 3, 36, 33, 30, 27, 24, 21, 18, 15, 12];
-        let i = items[new Date().getMonth()] * 100;
-        price = Math.round((i + 30) / (1 - 0.029));
+        price = items[new Date().getMonth()] * 100;
+        // price = Math.round((i + 30) / (1 - 0.029));
         break;
       default:
         price = 3600;
