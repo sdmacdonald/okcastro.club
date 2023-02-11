@@ -1,5 +1,4 @@
 import {
-  Heading,
   Icon,
   Link,
   Table,
@@ -18,31 +17,25 @@ export const TargetTable = (props) => {
 
   return (
     <>
-      <Heading>{title}</Heading>
+      {/* <Heading>{title}</Heading> */}
       {description}
-      <TableContainer
-        id={id}
-        color="black"
-        bgColor="white"
-        fontSize="sm"
-        w="100%"
-      >
+      <TableContainer id={id}>
         <Table>
           <TableCaption />
           <Thead>
             <Tr>
-              <Th>id</Th>
-              {title === "Double Star Observing Program" && <Th>Name</Th>}
-              <Th>Object Type</Th>
-              <Th>Right Ascension</Th>
-              <Th>Declination</Th>
+              <Th>Name</Th>
+
+              <Th>Type</Th>
+              <Th>RA</Th>
+              <Th>Dec</Th>
               <Th>Magnitude</Th>
               {title === "Messier Observing Program" && <Th>Binocular</Th>}
 
               {title !== "Double Star Observing Program" && <Th>Image</Th>}
               {title === "Double Star Observing Program" && (
                 <>
-                  <Th>Magnitude 2</Th>
+                  <Th>Mag 2</Th>
                   <Th>Separation</Th>
                 </>
               )}
@@ -54,9 +47,7 @@ export const TargetTable = (props) => {
               .map((target, index) => (
                 <Tr key={index}>
                   <Td>{target.id}</Td>
-                  {title === "Double Star Observing Program" && (
-                    <Td>{target.name}</Td>
-                  )}
+
                   <Td>{target.objecttype}</Td>
                   <Td>{target.ra}</Td>
                   <Td>{target.dec}</Td>

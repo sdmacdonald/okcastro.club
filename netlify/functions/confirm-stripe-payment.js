@@ -20,22 +20,23 @@ exports.handler = async (event, context) => {
   if (stripeEvent.type === "payment_intent.succeeded") {
     const blob = stripeEvent.data.object;
     const { id, amount, metadata } = blob;
-    let paid = `$${parseInt(amount / 100)}`;
+    // let paid = `$${parseInt(amount / 100)}`;
 
     const msg = {
       to: process.env.SENDGRID_TO,
       from: process.env.SENDGRID_FROM,
-      templateId: "d-d7ebf1195f7f4da2a5450a620abd74ff",
+      templateId: "d-953aa278a8f34d2a9f85b9ed0622ca4d",
       dynamicTemplateData: {
         name: metadata.name,
-        pi: id,
-        email: metadata.email,
-        address: metadata.address,
-        city: metadata.city,
-        state: metadata.state,
-        zip: metadata.zip,
-        paid: paid,
-        blob: JSON.stringify(blob),
+        membership: process.env.SENDGRID_MEMBERSHIP,
+        // pi: id,
+        // email: metadata.email,
+        // address: metadata.address,
+        // city: metadata.city,
+        // state: metadata.state,
+        // zip: metadata.zip,
+        // paid: paid,
+        // blob: JSON.stringify(blob),
       },
     };
     await sgMail.send(msg);

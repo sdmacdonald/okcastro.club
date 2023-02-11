@@ -11,6 +11,7 @@ export const FormSelectField = (props) => {
         defaultValue={placeholder}
         disabled={disabled || false}
         name={name}
+        color="gray.400"
         onChange={onChange}
         variant={(disabled && "filled") || "outline"}
         {...rest}

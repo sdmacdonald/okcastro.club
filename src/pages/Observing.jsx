@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Divider, Heading, Select } from "@chakra-ui/react";
+import { Box, Heading, Select } from "@chakra-ui/react";
 import { tables, text, monthOptions, getMonth } from "../assets/data";
 import { TextBlock } from "../components";
 import { Page, Segment, TargetTable } from "../templates";
@@ -15,16 +15,15 @@ export const Observing = (props) => {
   };
 
   return (
-    <Page direction={{ base: "column" }} rest={{ mx: 6 }}>
+    <Page>
       <Segment
         heading={`Night Sky Observing: ${month.month}`}
         as="h1"
-        rest={{ color: "white" }}
+        color="white"
       >
         <Heading as="h2" fontSize="md" fontWeight="bold">
           by Rod Gallagher, Master Observer
         </Heading>
-        <Divider />
         {text.map((block, index) => (
           <TextBlock key={index} textAlign="left">
             {block}
@@ -47,17 +46,16 @@ export const Observing = (props) => {
       {tables.map((table, index) => (
         <Segment
           key={index}
+          heading={table.title}
+          as="h2"
           rest={{
             bgColor: "white",
             borderRadius: "md",
             shadow: "md",
             spacing: 4,
+            maxW: "976px",
           }}
         >
-          <Heading as="h2" size="md">
-            {table.title}
-          </Heading>
-          <Divider />
           {table.description.map((text, index) => (
             <TextBlock key={index} textAlign="left">
               {text}
@@ -66,11 +64,12 @@ export const Observing = (props) => {
           <Box
             border="1px"
             borderColor="gray.300"
-            p={4}
             borderRadius="md"
             shadow="sm"
+            fontSize="sm"
           >
             <TargetTable
+              title={table.title}
               key={table.id}
               filter={month.value}
               id={table.id}

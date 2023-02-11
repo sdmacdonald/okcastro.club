@@ -34,17 +34,15 @@ export const text = [
   recording the observations and following the rules of the particular
   Observing Program, you can earn an Observing Certificate and Observing
   Pin. For more information on the Astronomical League and the observing
-  programs, check them out on the web at:
+  programs, check them out on the web at:`,
 
-    ${(
-      <Link
-        href="https://www.astroleague.org/observing.html"
-        isExternal
-        fontWeight="bold"
-      >
-        https://www.astroleague.org
-      </Link>
-    )}`,
+  <Link
+    href="https://www.astroleague.org/observing.html"
+    isExternal
+    fontWeight="bold"
+  >
+    https://www.astroleague.org
+  </Link>,
   `Please review each program's rules before starting any of them. By using
   this information each month and observing each of the objects from a
   particular program you will be able to complete any of these observing
@@ -64,16 +62,15 @@ export const tables = [
           objects you can earn a certificate. By observing all 110 objects you
           will earn the “Honorary” level and an observing pin. There is actually
           a great reference document on the Oklahoma City Astronomy Club website
-          under the Novice Program area at:
-          ${(
-            <Link
-              href="http://www.okcastroclub.com/Docs/DeepSkyMPDF/DeepSkyIntro.pdf"
-              fontWeight="bold"
-              isExternal
-            >
-              www.okcastroclub.com/Docs/DeepSkyMPDF/DeepSkyIntro.pdf
-            </Link>
-          )}`,
+          under the Novice Program area at:`,
+
+      <Link
+        href="http://www.okcastroclub.com/Docs/DeepSkyMPDF/DeepSkyIntro.pdf"
+        fontWeight="bold"
+        isExternal
+      >
+        www.okcastroclub.com/Docs/DeepSkyMPDF/DeepSkyIntro.pdf
+      </Link>,
       `The Binocular Messier Observing Program is for observing 50 or more
           Messier objects with just binoculars. Most objects are visible at a
           dark site with 10x50 binoculars. A general level of difficulty is

@@ -9,7 +9,7 @@ export const NavButtons = () => {
   return (
     <Stack
       direction="row"
-      align="baseline"
+      align="center"
       justify="end"
       spacing={6}
       px={4}

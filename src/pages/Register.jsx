@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Divider, Image } from "@chakra-ui/react";
 import { registrationInitialValues } from "../assets/data";
 import { TextBlock } from "../components";
 import { RegForm } from "../organisms";
@@ -44,20 +43,9 @@ export const Register = () => {
   };
 
   return (
-    <Page direction={{ base: "column", lg: "row" }}>
+    <Page>
       {member.pi && <StripeCheckout data={member} />}
-      <Segment
-        rest={{
-          color: "white",
-          spacing: 8,
-          textAlign: "center",
-        }}
-        heading={`Explore the Night Sky with Us.`}
-        as="h1"
-        fontSize={{ base: "42px", xl: "64px" }}
-        fontWeight="thin"
-      >
-        <Divider />
+      <Segment heading={`Explore the Night Sky with Us.`} as="h1" color="white">
         <TextBlock>
           The Oklahoma City Astronomy Club has been helping metro area residents
           observe the wonders and mysteries of our night sky since 1958. We use
