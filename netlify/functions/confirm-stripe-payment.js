@@ -23,12 +23,12 @@ exports.handler = async (event, context) => {
     // let paid = `$${parseInt(amount / 100)}`;
 
     const msg = {
-      to: process.env.SENDGRID_TO,
-      from: process.env.SENDGRID_FROM,
+      to: "payments@okcastroclub.om",
+      from: "membership@okcastroclub.com",
       templateId: "d-953aa278a8f34d2a9f85b9ed0622ca4d",
       dynamicTemplateData: {
-        name: metadata.name,
-        membership: process.env.SENDGRID_MEMBERSHIP,
+        name: "Danny",
+        membership: "Jaxon",
         // pi: id,
         // email: metadata.email,
         // address: metadata.address,
