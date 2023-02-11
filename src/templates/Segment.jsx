@@ -9,7 +9,7 @@ export const Segment = (props) => {
       m={6}
       {...rest}
       textAlign="center"
-      maxW="976px"
+      // maxW="976px"
       color={color || "black"}
     >
       <Heading

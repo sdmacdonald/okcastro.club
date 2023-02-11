@@ -17,9 +17,8 @@ export const TargetTable = (props) => {
 
   return (
     <>
-      {/* <Heading>{title}</Heading> */}
-      {description}
       <TableContainer id={id}>
+        {description}
         <Table>
           <TableCaption />
           <Thead>

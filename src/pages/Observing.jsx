@@ -29,12 +29,7 @@ export const Observing = (props) => {
             {block}
           </TextBlock>
         ))}
-        <Select
-          placeholder="Change Month"
-          size="sm"
-          maxW="sm"
-          onChange={handleMonth}
-        >
+        <Select placeholder="Change Month" size="sm" onChange={handleMonth}>
           {monthOptions.map((m, index) => (
             <option key={index} value={m.value} id={m.month}>
               {m.month}
@@ -47,14 +42,13 @@ export const Observing = (props) => {
         <Segment
           key={index}
           heading={table.title}
-          as="h2"
           rest={{
             bgColor: "white",
-            borderRadius: "md",
+            borderRadius: { base: "none", md: "md" },
             shadow: "md",
-            spacing: 4,
-            maxW: "976px",
           }}
+          mx={3}
+          as="h2"
         >
           {table.description.map((text, index) => (
             <TextBlock key={index} textAlign="left">
@@ -67,6 +61,7 @@ export const Observing = (props) => {
             borderRadius="md"
             shadow="sm"
             fontSize="sm"
+            maxW={{ base: "300px", md: "725px", lg: "initial" }}
           >
             <TargetTable
               title={table.title}
