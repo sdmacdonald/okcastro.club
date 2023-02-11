@@ -16,7 +16,7 @@ export const NavButtons = () => {
       pt="1"
     >
       <LinkIcon link="observing" icon={GoTelescope} />
-      <LinkIcon link={import.meta.env.VITE_CONTACT} icon={FiMail} />
+      <LinkIcon link={`mailto:${import.meta.env.VITE_CONTACT}`} icon={FiMail} />
       <LinkIcon
         link="https://github.com/sdmacdonald/okcastro.club"
         icon={FaGithub}
