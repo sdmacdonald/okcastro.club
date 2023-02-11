@@ -61,6 +61,8 @@ export const Register = () => {
           shadow: "md",
         }}
         mx={3}
+        heading="New Member Registration"
+        as="h2"
       >
         <RegForm
           data={member}

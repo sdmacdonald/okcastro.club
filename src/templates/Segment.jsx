@@ -17,7 +17,7 @@ export const Segment = (props) => {
         fontSize={
           as === "h1"
             ? { base: "42px", xl: "64px" }
-            : { base: "24px", xl: "42px" }
+            : { base: "18px", xl: "24px" }
         }
         fontWeight="thin"
       >
