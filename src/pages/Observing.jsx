@@ -44,8 +44,6 @@ export const Observing = (props) => {
           heading={table.title}
           rest={{
             bgColor: "white",
-            borderRadius: { base: "none", md: "md" },
-            shadow: "md",
           }}
           mx={3}
           as="h2"

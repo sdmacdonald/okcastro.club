@@ -20,23 +20,16 @@ exports.handler = async (event, context) => {
   if (stripeEvent.type === "payment_intent.succeeded") {
     const blob = stripeEvent.data.object;
     const { id, amount, metadata } = blob;
-    // let paid = `$${parseInt(amount / 100)}`;
+    // let paid = `$${parseInt(amount / 100)}`; // disable Stripe fee calculation
 
     const msg = {
-      to: process.env.SENDGRID_TO,
+      to: metadata.email,
       from: process.env.SENDGRID_FROM,
+      bcc: process.env.SENDGRID_BCC,
       templateId: "d-953aa278a8f34d2a9f85b9ed0622ca4d",
       dynamicTemplateData: {
         name: metadata.name,
-        membership: process.env.SENDGRID_MEMBERSHIP,
-        // pi: id,
-        // email: metadata.email,
-        // address: metadata.address,
-        // city: metadata.city,
-        // state: metadata.state,
-        // zip: metadata.zip,
-        // paid: paid,
-        // blob: JSON.stringify(blob),
+        membership_coordinator: process.env.SENDGRID_MEMBERSHIP,
       },
     };
     await sgMail.send(msg);
