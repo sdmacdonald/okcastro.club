@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { registrationInitialValues } from "../assets/data";
-import { TextBlock } from "../components";
 import { RegForm } from "../organisms";
+import { TextBlock } from "../components";
 import { Page, Segment, StripeCheckout } from "../templates";
-import { useDisclosure } from "@chakra-ui/react";
+import { Alert, AlertIcon, Button, useDisclosure } from "@chakra-ui/react";
 
 export const Register = () => {
   const [member, setMember] = useState(registrationInitialValues);
@@ -75,6 +75,18 @@ export const Register = () => {
           onChange={handleChange}
           onSubmit={handleSubmit}
         />
+        <Alert status="warning" variant="top-accent" mt={12} fontSize="xs">
+          <AlertIcon />
+          Problems with this form? Let us know:
+          <Button
+            variant="link"
+            href="mailto:webmaster@okcastroclub.com"
+            size="xs"
+            mx={1}
+          >
+            webmaster@okcastroclub.com
+          </Button>
+        </Alert>
       </Segment>
     </Page>
   );
