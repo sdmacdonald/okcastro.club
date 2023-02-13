@@ -6,7 +6,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { Box, Button } from "@chakra-ui/react";
 
-export const CheckoutForm = (props) => {
+export const CheckoutForm = ({ member }) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -17,6 +17,8 @@ export const CheckoutForm = (props) => {
     if (!stripe) {
       return;
     }
+
+    localStorage.setItem("data", JSON.stringify(member));
 
     const clientSecret = new URLSearchParams(window.location.search).get(
       "payment_intent_client_secret"
@@ -86,6 +88,7 @@ export const CheckoutForm = (props) => {
         colorScheme="blue"
         w="100%"
         my={6}
+        isLoading={isLoading}
       >
         Checkout
       </Button>

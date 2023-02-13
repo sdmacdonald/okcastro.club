@@ -3,10 +3,12 @@ import { registrationInitialValues } from "../assets/data";
 import { TextBlock } from "../components";
 import { RegForm } from "../organisms";
 import { Page, Segment, StripeCheckout } from "../templates";
+import { useDisclosure } from "@chakra-ui/react";
 
 export const Register = () => {
   const [member, setMember] = useState(registrationInitialValues);
   const [loading, isLoading] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleChange = (e) =>
     setMember({ ...member, [e.target.name]: e.target.value });
@@ -37,6 +39,7 @@ export const Register = () => {
         amount: data.metadata.amount,
       }));
       isLoading(false);
+      onOpen(!isOpen);
     } catch (error) {
       console.error(error);
     }
@@ -44,7 +47,9 @@ export const Register = () => {
 
   return (
     <Page>
-      {member.pi && <StripeCheckout data={member} />}
+      {member.pi && (
+        <StripeCheckout member={member} onClose={onClose} isOpen={isOpen} />
+      )}
       <Segment heading={`Explore the Night Sky with Us.`} as="h1" color="white">
         <TextBlock>
           The Oklahoma City Astronomy Club has been helping metro area residents
@@ -65,7 +70,7 @@ export const Register = () => {
         as="h2"
       >
         <RegForm
-          data={member}
+          member={member}
           loading={loading}
           onChange={handleChange}
           onSubmit={handleSubmit}

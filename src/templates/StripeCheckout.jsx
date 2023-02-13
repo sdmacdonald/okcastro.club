@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import {
+  Button,
   Icon,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
   ModalBody,
-  useDisclosure,
   Flex,
 } from "@chakra-ui/react";
 import { Accordion } from "../components";
@@ -15,16 +15,11 @@ import { FaStripe } from "react-icons/fa";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
-export const StripeCheckout = ({ data }) => {
+export const StripeCheckout = ({ member, isOpen, onClose }) => {
   const stripePromise = loadStripe(`${import.meta.env.VITE_STRIPE_PK}`);
-  const { isOpen, onOpen, onClose } = useDisclosure({ isOpen: true });
-
-  useEffect(() => {
-    localStorage.setItem("data", JSON.stringify(data));
-  }, [data]);
 
   return (
-    <Modal isOpen={isOpen}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay bg="blackAlpha.800" backdropFilter="blur(2px)" />
       <ModalContent>
         <ModalHeader textAlign="center">
@@ -32,19 +27,22 @@ export const StripeCheckout = ({ data }) => {
           <Icon as={FaStripe} h={12} w={16} color="blue.600" mb="-12px" />
         </ModalHeader>
         <ModalBody>
-          <Accordion heading="Order Summary" amount={data.amount}>
+          <Accordion heading="Order Summary" amount={member.amount}>
             <Flex
               justify="space-between"
               align="baseline"
               textTransform="uppercase"
             >
-              {data.name}
+              {member.name}
               <span />
-              {data.item}
+              {member.item}
             </Flex>
           </Accordion>
-          <Elements options={{ clientSecret: data.pi }} stripe={stripePromise}>
-            <CheckoutForm member={data} />
+          <Elements
+            options={{ clientSecret: member.pi }}
+            stripe={stripePromise}
+          >
+            <CheckoutForm member={member} />
           </Elements>
         </ModalBody>
       </ModalContent>

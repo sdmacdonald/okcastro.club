@@ -10,7 +10,7 @@ import {
 import { getPrice, states } from "../assets/data";
 
 export const RegForm = (props) => {
-  const { data, loading, onChange, onSubmit } = props;
+  const { member, loading, onChange, onSubmit } = props;
   const price = getPrice();
 
   return (
@@ -26,13 +26,13 @@ export const RegForm = (props) => {
         type="text"
         onChange={onChange}
         placeholder="Leo Spaceman"
-        value={data.name}
+        value={member.name}
       />
       <FormInputField
         name="email"
         required={true}
         type="email"
-        value={data.email}
+        value={member.email}
         onChange={onChange}
         placeholder="cosmo@example.com"
       />
@@ -41,20 +41,20 @@ export const RegForm = (props) => {
       <FormInputField
         name="address"
         type="text"
-        value={data.address}
+        value={member.address}
         onChange={onChange}
         placeholder={"A1A Beachfront Ave"}
       >
         <FormHelperText
           fontSize="xs"
-          color={data.address ? "black" : "gray.400"}
+          color={member.address ? "black" : "gray.400"}
         >
           Providing your address is optional and is used by the Astronomical
           League to mail quarterly issues of{" "}
           <Button
             variant="link"
             fontSize="xs"
-            color={data.address ? "black" : "gray.400"}
+            color={member.address ? "black" : "gray.400"}
           >
             <Link isExternal href="https://www.astroleague.org/reflector">
               The Reflector
@@ -64,29 +64,29 @@ export const RegForm = (props) => {
         </FormHelperText>
       </FormInputField>
       <FormInputField
-        disabled={!data.address && true}
+        disabled={!member.address && true}
         name="city"
         onChange={onChange}
         placeholder="Oklahoma City"
         type="text"
-        value={data.city}
+        value={member.city}
       />
       <HStack justify="space-between" align="baseline">
         <FormSelectField
-          disabled={!data.address && true}
+          disabled={!member.address && true}
           name="state"
           options={states}
           onChange={onChange}
           placeholder="Oklahoma"
-          value={data.state}
+          value={member.state}
         />
         <FormInputField
-          disabled={!data.address && true}
+          disabled={!member.address && true}
           name="zip"
           onChange={onChange}
           type="number"
           placeholder="73013"
-          value={data.zip}
+          value={member.zip}
         />
       </HStack>
     </Form>
