@@ -11,9 +11,7 @@ export const ImagingSessionForm = (props) => {
       loading={loading}
       name="imaging-session"
       onSubmit={onSubmit}
-      helperText={`You must be an Okie-Tex 2023 registrant to join this class. If you haven't registered, please do so at ${(
-        <Link href="http://www.okie-tex.com">okie-tex.com</Link>
-      )}`}
+      helperText={`You must be an Okie-Tex 2023 registrant to join this class. If you haven't registered, please do so at www.okie-tex.com`}
     >
       <FormInputField
         name="name"
