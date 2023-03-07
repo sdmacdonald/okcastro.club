@@ -61,7 +61,14 @@ export const ImagingSession = () => {
         <TextBlock>
           Add on to your Okie-Tex experience with a two day astrophotography
           processing seminar hosted by master photographer John Talbot. Now back
-          for a fifth year!
+          for a fifth year! Also this year - special guest astrophotographer,
+          YouTuber and "Galactic Hunter" Antoine Grelin will be closing out the
+          Monday session.
+        </TextBlock>
+        <TextBlock>
+          The imaging session will be Sunday, September 10 and Monday, September
+          11. The sessions start at 10am central time at the Kenton Senior
+          Center, and will last until 4pm, with a lunch break.
         </TextBlock>
         <TextBlock>
           Each seat is $100 per person. You must be registered for the Okie-Tex
