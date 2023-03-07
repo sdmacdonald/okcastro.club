@@ -4,6 +4,7 @@ import React from "react";
 export const Form = ({
   button,
   children,
+  helperText,
   loading,
   method,
   name,
@@ -23,8 +24,7 @@ export const Form = ({
         {button}
       </Button>
       <Box m={1} fontSize="xs" lineHeight="base" color="gray.400">
-        Club dues are $36 and renew on April 1. Your first year of membership is
-        pro-rated.
+        {helperText}
       </Box>
     </form>
   );

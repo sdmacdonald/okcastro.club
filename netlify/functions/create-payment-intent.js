@@ -37,6 +37,9 @@ exports.handler = async (event, context) => {
         price = items[new Date().getMonth()] * 100;
         // price = Math.round((i + 30) / (1 - 0.029));
         break;
+      case "imaging-session":
+        price = 100 * 100;
+        break;
       default:
         price = 3600;
         break;
