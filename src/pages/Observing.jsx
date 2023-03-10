@@ -36,7 +36,12 @@ export const Observing = (props) => {
           variant="outline"
         >
           {monthOptions.map((m, index) => (
-            <option key={index} value={m.value} id={m.month}>
+            <option
+              key={index}
+              value={m.value}
+              id={m.month}
+              style={{ backgroundColor: "black", color: "white" }}
+            >
               {m.month}
             </option>
           ))}
