@@ -15,7 +15,7 @@ export const Observing = (props) => {
   };
 
   return (
-    <Page bg="linear-gradient(rgba(44, 82, 130, 0.7),rgba(44, 82, 130, 0.4)) , url('./M33-rod-gallagher.jpg')">
+    <Page bg="linear-gradient(rgba(30, 30, 30, 0.8),rgba(30, 30, 30, 0.2)) , url('./M33-rod-gallagher.jpg')">
       <Segment
         heading={`Night Sky Observing: ${month.month}`}
         as="h1"
