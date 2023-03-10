@@ -33,7 +33,7 @@ export const Observing = (props) => {
           placeholder="Change Month"
           size="sm"
           onChange={handleMonth}
-          bgColor="blue.900"
+          bgColor="black"
           color="white"
         >
           {monthOptions.map((m, index) => (
