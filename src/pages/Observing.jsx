@@ -15,7 +15,7 @@ export const Observing = (props) => {
   };
 
   return (
-    <Page>
+    <Page bg="linear-gradient(rgba(44, 82, 130, 0.7),rgba(44, 82, 130, 0.4)) , url('./M33-rod-gallagher.jpg')">
       <Segment
         heading={`Night Sky Observing: ${month.month}`}
         as="h1"
@@ -29,7 +29,13 @@ export const Observing = (props) => {
             {block}
           </TextBlock>
         ))}
-        <Select placeholder="Change Month" size="sm" onChange={handleMonth}>
+        <Select
+          placeholder="Change Month"
+          size="sm"
+          onChange={handleMonth}
+          bgColor="blue.900"
+          color="white"
+        >
           {monthOptions.map((m, index) => (
             <option key={index} value={m.value} id={m.month}>
               {m.month}

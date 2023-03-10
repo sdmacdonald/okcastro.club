@@ -68,7 +68,7 @@ export const ImagingSession = () => {
         <TextBlock>
           The imaging session will be Sunday, September 10 and Monday, September
           11. The sessions start at 10am central time at the Kenton Senior
-          Center, and will last until 4pm, with a lunch break.
+          Center, and will last until 4:30pm, with a lunch break.
         </TextBlock>
         <TextBlock>
           Each seat is $100 per person. You must be registered for the Okie-Tex
