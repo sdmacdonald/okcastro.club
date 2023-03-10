@@ -29,7 +29,12 @@ export const Observing = (props) => {
             {block}
           </TextBlock>
         ))}
-        <Select placeholder="Change Month" size="sm" onChange={handleMonth}>
+        <Select
+          placeholder="Change Month"
+          size="sm"
+          onChange={handleMonth}
+          variant="outline"
+        >
           {monthOptions.map((m, index) => (
             <option key={index} value={m.value} id={m.month}>
               {m.month}
