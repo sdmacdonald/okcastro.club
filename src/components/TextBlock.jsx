@@ -7,9 +7,9 @@ export const TextBlock = (props) => {
     <Box
       color={color}
       textAlign={textAlign || "center"}
-      fontSize={{ base: "sm", xl: "lg" }}
+      fontSize={{ base: "sm", xl: "md" }}
     >
-      <Text lineHeight="taller" display="block" my={4}>
+      <Text lineHeight="taller" display="block" mx={12} my={4}>
         {children}
       </Text>
     </Box>

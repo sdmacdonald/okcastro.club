@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Heading, HStack, Link, Select } from "@chakra-ui/react";
+import { Box, Center, Heading, HStack, Link, Select } from "@chakra-ui/react";
 import { tables, text, monthOptions, getMonth } from "../assets/data";
 import { TextBlock } from "../components";
 import { Page, Segment, TargetTable } from "../templates";
@@ -20,7 +20,7 @@ export const Observing = (props) => {
   };
 
   return (
-    <Page bg="linear-gradient(rgba(30, 30, 30, 0.8),rgba(30, 30, 30, 0.2)) , url('./M33-rod-gallagher.jpg')">
+    <Page bg="linear-gradient(rgba(30, 30, 30, 0.6),rgba(30, 30, 30, 0.6)) , url('./M33-rod-gallagher.jpg')">
       <Segment
         heading={`Night Sky Observing: ${month.month}`}
         as="h1"
@@ -30,16 +30,17 @@ export const Observing = (props) => {
           by Rod Gallagher, Master Observer
         </Heading>
 
-        <HStack justify="center" m={6}>
+        <HStack wrap="wrap" my={4} justify="center">
           <Link href={section}>
             <Select
               placeholder="Jump to a list"
               onChange={handleSection}
-              maxW="sm"
               variant="filled"
               bgColor="blue.800"
               fontWeight="bold"
               _hover={{ bgColor: "blue.600", color: "white" }}
+              shadow="md"
+              maxW="sm"
             >
               {tables.map((table, index) => (
                 <option key={index} value={table.id}>
@@ -51,12 +52,13 @@ export const Observing = (props) => {
           <Select
             placeholder="Change Month"
             onChange={handleMonth}
-            maxW="sm"
             variant="filled"
             bgColor="gray.900"
             color="white"
             fontWeight="bold"
             _hover={{ bgColor: "gray.900", color: "white" }}
+            shadow="md"
+            maxW="sm"
           >
             {monthOptions.map((m, index) => (
               <option
