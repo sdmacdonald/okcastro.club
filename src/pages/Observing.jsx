@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Box, Heading, HStack, Select } from "@chakra-ui/react";
+import { Box, Heading, HStack, Link, Select } from "@chakra-ui/react";
 import { tables, text, monthOptions, getMonth } from "../assets/data";
 import { TextBlock } from "../components";
 import { Page, Segment, TargetTable } from "../templates";
-import { Link } from "react-router-dom";
 
 export const Observing = (props) => {
   const [month, setMonth] = useState(getMonth());
@@ -32,7 +31,7 @@ export const Observing = (props) => {
         </Heading>
 
         <HStack justify="center" m={6}>
-          <a href={section}>
+          <Link href={section}>
             <Select
               placeholder="Jump to a list"
               onChange={handleSection}
@@ -48,7 +47,7 @@ export const Observing = (props) => {
                 </option>
               ))}
             </Select>
-          </a>
+          </Link>
           <Select
             placeholder="Change Month"
             onChange={handleMonth}
