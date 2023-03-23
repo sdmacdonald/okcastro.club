@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Divider, Heading } from "@chakra-ui/react";
 
 export const Segment = (props) => {
-  const { as, children, color, heading, rest } = props;
+  const { as, children, color, heading, id, rest } = props;
   return (
     <Box
       p={10}
@@ -11,6 +11,7 @@ export const Segment = (props) => {
       textAlign="center"
       // maxW="976px"
       color={color || "black"}
+      id={id}
     >
       <Heading
         as={as}

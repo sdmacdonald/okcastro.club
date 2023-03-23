@@ -1,17 +1,23 @@
 import React, { useState } from "react";
-import { Box, Heading, Select } from "@chakra-ui/react";
+import { Box, Heading, HStack, Select } from "@chakra-ui/react";
 import { tables, text, monthOptions, getMonth } from "../assets/data";
 import { TextBlock } from "../components";
 import { Page, Segment, TargetTable } from "../templates";
+import { Link } from "react-router-dom";
 
 export const Observing = (props) => {
   const [month, setMonth] = useState(getMonth());
+  const [section, setSection] = useState("#");
 
   const handleMonth = (e) => {
     setMonth({
       value: parseInt(e.target.value),
       month: e.target.childNodes[e.target.value].id,
     });
+  };
+
+  const handleSection = (e) => {
+    setSection(`#${e.target.value}`);
   };
 
   return (
@@ -24,28 +30,53 @@ export const Observing = (props) => {
         <Heading as="h2" fontSize="md" fontWeight="bold">
           by Rod Gallagher, Master Observer
         </Heading>
+
+        <HStack justify="center" m={6}>
+          <a href={section}>
+            <Select
+              placeholder="Jump to a list"
+              onChange={handleSection}
+              maxW="sm"
+              variant="filled"
+              bgColor="blue.800"
+              fontWeight="bold"
+              _hover={{ bgColor: "blue.600", color: "white" }}
+            >
+              {tables.map((table, index) => (
+                <option key={index} value={table.id}>
+                  {table.title}
+                </option>
+              ))}
+            </Select>
+          </a>
+          <Select
+            placeholder="Change Month"
+            onChange={handleMonth}
+            maxW="sm"
+            variant="filled"
+            bgColor="gray.900"
+            color="white"
+            fontWeight="bold"
+            _hover={{ bgColor: "gray.900", color: "white" }}
+          >
+            {monthOptions.map((m, index) => (
+              <option
+                key={index}
+                value={m.value}
+                id={m.month}
+                style={{ backgroundColor: "black", color: "white" }}
+              >
+                {m.month}
+              </option>
+            ))}
+          </Select>
+        </HStack>
+
         {text.map((block, index) => (
           <TextBlock key={index} textAlign="left">
             {block}
           </TextBlock>
         ))}
-        <Select
-          placeholder="Change Month"
-          size="sm"
-          onChange={handleMonth}
-          variant="outline"
-        >
-          {monthOptions.map((m, index) => (
-            <option
-              key={index}
-              value={m.value}
-              id={m.month}
-              style={{ backgroundColor: "black", color: "white" }}
-            >
-              {m.month}
-            </option>
-          ))}
-        </Select>
       </Segment>
 
       {tables.map((table, index) => (
@@ -57,6 +88,7 @@ export const Observing = (props) => {
           }}
           mx={3}
           as="h2"
+          id={table.id}
         >
           {table.description.map((text, index) => (
             <TextBlock key={index} textAlign="left">
@@ -75,7 +107,6 @@ export const Observing = (props) => {
               title={table.title}
               key={table.id}
               filter={month.value}
-              id={table.id}
               targetList={table.targets}
             />
           </Box>
