@@ -25,7 +25,7 @@ exports.handler = async (event, context) => {
     const sendMail = async (template, data, from) => {
       const msg = {
         to: metadata.email,
-        from: from || process.env.SENDGRID_FROM,
+        from: process.env.SENDGRID_FROM,
         bcc: process.env.SENDGRID_BCC,
         templateId: template || "",
         dynamicTemplateData: data || "",
