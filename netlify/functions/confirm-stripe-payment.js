@@ -36,10 +36,17 @@ exports.handler = async (event, context) => {
     switch (metadata.item) {
       // Send this email if someone joins the club online at okcastro.club
       case "membership":
-        sendMail("d-953aa278a8f34d2a9f85b9ed0622ca4d", {
-          name: metadata.name,
-          membership_coordinator: process.env.SENDGRID_MEMBERSHIP,
-        });
+        const msg = {
+          to: metadata.email,
+          from: process.env.SENDGRID_FROM,
+          bcc: process.env.SENDGRID_BCC,
+          templateId: "d-953aa278a8f34d2a9f85b9ed0622ca4d",
+          dynamicTemplateData: {
+            name: metadata.name,
+            membership_coordinator: process.env.SENDGRID_MEMBERSHIP,
+          },
+        };
+        await sgMail.send(msg);
         return { statusCode: 200 };
 
       // Send this email if someone buys the PixInsight Imaging Session
