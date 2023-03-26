@@ -22,21 +22,12 @@ exports.handler = async (event, context) => {
 
   if (stripeEvent.type === "payment_intent.succeeded") {
     const { metadata } = stripeEvent.data.object;
-    const sendMail = async (template, data, from) => {
-      const msg = {
-        to: metadata.email,
-        from: process.env.SENDGRID_FROM,
-        bcc: process.env.SENDGRID_BCC,
-        templateId: template || "",
-        dynamicTemplateData: data || "",
-      };
-      await sgMail.send(msg);
-    };
+    const msg = {};
 
     switch (metadata.item) {
       // Send this email if someone joins the club online at okcastro.club
       case "membership":
-        const msg = {
+        msg = {
           to: metadata.email,
           from: process.env.SENDGRID_FROM,
           bcc: process.env.SENDGRID_BCC,
@@ -51,18 +42,21 @@ exports.handler = async (event, context) => {
 
       // Send this email if someone buys the PixInsight Imaging Session
       case "imaging-session":
-        sendMail(
-          "d-391abf270f1742699767e84fbded8084",
-          { name: metadata.name },
-          process.env.SENDGRID_FROM_OTSP
-        );
+        msg = {
+          to: metadata.email,
+          from: process.env.SENDGRID_FROM_OTSP,
+          bcc: process.env.SENDGRID_BCC,
+          templateId: "d-391abf270f1742699767e84fbded8084",
+          dynamicTemplateData: { name: metadata.name },
+        };
+        await sgMail.send(msg);
         return { statusCode: 200 };
 
       // Notify the okcac if something weird happens
       default:
         msg = {
           to: process.env.SENDGRID_ERROR_RECIPIENT,
-          FROM: process.env.SENDGRID_FROM,
+          from: process.env.SENDGRID_FROM,
           body: "An error occured with this payment",
           html: blob,
         };
