@@ -9,16 +9,6 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY); // SendGrid API key in .env
 
 // Async function that generates a SendGrid email.
 // Function takes two parameters: templateID and any dynamic data the template uses.
-const sendMail = async (template, data, from) => {
-  const msg = {
-    to: metadata.email,
-    from: from || process.env.SENDGRID_FROM,
-    bcc: process.env.SENDGRID_BCC,
-    templateId: template || "",
-    dynamicTemplateData: data || "",
-  };
-  await sgMail.send(msg);
-};
 
 exports.handler = async (event, context) => {
   const endpointSecret = process.env.STRIPE_ES; // Stripe webhook UUID from Stripe Dashboard
@@ -32,6 +22,16 @@ exports.handler = async (event, context) => {
 
   if (stripeEvent.type === "payment_intent.succeeded") {
     const { metadata } = stripeEvent.data.object;
+    const sendMail = async (template, data, from) => {
+      const msg = {
+        to: metadata.email,
+        from: from || process.env.SENDGRID_FROM,
+        bcc: process.env.SENDGRID_BCC,
+        templateId: template || "",
+        dynamicTemplateData: data || "",
+      };
+      await sgMail.send(msg);
+    };
 
     switch (metadata.item) {
       // Send this email if someone joins the club online at okcastro.club
