@@ -23,6 +23,7 @@ export const TargetTable = (props) => {
           <TableCaption />
           <Thead>
             <Tr>
+              {title === "Double Star Observing Program" && <Th>Id</Th>}
               <Th>Name</Th>
 
               <Th>Type</Th>
@@ -46,7 +47,9 @@ export const TargetTable = (props) => {
               .map((target, index) => (
                 <Tr key={index}>
                   <Td>{target.id}</Td>
-
+                  {title === "Double Star Observing Program" && (
+                    <Td>{target.name}</Td>
+                  )}
                   <Td>{target.objecttype}</Td>
                   <Td>{target.ra}</Td>
                   <Td>{target.dec}</Td>
