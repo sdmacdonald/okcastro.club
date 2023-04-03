@@ -43,7 +43,11 @@ export const Observing = (props) => {
               maxW="sm"
             >
               {tables.map((table, index) => (
-                <option key={index} value={table.id}>
+                <option
+                  key={index}
+                  value={table.id}
+                  style={{ backgroundColor: "blue.600", color: "white" }}
+                >
                   {table.title}
                 </option>
               ))}
