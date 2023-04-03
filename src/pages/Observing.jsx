@@ -46,7 +46,7 @@ export const Observing = (props) => {
                 <option
                   key={index}
                   value={table.id}
-                  style={{ backgroundColor: "blue.600", color: "white" }}
+                  style={{ backgroundColor: "black", color: "white" }}
                 >
                   {table.title}
                 </option>
