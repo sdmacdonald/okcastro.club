@@ -22,7 +22,7 @@ exports.handler = async (event, context) => {
 
   if (stripeEvent.type === "payment_intent.succeeded") {
     const { metadata } = stripeEvent.data.object;
-    const msg = {};
+    let msg;
 
     switch (metadata.item) {
       // Send this email if someone joins the club online at okcastro.club
