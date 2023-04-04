@@ -22,6 +22,7 @@ exports.handler = async (event, context) => {
 
   if (stripeEvent.type === "payment_intent.succeeded") {
     const { metadata } = stripeEvent.data.object;
+    const name = metadata.name.split(" ");
     let msg;
 
     switch (metadata.item) {
@@ -33,7 +34,7 @@ exports.handler = async (event, context) => {
           bcc: process.env.SENDGRID_BCC,
           templateId: "d-953aa278a8f34d2a9f85b9ed0622ca4d",
           dynamicTemplateData: {
-            name: metadata.name,
+            name: name[0] || metadata.name,
             membership_coordinator: process.env.SENDGRID_MEMBERSHIP,
           },
         };
@@ -47,7 +48,7 @@ exports.handler = async (event, context) => {
           from: process.env.SENDGRID_FROM_OTSP,
           bcc: process.env.SENDGRID_BCC,
           templateId: "d-391abf270f1742699767e84fbded8084",
-          dynamicTemplateData: { name: metadata.name },
+          dynamicTemplateData: { name: name[0] || metadata.name },
         };
         await sgMail.send(msg);
         return { statusCode: 200 };
