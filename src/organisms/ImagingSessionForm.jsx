@@ -1,6 +1,5 @@
 import React from "react";
 import { Form, FormInputField } from "../molecules";
-import { Link } from "@chakra-ui/react";
 
 export const ImagingSessionForm = (props) => {
   const { member, loading, onChange, onSubmit } = props;
