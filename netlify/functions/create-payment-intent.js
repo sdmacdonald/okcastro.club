@@ -38,7 +38,7 @@ exports.handler = async (event, context) => {
         // price = Math.round((i + 30) / (1 - 0.029));
         break;
       case "imaging-session":
-        price = 100;
+        price = 100 * 100;
         break;
       default:
         price = 3600;

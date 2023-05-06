@@ -2,7 +2,19 @@ import React, { useState } from "react";
 import { ImagingSessionForm } from "../organisms";
 import { TextBlock } from "../components";
 import { Page, Segment, StripeCheckout } from "../templates";
-import { Alert, AlertIcon, Button, useDisclosure } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertIcon,
+  Button,
+  Flex,
+  Grid,
+  GridItem,
+  Heading,
+  Text,
+  VStack,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 export const ImagingSession = () => {
   const [member, setMember] = useState({
@@ -70,6 +82,37 @@ export const ImagingSession = () => {
           11. The sessions start at 10am central time at the Kenton Senior
           Center, and will last until 4:30pm, with a lunch break.
         </TextBlock>
+
+        <VStack>
+          <Heading as="h2" size="md">
+            Day One: Fun with Exterminators using Narrowband and RGB
+          </Heading>
+          <TextBlock>
+            John will demo Starnet++ and Russ Chroma's exterminators to enhance
+            their images. Sometimes you need to get rid of the stars first
+            before you combine narrowband with RGB. Maybe you want to add RGB
+            stars to a false color image. John will also show how to use the new
+            Generalized Hyperbolic Stretch routine, which is part of PixInsight,
+            as part of the tutorial and briefly cover the new updates to PI that
+            have come out over the last year.
+          </TextBlock>
+        </VStack>
+
+        <VStack>
+          <Heading as="h2" size="md">
+            Day Two: Using Hydrogen Alpha Data as a Background
+          </Heading>
+          <TextBlock>
+            Antoine Grelin takes over in the second half of day two will be
+            showing off his techniques that allowed him to get images such as
+            <Text textDecoration={"underline"}>
+              <Link to="https://www.astrobin.com/fitgcc/0/">
+                this striking Double Cluster.
+              </Link>
+            </Text>
+          </TextBlock>
+        </VStack>
+
         <TextBlock>
           Each seat is $100 per person. You must be registered for the Okie-Tex
           Star Party to attend.
