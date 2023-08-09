@@ -50,6 +50,9 @@ exports.handler = async (event, context) => {
       currency: "usd",
       description: "",
       metadata: data,
+      automatic_payment_methods: {
+        enabled: true,
+      },
     });
 
     return {
