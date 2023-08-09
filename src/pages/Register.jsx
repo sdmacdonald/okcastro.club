@@ -37,6 +37,7 @@ export const Register = () => {
         ...prevMember,
         name: data.metadata.name,
         email: data.metadata.email,
+        customer: data.metadata.name,
         pi: data.clientSecret,
         amount: data.metadata.amount,
       }));
