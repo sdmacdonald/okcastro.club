@@ -35,9 +35,6 @@ export const Register = () => {
       const data = await res.json();
       setMember((prevMember) => ({
         ...prevMember,
-        name: data.metadata.name,
-        email: data.metadata.email,
-        customer: data.metadata.name,
         pi: data.clientSecret,
         amount: data.metadata.amount,
       }));
