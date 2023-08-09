@@ -30,6 +30,7 @@ exports.handler = async (event, context) => {
 
   try {
     const { item } = data;
+    console.log(data);
     // Add additional product calculations here.
     switch (item) {
       case "membership":
@@ -50,8 +51,6 @@ exports.handler = async (event, context) => {
       currency: "usd",
       description: "",
       metadata: data,
-      name: data.name,
-      email: data.email,
     });
 
     return {
