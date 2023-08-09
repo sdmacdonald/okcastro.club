@@ -30,7 +30,6 @@ exports.handler = async (event, context) => {
 
   try {
     const { item } = data;
-    console.log(data);
     // Add additional product calculations here.
     switch (item) {
       case "membership":
