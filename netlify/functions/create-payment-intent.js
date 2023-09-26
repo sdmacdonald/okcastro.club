@@ -1,4 +1,4 @@
-require("dotenv").config();
+import "dotenv/config";
 
 const stripe = require("stripe")(process.env.STRIPE_SK);
 headers = {
@@ -6,7 +6,7 @@ headers = {
   "Access-Control-Allow-Headers": "Content-Type",
 };
 
-export async function handler(event, context) {
+exports.handler = async (event, context) => {
   if (event.httpMethod === "OPTIONS") {
     return {
       statusCode: 200,
@@ -71,4 +71,4 @@ export async function handler(event, context) {
       }),
     };
   }
-}
+};

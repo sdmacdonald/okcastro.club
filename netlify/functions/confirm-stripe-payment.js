@@ -2,15 +2,16 @@
 // Requires configuration in the Stripe Dashboard
 // For more information read https://stripe.com/docs/webhooks
 
-require("dotenv").config();
+// require("dotenv").config();
+import "dotenv/config";
 const stripe = require("stripe")(process.env.STRIPE_SK); // Stripe Secret Key in .env
-import { setApiKey, send } from "@sendgrid/mail";
-setApiKey(process.env.SENDGRID_API_KEY); // SendGrid API key in .env
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SENDGRID_API_KEY); // SendGrid API key in .env
 
 // Async function that generates a SendGrid email.
 // Function takes two parameters: templateID and any dynamic data the template uses.
 
-export async function handler(event, context) {
+exports.handler = async (event, context) => {
   const endpointSecret = process.env.STRIPE_ES; // Stripe webhook UUID from Stripe Dashboard
   const sig = event.headers["stripe-signature"];
 
@@ -38,7 +39,7 @@ export async function handler(event, context) {
             membership_coordinator: process.env.SENDGRID_MEMBERSHIP,
           },
         };
-        await send(msg);
+        await sgMail.send(msg);
         return { statusCode: 200 };
 
       // Send this email if someone buys the PixInsight Imaging Session
@@ -50,7 +51,7 @@ export async function handler(event, context) {
           templateId: "d-391abf270f1742699767e84fbded8084",
           dynamicTemplateData: { name: name[0] || metadata.name },
         };
-        await send(msg);
+        await sgMail.send(msg);
         return { statusCode: 200 };
 
       // Notify the okcac if something weird happens
@@ -61,9 +62,9 @@ export async function handler(event, context) {
           body: "An error occured with this payment",
           html: blob,
         };
-        await send(msg);
+        await sgMail.send(msg);
     }
   } else {
     return { statusCode: 400 };
   }
-}
+};
