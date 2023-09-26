@@ -2,8 +2,7 @@
 // Requires configuration in the Stripe Dashboard
 // For more information read https://stripe.com/docs/webhooks
 
-// require("dotenv").config();
-import "dotenv/config";
+require("dotenv").config();
 const stripe = require("stripe")(process.env.STRIPE_SK); // Stripe Secret Key in .env
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY); // SendGrid API key in .env
