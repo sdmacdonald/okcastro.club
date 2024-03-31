@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import { ImagingSessionForm } from "../organisms";
-import { TextBlock } from "../components";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { Page, Segment, StripeCheckout } from "../templates";
 import {
   Alert,
   AlertIcon,
+  Box,
   Button,
+  HStack,
   Heading,
+  Image,
+  Link,
+  Stack,
   Text,
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { TextBlock } from "../components";
 
 export const ImagingSession = () => {
   const [member, setMember] = useState({
@@ -63,76 +68,56 @@ export const ImagingSession = () => {
         <StripeCheckout member={member} onClose={onClose} isOpen={isOpen} />
       )}
       <Segment
-        heading={`Okie-Tex PixInsight Imaging Workshop.`}
+        heading={`Okie-Tex Beginner's PixInsight Imaging Workshop.`}
         as="h1"
         color="white"
       >
         <TextBlock>
           Add on to your Okie-Tex experience with a two day astrophotography
-          processing seminar hosted by master photographer John Talbot. Now back
-          for a fifth year! Also this year - special guest astrophotographer,
-          YouTuber and "Galactic Hunter" Antoine Grelin will be closing out the
-          Monday session.
+          processing seminar hosted by master photographer Jon Talbot. Now back
+          for a sixth year!
         </TextBlock>
         <TextBlock>
-          The imaging session will be Sunday, September 10 and Monday, September
-          11. The sessions start at 10am central time at the Kenton Senior
+          A more "beginner" session has been much requested, and Jon is ready to
+          oblige! This year, learn the ins and outs of PixInsight from the true
+          amateur perspective.
+        </TextBlock>
+        <TextBlock>
+          Learn how to process an image in PixInsight. Jon will teach attendees
+          how to take a stack of raw image data and turn it into a beautiful,
+          professional level astrophoto. Learn tips on acquiring better data for
+          your photos, and learn how to master PixInsight with a guided
+          tutorial, filled with tips, tricks and best practices for getting the
+          most out of your data and PixInsight.
+        </TextBlock>
+        <TextBlock>
+          The imaging session will be Sunday, September 29 and Monday, September
+          30. The sessions start at 10am central time at the Kenton Senior
           Center, and will last until 4:30pm, with a lunch break.
-        </TextBlock>
-
-        <VStack>
-          <Heading as="h2" size="md">
-            Day One: Fun with Exterminators using Narrowband and RGB
-          </Heading>
-          <TextBlock>
-            John will demo Starnet++ and Russ Chroma's exterminators to enhance
-            their images. Sometimes you need to get rid of the stars first
-            before you combine narrowband with RGB. Maybe you want to add RGB
-            stars to a false color image. John will also show how to use the new
-            Generalized Hyperbolic Stretch routine, which is part of PixInsight,
-            as part of the tutorial and briefly cover the new updates to PI that
-            have come out over the last year.
-          </TextBlock>
-        </VStack>
-
-        <VStack>
-          <Heading as="h2" size="md">
-            Day Two: Using Hydrogen Alpha Data as a Background
-          </Heading>
-          <TextBlock>
-            Antoine Grelin takes over in the second half of day two will be
-            showing off his techniques that allowed him to get images such as
-            <Text textDecoration={"underline"}>
-              <Link to="https://www.astrobin.com/fitgcc/0/">
-                this striking Double Cluster.
-              </Link>
-            </Text>
-          </TextBlock>
-        </VStack>
-
-        <TextBlock>
-          Each seat is $100 per person. You must be registered for the Okie-Tex
-          Star Party to attend.
         </TextBlock>
       </Segment>
 
       <Segment
         rest={{
           bgColor: "white",
-          borderRadius: { base: "none", md: "md" },
+          borderRadius: { base: "sm", md: "md" },
           shadow: "md",
         }}
         mx={3}
-        heading="Reserve your seat - $100 per person."
+        heading="Reserve your seat."
         as="h2"
       >
+        <Text my={4}>
+          Each seat is $100 per person. You must be registered for the Okie-Tex
+          Star Party to attend.
+        </Text>
         <ImagingSessionForm
           member={member}
           loading={loading}
           onChange={handleChange}
           onSubmit={handleSubmit}
         />
-        <Alert status="warning" variant="top-accent" mt={12} fontSize="xs">
+        {/* <Alert status="warning" variant="top-accent" mt={12} fontSize="xs">
           <AlertIcon />
           Problems with this form? Let us know:
           <Button
@@ -143,7 +128,39 @@ export const ImagingSession = () => {
           >
             webmaster@okcastroclub.com
           </Button>
-        </Alert>
+        </Alert> */}
+      </Segment>
+      <Segment heading={`About Jon Talbot.`} as="h2" color="white">
+        <TextBlock>
+          Jon Talbot, formerly a Flight Meteorologist with the Air Force
+          Reserve's "Hurricane Hunters" at Keesler AFB, MS, contributed crucial
+          data to the National Hurricane Center over 34 years, navigating
+          through more than 150 Hurricanes and Tropical Cyclones.
+        </TextBlock>
+        <TextBlock>
+          In retirement, his focus has shifted to astronomical imaging, a field
+          he entered in 1999 after acquiring a Meade 4" reflector telescope. His
+          engagement with astronomy deepened after upgrading his equipment and
+          constructing an observatory to house a computerized Meade 8"LX200 and
+          his first CCD camera in 2002. Now, Talbot employs advanced gear
+          including a Software Bisque Paramount MYT mount, Stellarvue
+          refractors, and a custom-made carbon fiber Newtonian astrograph for
+          his astrophotography.
+        </TextBlock>
+        <TextBlock>
+          The challenge and satisfaction of capturing celestial images have been
+          a significant and rewarding part of his post-military life. Talbot is
+          a familiar face at the Okie-Tex Star Party, where his contributions
+          and experiences enrich the event. He has also been a keynote speaker
+          at the Texas Star Party, sharing his expertise and inspiring the
+          amateur astronomer community.
+        </TextBlock>
+        <TextBlock>
+          Read more about Jon, and see some of his incredible astroimages at{" "}
+          <Link href="http://starscapeimaging.com/" isExternal>
+            his website <ExternalLinkIcon mx="2px" />.
+          </Link>
+        </TextBlock>
       </Segment>
     </Page>
   );

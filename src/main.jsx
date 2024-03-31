@@ -20,10 +20,10 @@ const router = createBrowserRouter([
     path: "observing",
     element: <Observing />,
   },
-  // {
-  //   path: "imaging-session",
-  //   element: <ImagingSession />,
-  // },
+  {
+    path: "imaging-session",
+    element: <ImagingSession />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
