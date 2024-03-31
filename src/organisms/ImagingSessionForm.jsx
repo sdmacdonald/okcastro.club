@@ -17,7 +17,7 @@ export const ImagingSessionForm = (props) => {
         required={true}
         type="text"
         onChange={onChange}
-        placeholder="Mike Dennis"
+        placeholder="Your name"
         value={member.name}
       />
       <FormInputField
@@ -26,7 +26,7 @@ export const ImagingSessionForm = (props) => {
         type="email"
         value={member.email}
         onChange={onChange}
-        placeholder="darkFrames@spacepix.com"
+        placeholder="Your email"
       />
     </Form>
   );
