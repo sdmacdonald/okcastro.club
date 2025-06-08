@@ -20,7 +20,7 @@ export const RegForm = (props) => {
       name="register"
       onSubmit={onSubmit}
       helperText={`Club dues are $36 and renew on April 1. Your first year of membership is
-        pro-rated.`}
+        pro-rated. January - March are $36 + the pro-rated price (Online only).`}
     >
       <FormInputField
         name="name"
