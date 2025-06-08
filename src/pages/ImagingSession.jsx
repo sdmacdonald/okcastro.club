@@ -75,12 +75,7 @@ export const ImagingSession = () => {
         <TextBlock>
           Add on to your Okie-Tex experience with a two day astrophotography
           processing seminar hosted by master photographer Jon Talbot. Now back
-          for a sixth year!
-        </TextBlock>
-        <TextBlock>
-          A more "beginner" session has been much requested, and Jon is ready to
-          oblige! This year, learn the ins and outs of PixInsight from the true
-          amateur perspective.
+          for a SEVENTH year!
         </TextBlock>
         <TextBlock>
           Learn how to process an image in PixInsight. Jon will teach attendees
@@ -91,8 +86,8 @@ export const ImagingSession = () => {
           most out of your data and PixInsight.
         </TextBlock>
         <TextBlock>
-          The imaging session will be Sunday, September 29 and Monday, September
-          30. The sessions start at 10am central time at the Kenton Senior
+          The imaging session will be Sunday, September 21 and Monday, September
+          22. The sessions start at 10am central time at the Kenton Senior
           Center, and will last until 4:30pm, with a lunch break.
         </TextBlock>
       </Segment>
