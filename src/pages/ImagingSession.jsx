@@ -68,7 +68,7 @@ export const ImagingSession = () => {
         <StripeCheckout member={member} onClose={onClose} isOpen={isOpen} />
       )}
       <Segment
-        heading={`Okie-Tex Beginner's PixInsight Imaging Workshop.`}
+        heading={`Okie-Tex PixInsight Imaging Workshop.`}
         as="h1"
         color="white"
       >
@@ -90,6 +90,7 @@ export const ImagingSession = () => {
           22. The sessions start at 10am central time at the Kenton Senior
           Center, and will last until 4:30pm, with a lunch break.
         </TextBlock>
+        <TextBlock>This is an advanced session, though beginners are welcome.</TextBlock>
       </Segment>
 
       <Segment
