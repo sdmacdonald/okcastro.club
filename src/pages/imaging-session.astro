@@ -10,14 +10,14 @@ import Layout from '../layouts/Layout.astro';
     style="background: linear-gradient(to bottom, rgba(9,11,20,0.55) 0%, rgba(9,11,20,0.88) 100%), url('/bg.jpg') center / cover no-repeat;">
 
     <img src="/otsp-logo__white.png" alt="Okie-Tex Star Party"
-         class="mx-auto mb-0" style="height:220px; opacity:0.95" />
-    <h1 class="font-display font-bold text-ds-text leading-[1.1] tracking-tight mb-5"
+         class="mx-auto" style="height:220px; opacity:0.95; margin-bottom:-16px" />
+    <h1 class="font-display font-bold text-ds-text leading-[1.1] tracking-tight mb-3"
         style="font-size: clamp(32px,5vw,56px)">
-      PixInsight Imaging Workshop
+      PixInsight Imaging Session<br>
+      <span style="font-size: clamp(20px,3vw,36px); opacity:0.75">Intermediate Course</span>
     </h1>
-    <p class="font-body text-[16px] max-w-[520px] mx-auto leading-relaxed" style="color:rgba(240,236,228,0.8)">
-      Two days. One instructor. A stack of raw data and a finished astrophoto.
-      Back for a <strong style="color:#7ab4e0">seventh year.</strong>
+    <p class="font-body text-[14px] font-semibold uppercase tracking-widest" style="color:#9ea3b0">
+      Presented by Jon Talbot
     </p>
   </section>
 
@@ -27,33 +27,42 @@ import Layout from '../layouts/Layout.astro';
 
       <!-- Info column -->
       <div>
-        <h2 class="font-display font-bold text-ds-text text-[clamp(20px,2.5vw,28px)] tracking-tight mb-1">
-          Workshop Details
+        <h2 class="font-display font-bold text-ds-text text-[clamp(20px,2.5vw,28px)] tracking-tight mb-4">
+          About the Session
         </h2>
-        <p class="font-body text-[13px] text-ds-text-2 mb-8">
-          September 21–22 · Kenton Senior Center · 10am–4:30pm CT
-        </p>
 
-        <div class="space-y-6 mb-10">
-          {[
-            {
-              head: "What you'll learn",
-              body: "Take a stack of raw image data from acquisition to a beautiful, professional-level astrophoto using PixInsight. Tips, tricks, and best practices throughout.",
-            },
-            {
-              head: "Skill level",
-              body: "Advanced session, though beginners are welcome. You must be registered for the Okie-Tex Star Party to attend.",
-            },
-            {
-              head: "Cost",
-              body: "$100 per person. Lunch break included.",
-            },
-          ].map(({ head, body }) => (
-            <div>
-              <p class="font-body text-[10px] font-bold uppercase tracking-[0.1em] mb-2" style="color:#7ab4e0">{head}</p>
-              <p class="font-body text-[14px] text-ds-text leading-relaxed" style="opacity:0.85">{body}</p>
-            </div>
-          ))}
+        <div class="space-y-5 mb-10">
+          <p class="font-body text-[14px] text-ds-text leading-[1.75]" style="opacity:0.85">
+            This year's imaging session is an intermediate-level workshop designed for
+            astrophotographers who are ready to move beyond the basics.
+            <strong class="text-ds-text">Attendees must have PixInsight installed on their laptops before arriving.</strong>
+            Once registration fills out, Jon will send detailed instructions on the datasets
+            and additional resources you'll need to download in advance.
+          </p>
+          <p class="font-body text-[14px] text-ds-text leading-[1.75]" style="opacity:0.85">
+            The course covers two core workflows for imaging with color CMOS cameras:
+          </p>
+          <div>
+            <p class="font-body text-[10px] font-bold uppercase tracking-[0.1em] mb-2" style="color:#7ab4e0">Part 1: RGB Color Processing</p>
+            <p class="font-body text-[14px] text-ds-text leading-[1.75]" style="opacity:0.85">
+              Jon will walk through his complete workflow for processing a typical RGB color image
+              from start to finish. The techniques covered apply equally to mono and color cameras,
+              making this section valuable regardless of your imaging setup.
+            </p>
+          </div>
+          <div>
+            <p class="font-body text-[10px] font-bold uppercase tracking-[0.1em] mb-2" style="color:#7ab4e0">Part 2: Narrowband + RGB with Color CMOS</p>
+            <p class="font-body text-[14px] text-ds-text leading-[1.75]" style="opacity:0.85">
+              This section digs into the specifics of combining RGB and narrowband data using a
+              color CMOS camera and dual narrowband filters, an increasingly popular approach
+              that comes with its own set of challenges. Jon will detail his full workflow using
+              the latest PixInsight tools, including an overview of what's new in the software
+              for handling all types of imaging data.
+            </p>
+          </div>
+          <p class="font-body text-[13px] italic" style="color:#9ea3b0">
+            Space is limited. Registration details coming soon.
+          </p>
         </div>
 
         <hr class="border-white/[0.08] mb-6" />
