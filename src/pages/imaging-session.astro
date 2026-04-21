@@ -181,7 +181,19 @@ import Layout from '../layouts/Layout.astro';
       localStorage.setItem('otsp_member', JSON.stringify({ ...data, amount: metadata.amount }));
 
       const stripe = Stripe(import.meta.env.PUBLIC_STRIPE_PK);
-      const elements = stripe.elements({ clientSecret });
+      const elements = stripe.elements({
+        clientSecret,
+        appearance: {
+          theme: 'night',
+          variables: {
+            colorBackground: '#161b2e',
+            colorPrimary: '#4a90c4',
+            colorText: '#f0ece4',
+            colorTextSecondary: '#9ea3b0',
+            borderRadius: '6px',
+          },
+        },
+      });
       const paymentEl = elements.create('payment');
 
       modal.classList.remove('hidden');
