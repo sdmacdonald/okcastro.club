@@ -1,123 +1,164 @@
 ---
+// src/pages/imaging-session.astro
+// Okie-Tex PixInsight Imaging Workshop registration
 import Layout from '../layouts/Layout.astro';
-import Navigation from '../components/Navigation.astro';
 ---
+<Layout title="PixInsight Imaging Workshop — Okie-Tex Star Party">
 
-<Layout title="Okie-Tex PixInsight Imaging Session">
-  <Navigation slot="nav" />
+  <!-- ── Hero ──────────────────────────────────────────────── -->
+  <section class="relative text-center px-6 pt-20 pb-16"
+    style="background: linear-gradient(to bottom, rgba(9,11,20,0.55) 0%, rgba(9,11,20,0.88) 100%), url('/bg.jpg') center / cover no-repeat;">
 
-  <!-- Hero -->
-  <section class="segment-dark w-full max-w-3xl">
-    <h1 class="text-4xl xl:text-6xl">PixInsight Imaging Session — Intermediate Course.</h1>
-    <p class="text-sm font-semibold mt-3 tracking-widest uppercase" style="color: #9ea3b0;">Instructor: Jon Talbot</p>
-    <hr class="my-4 border-white/20" />
-    <p class="text-block">
-      This year's imaging session is an intermediate-level workshop designed for
-      astrophotographers who are ready to move beyond the basics.
-      <strong>Attendees must have PixInsight installed on their laptops before arriving</strong>
-      — once registration fills out, Jon will send detailed instructions on the datasets
-      and additional resources you'll need to download in advance.
+    <img src="/otsp-logo__white.png" alt="Okie-Tex Star Party"
+         class="mx-auto mb-0" style="height:220px; opacity:0.95" />
+    <h1 class="font-display font-bold text-ds-text leading-[1.1] tracking-tight mb-5"
+        style="font-size: clamp(32px,5vw,56px)">
+      PixInsight Imaging Workshop
+    </h1>
+    <p class="font-body text-[16px] max-w-[520px] mx-auto leading-relaxed" style="color:rgba(240,236,228,0.8)">
+      Two days. One instructor. A stack of raw data and a finished astrophoto.
+      Back for a <strong style="color:#7ab4e0">seventh year.</strong>
     </p>
-    <p class="text-block">
-      The course covers two core workflows for imaging with color CMOS cameras:
-    </p>
-    <p class="text-block text-left">
-      <strong>Part 1 — RGB Color Processing</strong><br />
-      Jon will walk through his complete workflow for processing a typical RGB color image
-      from start to finish. The techniques covered apply equally to mono and color cameras,
-      making this section valuable regardless of your imaging setup.
-    </p>
-    <p class="text-block text-left">
-      <strong>Part 2 — Narrowband + RGB with Color CMOS</strong><br />
-      This section digs into the specifics of combining RGB and narrowband data using a
-      color CMOS camera and dual narrowband filters — an increasingly popular approach
-      that comes with its own set of challenges. Jon will detail his full workflow using
-      the latest PixInsight tools, including an overview of what's new in the software
-      for handling all types of imaging data.
-    </p>
-    <p class="text-block italic" style="color: #9ea3b0;">Space is limited. Registration details coming soon.</p>
   </section>
 
-  <!-- Registration card -->
-  <section class="segment-card w-full max-w-xl">
-    <h2 class="text-xl xl:text-2xl">Reserve your seat.</h2>
-    <hr class="my-4 border-white/20" />
-    <p class="my-4 text-sm" style="color: #9ea3b0;">
-      Each seat is $100 per person. You must be registered for the Okie-Tex
-      Star Party to attend.
-    </p>
+  <!-- ── Two-column: info + form ────────────────────────────── -->
+  <section class="py-20 px-6" style="background:#111421">
+    <div class="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
 
-    <form id="imaging-form" name="imaging-session" class="text-left mt-4">
-      <input type="hidden" name="item" value="imaging-session" />
+      <!-- Info column -->
+      <div>
+        <h2 class="font-display font-bold text-ds-text text-[clamp(20px,2.5vw,28px)] tracking-tight mb-1">
+          Workshop Details
+        </h2>
+        <p class="font-body text-[13px] text-ds-text-2 mb-8">
+          September 21–22 · Kenton Senior Center · 10am–4:30pm CT
+        </p>
 
-      <div class="space-y-4">
-        <div>
-          <label class="form-label" for="name">Name:</label>
-          <input class="form-input" id="name" name="name" type="text" placeholder="Your name" required />
+        <div class="space-y-6 mb-10">
+          {[
+            {
+              head: "What you'll learn",
+              body: "Take a stack of raw image data from acquisition to a beautiful, professional-level astrophoto using PixInsight. Tips, tricks, and best practices throughout.",
+            },
+            {
+              head: "Skill level",
+              body: "Advanced session, though beginners are welcome. You must be registered for the Okie-Tex Star Party to attend.",
+            },
+            {
+              head: "Cost",
+              body: "$100 per person. Lunch break included.",
+            },
+          ].map(({ head, body }) => (
+            <div>
+              <p class="font-body text-[10px] font-bold uppercase tracking-[0.1em] mb-2" style="color:#7ab4e0">{head}</p>
+              <p class="font-body text-[14px] text-ds-text leading-relaxed" style="opacity:0.85">{body}</p>
+            </div>
+          ))}
         </div>
 
-        <div>
-          <label class="form-label" for="email">Email:</label>
-          <input class="form-input" id="email" name="email" type="email" placeholder="Your email" required />
-        </div>
+        <hr class="border-white/[0.08] mb-6" />
+
+        <p class="font-body text-[10px] font-bold uppercase tracking-[0.1em] mb-3" style="color:#7ab4e0">
+          About the Instructor
+        </p>
+        <p class="font-body text-[14px] text-ds-text-2 leading-[1.75] mb-3">
+          Jon Talbot is a retired USAF "Hurricane Hunter" turned master astrophotographer.
+          He employs a Software Bisque Paramount MYT, Stellarvue refractors, and a custom
+          carbon-fiber Newtonian astrograph. A familiar face at Okie-Tex, and keynote
+          speaker at the Texas Star Party.
+        </p>
+        <a href="http://starscapeimaging.com/" target="_blank" rel="noreferrer"
+           class="font-body text-[13px] underline underline-offset-2 transition-colors"
+           style="color:#7ab4e0">
+          starscapeimaging.com ↗
+        </a>
       </div>
 
-      <button class="btn-primary mt-6" id="submit-btn" type="submit">Sign Up</button>
+      <!-- Form column -->
+      <div class="rounded-lg p-8" style="background:#161b2e; border:1px solid rgba(255,255,255,0.1)">
+        <h2 class="font-display font-bold text-ds-text text-[clamp(20px,2.5vw,26px)] tracking-tight mb-1">
+          Reserve Your Seat
+        </h2>
+        <p class="font-body text-[13px] text-ds-text-2 mb-7">
+          $100 per person. Okie-Tex registration required.
+        </p>
 
-      <p class="mt-2 text-xs leading-relaxed" style="color: #5c6070;">
-        You must be an Okie-Tex 2025 registrant to join this class. If you haven't registered,
-        please do so at www.okie-tex.com
-      </p>
-    </form>
+        <form id="imaging-form" novalidate>
+          <div class="mb-4">
+            <label class="form-label" for="img-name">Full Name <span style="color:#e8608a">*</span></label>
+            <input id="img-name" name="name" type="text" class="form-input"
+                   placeholder="Leo Spaceman" required autocomplete="name" />
+          </div>
+          <div class="mb-6">
+            <label class="form-label" for="img-email">Email Address <span style="color:#e8608a">*</span></label>
+            <input id="img-email" name="email" type="email" class="form-input"
+                   placeholder="cosmo@example.com" required autocomplete="email" />
+          </div>
+          <button type="submit" id="img-submit"
+                  class="w-full py-3 text-[15px] font-semibold rounded font-body transition-colors"
+                  style="background:#4a90c4; color:#f0ece4">
+            Reserve Seat — $100
+          </button>
+          <div id="img-error"
+               class="hidden mt-3 p-3 rounded border text-[13px]"
+               style="border-color:rgba(232,96,138,0.4);background:rgba(232,96,138,0.1);color:#e8608a">
+          </div>
+        </form>
+      </div>
+
+    </div>
   </section>
 
-  <!-- About Jon -->
-  <section class="segment-dark w-full max-w-3xl">
-    <h2 class="text-xl xl:text-2xl">About Jon Talbot.</h2>
-    <hr class="my-4 border-white/20" />
-    <p class="text-block">
-      Jon Talbot, formerly a Flight Meteorologist with the Air Force
-      Reserve's "Hurricane Hunters" at Keesler AFB, MS, contributed crucial
-      data to the National Hurricane Center over 34 years, navigating
-      through more than 150 Hurricanes and Tropical Cyclones.
-    </p>
-    <p class="text-block">
-      In retirement, his focus has shifted to astronomical imaging, a field
-      he entered in 1999 after acquiring a Meade 4" reflector telescope. His
-      engagement with astronomy deepened after upgrading his equipment and
-      constructing an observatory to house a computerized Meade 8"LX200 and
-      his first CCD camera in 2002. Now, Talbot employs advanced gear
-      including a Software Bisque Paramount MYT mount, Stellarvue
-      refractors, and a custom-made carbon fiber Newtonian astrograph for
-      his astrophotography.
-    </p>
-    <p class="text-block">
-      The challenge and satisfaction of capturing celestial images have been
-      a significant and rewarding part of his post-military life. Talbot is
-      a familiar face at the Okie-Tex Star Party, where his contributions
-      and experiences enrich the event. He has also been a keynote speaker
-      at the Texas Star Party, sharing his expertise and inspiring the
-      amateur astronomer community.
-    </p>
-    <p class="text-block">
-      Read more about Jon, and see some of his incredible astroimages at
-      <a href="http://starscapeimaging.com/" target="_blank" rel="noopener noreferrer">
-        his website ↗
-      </a>.
-    </p>
-  </section>
+  <!-- ── Stripe Payment Modal ───────────────────────────────── -->
+  <div id="payment-modal"
+       class="fixed inset-0 z-[200] hidden items-center justify-center p-4"
+       style="background: rgba(9,11,20,0.85); backdrop-filter: blur(4px);">
+    <div class="bg-ds-surface border border-white/[0.09] rounded-lg shadow-[0_8px_48px_rgba(0,0,0,0.7)]
+                w-full max-w-md p-8">
+      <div class="flex items-start justify-between mb-6">
+        <div>
+          <h3 class="font-display font-bold text-ds-text text-[22px] leading-tight">Complete payment</h3>
+          <p class="font-body text-[13px] text-ds-text-3 mt-1">PixInsight Workshop — $100</p>
+        </div>
+        <button id="modal-close" type="button" aria-label="Close"
+                class="text-ds-text-3 hover:text-ds-text transition-colors mt-1">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <form id="payment-form">
+        <div id="payment-element" class="mb-5"></div>
+        <div id="payment-error" class="hidden mb-4 text-[13px] text-ds-pink"></div>
+        <button type="submit" id="payment-submit"
+                class="w-full py-3 text-[15px] font-semibold rounded font-body"
+                style="background:#4a90c4; color:#f0ece4">
+          Pay $100
+        </button>
+      </form>
+    </div>
+  </div>
+
 </Layout>
 
 <script>
-  const form = document.getElementById('imaging-form') as HTMLFormElement;
-  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+  const form = document.getElementById('imaging-form');
+  const imgError = document.getElementById('img-error');
+  const modal = document.getElementById('payment-modal');
+  const modalClose = document.getElementById('modal-close');
 
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
+    const submitBtn = document.getElementById('img-submit');
     submitBtn.disabled = true;
     submitBtn.textContent = 'Processing…';
+    imgError.classList.add('hidden');
 
-    const data = Object.fromEntries(new FormData(form));
+    const data = {
+      name: form.name.value,
+      email: form.email.value,
+      item: 'imaging-session',
+    };
 
     try {
       const res = await fetch('/.netlify/functions/create-checkout-session', {
@@ -125,15 +166,51 @@ import Navigation from '../components/Navigation.astro';
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
+      if (!res.ok) throw new Error((await res.json()).error || 'Payment setup failed.');
+      const { clientSecret, metadata } = await res.json();
 
-      if (!res.ok) throw new Error('Request failed');
+      localStorage.setItem('otsp_member', JSON.stringify({ ...data, amount: metadata.amount }));
 
-      const { url } = await res.json();
-      window.location.href = url;
+      const stripe = Stripe(import.meta.env.PUBLIC_STRIPE_PK);
+      const elements = stripe.elements({ clientSecret });
+      const paymentEl = elements.create('payment');
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      paymentEl.mount('#payment-element');
+
+      document.getElementById('payment-form').addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        document.getElementById('payment-submit').disabled = true;
+        document.getElementById('payment-submit').textContent = 'Processing…';
+        document.getElementById('payment-error').classList.add('hidden');
+
+        const { error } = await stripe.confirmPayment({
+          elements,
+          confirmParams: {
+            return_url: `${window.location.origin}/success?item=imaging`,
+          },
+        });
+        if (error) {
+          const errEl = document.getElementById('payment-error');
+          errEl.textContent = error.message;
+          errEl.classList.remove('hidden');
+          document.getElementById('payment-submit').disabled = false;
+          document.getElementById('payment-submit').textContent = 'Pay $100';
+        }
+      }, { once: true });
+
     } catch (err) {
-      console.error(err);
+      imgError.textContent = err.message;
+      imgError.classList.remove('hidden');
+    } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Sign Up';
+      submitBtn.textContent = 'Reserve Seat — $100';
     }
+  });
+
+  modalClose?.addEventListener('click', () => {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
   });
 </script>

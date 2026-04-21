@@ -1,34 +1,82 @@
 ---
+// src/layouts/Layout.astro
+// Base layout for all OKCAC/OTSP pages
 import '../styles/global.css';
-
 interface Props {
   title?: string;
-  bg?: string;
+  description?: string;
 }
 const {
-  title = "Oklahoma City Astronomy Club",
-  bg = "linear-gradient(rgba(13,15,24,0.85), rgba(13,15,24,0.65)), url('/bg.jpg')",
+  title = 'Okie-Tex Star Party',
+  description = 'Annual star party hosted by the Oklahoma City Astronomy Club under the darkest skies in the Oklahoma Panhandle.',
 } = Astro.props;
 ---
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-    <title>{title}</title>
-  </head>
-  <body
-    class="min-h-screen pb-8"
-    style={`background-color: #0d0f18; background-image: ${bg}; background-size: cover; background-position: center; background-attachment: fixed;`}
-  >
-    <slot name="nav" />
-    <main class="flex flex-col items-center gap-8">
-      <slot />
-    </main>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <title>{title} | OKCAC</title>
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <!-- Stripe.js — loaded globally so payment pages don't need a separate script tag -->
+  <script is:inline src="https://js.stripe.com/v3/"></script>
+</head>
+<body class="bg-ds-bg text-ds-text font-body antialiased min-h-screen">
+
+  <!-- Navigation -->
+  <nav class="sticky top-0 z-50 flex items-center justify-between px-4 h-[52px]
+              bg-ds-nav border-b border-white/[0.09] shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
+
+    <a href="/" class="flex items-center" aria-label="Okie-Tex Star Party home">
+      <!-- OKCAC logo in nav -->
+      <img src="/okcac-logo__white.png" alt="Oklahoma City Astronomy Club" class="h-[26px]" />
+    </a>
+
+    <div class="flex items-center gap-5 pr-1">
+      <!-- Night Sky Observing -->
+      <a href="/observing" title="Night Sky Observing"
+         class="text-ds-text-2 hover:text-ds-text transition-colors opacity-80 hover:opacity-100">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12l4-8 10 5-4 8"/><path d="M9.5 13.5l2 4.5"/>
+          <circle cx="12.5" cy="20" r="1.5"/>
+        </svg>
+      </a>
+      <!-- Contact -->
+      <a href="mailto:webmaster@okcastroclub.com" title="Contact"
+         class="text-ds-text-2 hover:text-ds-text transition-colors opacity-80 hover:opacity-100">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <polyline points="2,4 12,13 22,4"/>
+        </svg>
+      </a>
+      <!-- GitHub -->
+      <a href="https://github.com/sdmacdonald/okcastro.club" target="_blank" rel="noreferrer"
+         title="GitHub" class="text-ds-text-2 hover:text-ds-text transition-colors opacity-80 hover:opacity-100">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483
+            0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466
+            -.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832
+            .092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688
+            -.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004
+            1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651
+            .64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855
+            0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484
+            17.522 2 12 2z"/>
+        </svg>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Page content -->
+  <main>
+    <slot />
+  </main>
+
+</body>
 </html>
