@@ -1,0 +1,149 @@
+---
+// src/pages/observing.astro
+// Night Sky Observing Guide
+import Layout from '../layouts/Layout.astro';
+import { tables, text, monthOptions } from '../assets/data/observingTargets.js';
+import { getMonth } from '../assets/data/getDate.js';
+
+const currentMonth = getMonth(); // { value: number (1-12), month: string }
+---
+<Layout title="Night Sky Observing Guide">
+
+  <!-- ── Hero ──────────────────────────────────────────────── -->
+  <section class="relative text-center px-6 pt-20 pb-16"
+    style="background: linear-gradient(to bottom, rgba(9,11,20,0.6) 0%, rgba(9,11,20,0.9) 100%), url('/M33-rod-gallagher.jpg') center / cover no-repeat;">
+
+    <p class="font-body text-[11px] font-bold uppercase tracking-[0.14em] text-ds-gold mb-4">Deep Sky Guide</p>
+    <h1 class="font-display font-bold text-ds-text leading-[1.1] tracking-tight mb-3"
+        style="font-size: clamp(34px,5vw,60px)">
+      Night Sky Observing
+    </h1>
+    <p class="font-body text-[15px] italic text-ds-text-2 mb-7">by Rod Gallagher, Master Observer</p>
+
+    <!-- Month selector -->
+    <select id="month-select"
+            class="font-body text-[14px] font-semibold bg-ds-overlay/90 border border-white/20
+                   rounded text-ds-text px-4 py-2.5 cursor-pointer outline-none
+                   focus:border-ds-gold transition-colors">
+      {monthOptions.map((m: { month: string; value: number }) => (
+        <option value={m.value} selected={m.value === currentMonth.value}>{m.month}</option>
+      ))}
+    </select>
+  </section>
+
+  <!-- ── Intro text ─────────────────────────────────────────── -->
+  <section class="bg-ds-raised py-10 px-6">
+    <div class="max-w-3xl mx-auto">
+      {text.map((item: string | { html: string }) => (
+        typeof item === 'string'
+          ? <p class="font-body text-[14px] text-ds-text-2 leading-[1.8] mb-4" set:html={item} />
+          : <p class="font-body text-[14px] text-ds-text-2 leading-[1.8] mb-4" set:html={item.html} />
+      ))}
+    </div>
+  </section>
+
+  <!-- ── Target Tables ──────────────────────────────────────── -->
+  {tables.map((table: any) => (
+    <section id={table.id} class="bg-ds-bg py-12 px-6 border-t border-white/[0.05]">
+      <div class="max-w-5xl mx-auto">
+
+        <!-- Table heading -->
+        <div class="mb-6">
+          <h2 class="font-display font-bold text-ds-text text-[clamp(20px,2.5vw,28px)] tracking-tight mb-2">
+            {table.title}
+          </h2>
+          {table.description.map((desc: string | { html: string }) => (
+            typeof desc === 'string'
+              ? <p class="font-body text-[13px] text-ds-text-2 leading-relaxed mb-2" set:html={desc} />
+              : <p class="font-body text-[13px] text-ds-text-2 leading-relaxed mb-2" set:html={desc.html} />
+          ))}
+          <p class="font-body text-[11px] text-ds-text-2 mt-3">
+            Showing <span class="count font-semibold text-ds-text" data-table={table.id}>—</span> objects for selected month.
+          </p>
+        </div>
+
+        <!-- Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full font-body text-[13px]" data-table={table.id}>
+            <thead>
+              <tr class="border-b-2 border-white/10">
+                <th class="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-[0.1em] text-ds-text-3">Object</th>
+                <th class="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-[0.1em] text-ds-text-3">Type</th>
+                <th class="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-[0.1em] text-ds-text-3 font-mono">RA</th>
+                <th class="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-[0.1em] text-ds-text-3 font-mono">Dec</th>
+                <th class="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-[0.1em] text-ds-text-3">Mag.</th>
+              </tr>
+            </thead>
+            <tbody>
+              {table.targets.map((t: any) => (
+                <tr
+                  class="border-b border-white/[0.05] transition-colors hover:bg-white/[0.03] target-row"
+                  data-month={t.user_Month}
+                >
+                  <td class="py-3 px-4 text-ds-text font-medium">{t.id}</td>
+                  <td class="py-3 px-4">
+                    <span class="font-body text-[11px] font-bold uppercase tracking-[0.05em]"
+                      style={`color: ${
+                        t.objecttype?.includes('Galaxy') ? '#7ab4e0'
+                        : t.objecttype?.includes('Globular') ? '#f0bc42'
+                        : t.objecttype?.includes('Neb') ? '#ef7aa0'
+                        : t.objecttype?.includes('Open') || t.objecttype?.includes('Cluster') ? '#e8a020'
+                        : '#9ea3b0'
+                      }`}>
+                      {t.objecttype}
+                    </span>
+                  </td>
+                  <td class="py-3 px-4 font-mono text-[11px] text-ds-text-3">{t.ra}</td>
+                  <td class="py-3 px-4 font-mono text-[11px] text-ds-text-3">{t.dec}</td>
+                  <td class="py-3 px-4 font-mono text-[12px] font-bold text-ds-gold">{t.magnitude}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <!-- Empty state (shown by JS when no targets for month) -->
+          <p class="empty-state hidden py-10 text-center font-body text-[14px] text-ds-text-3"
+             data-table={table.id}>
+            No targets listed for this month.
+          </p>
+        </div>
+
+      </div>
+    </section>
+  ))}
+
+</Layout>
+
+<script define:vars={{ initialMonth: currentMonth.value }}>
+  // Filter all target rows by selected month
+  function filterByMonth(month) {
+    const monthNum = parseInt(month);
+
+    document.querySelectorAll('.target-row').forEach(row => {
+      const rowMonth = row.dataset.month;
+      // user_Month is 1-12; empty string means southern/unassigned — always show
+      const visible = rowMonth === '' || rowMonth === '0' || parseInt(rowMonth) === monthNum;
+      row.style.display = visible ? '' : 'none';
+    });
+
+    // Update counts per table
+    document.querySelectorAll('table[data-table]').forEach(table => {
+      const tableId = table.dataset.table;
+      const visibleRows = table.querySelectorAll('.target-row:not([style*="none"])');
+      const countEl = document.querySelector(`.count[data-table="${tableId}"]`);
+      if (countEl) countEl.textContent = visibleRows.length;
+
+      const emptyState = document.querySelector(`.empty-state[data-table="${tableId}"]`);
+      if (emptyState) {
+        emptyState.classList.toggle('hidden', visibleRows.length > 0);
+      }
+    });
+  }
+
+  // Init with current month
+  filterByMonth(initialMonth);
+
+  // Month select change
+  document.getElementById('month-select')?.addEventListener('change', (e) => {
+    filterByMonth(e.target.value);
+  });
+</script>

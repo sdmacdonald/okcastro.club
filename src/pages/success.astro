@@ -1,0 +1,108 @@
+---
+// src/pages/success.astro
+// Post-payment confirmation — reads ?item= URL param + localStorage member data.
+// Stripe redirects here after payment with ?payment_intent=... appended automatically.
+// We read ?item=membership|imaging to show the right copy.
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="Payment Confirmed">
+
+  <section class="relative text-center px-6 pt-24 pb-32 min-h-[80vh] flex flex-col items-center justify-center"
+    style="background: linear-gradient(to bottom, rgba(9,11,20,0.72), rgba(9,11,20,0.95)), url('/bg.jpg') center / cover no-repeat;">
+
+    <div class="text-[36px] mb-4 text-ds-gold" aria-hidden="true">✦</div>
+
+    <h1 id="success-heading"
+        class="font-display font-bold text-ds-text leading-[1.1] tracking-tight mb-4"
+        style="font-size: clamp(34px,5vw,60px)">
+      <!-- Populated by JS -->
+    </h1>
+
+    <p id="success-name"
+       class="font-body text-[16px] italic text-ds-text-2 mb-3 hidden">
+      <!-- Populated by JS -->
+    </p>
+
+    <p id="success-body"
+       class="font-body text-[16px] text-ds-text-2 max-w-[440px] mx-auto mb-8 leading-relaxed">
+      <!-- Populated by JS -->
+    </p>
+
+    <div id="success-actions" class="flex gap-3 justify-center flex-wrap">
+      <!-- Populated by JS -->
+    </div>
+
+    <!-- Fallback if JS fails -->
+    <noscript>
+      <h1 class="font-display font-bold text-ds-text text-[48px]">You're confirmed.</h1>
+      <p class="font-body text-ds-text/70 mt-4">Check your email for details.</p>
+      <a href="/" class="mt-6 inline-block text-ds-sky underline">← Back to home</a>
+    </noscript>
+
+  </section>
+
+</Layout>
+
+<script>
+  // Read URL params
+  const params = new URLSearchParams(window.location.search);
+  const item = params.get('item') || 'membership'; // 'membership' | 'imaging'
+
+  // Read stored member data
+  let member = {};
+  try {
+    member = JSON.parse(localStorage.getItem('otsp_member') || '{}');
+  } catch (_) {}
+
+  const firstName = member.name ? member.name.split(' ')[0] : null;
+
+  // Copy by item type
+  const copy = {
+    membership: {
+      heading: 'Welcome to the club.',
+      body: 'Your membership is confirmed. Check your email for details and your Astronomical League information. Clear skies ahead.',
+      cta: [
+        { label: 'Join our discussion board →', href: 'https://discourse.okcastro.club', primary: false },
+      ],
+    },
+    imaging: {
+      heading: 'Seat reserved.',
+      body: 'Your spot in the PixInsight Imaging Workshop is confirmed. Check your email for session details and location info. See you at Kenton.',
+      cta: [
+        { label: '← Back to home', href: '/', primary: false },
+      ],
+    },
+  };
+
+  const { heading, body, cta } = copy[item] || copy.membership;
+
+  // Populate heading
+  document.getElementById('success-heading').textContent = heading;
+
+  // Populate name
+  if (firstName) {
+    const nameEl = document.getElementById('success-name');
+    nameEl.textContent = `Welcome, ${firstName}.`;
+    nameEl.classList.remove('hidden');
+  }
+
+  // Populate body
+  document.getElementById('success-body').textContent = body;
+
+  // Populate actions
+  const actionsEl = document.getElementById('success-actions');
+  cta.forEach(({ label, href, primary }) => {
+    const a = document.createElement('a');
+    a.href = href;
+    a.textContent = label;
+    if (primary) {
+      a.className = 'btn-primary inline-block px-7 py-3 text-[15px] font-semibold rounded';
+    } else {
+      a.className = 'inline-block px-7 py-3 text-[15px] font-semibold rounded border border-white/20 text-ds-text hover:bg-white/[0.06] hover:border-white/35 transition-colors';
+    }
+    actionsEl.appendChild(a);
+  });
+
+  // Clear stored data after reading (single-use)
+  localStorage.removeItem('otsp_member');
+</script>
