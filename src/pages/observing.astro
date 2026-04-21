@@ -54,11 +54,11 @@ const currentMonth = getMonth(); // { value: number (1-12), month: string }
           </h2>
           {table.description.map((desc: string | { html: string }) => (
             typeof desc === 'string'
-              ? <p class="font-body text-[13px] text-ds-text-3 leading-relaxed mb-2" set:html={desc} />
-              : <p class="font-body text-[13px] text-ds-text-3 leading-relaxed mb-2" set:html={desc.html} />
+              ? <p class="font-body text-[13px] text-ds-text-2 leading-relaxed mb-2" set:html={desc} />
+              : <p class="font-body text-[13px] text-ds-text-2 leading-relaxed mb-2" set:html={desc.html} />
           ))}
-          <p class="font-body text-[11px] text-ds-text-3 mt-3">
-            Showing <span class="count font-semibold text-ds-text-2" data-table={table.id}>—</span> objects for selected month.
+          <p class="font-body text-[11px] text-ds-text-2 mt-3">
+            Showing <span class="count font-semibold text-ds-text" data-table={table.id}>—</span> objects for selected month.
           </p>
         </div>
 
