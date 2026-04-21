@@ -112,7 +112,8 @@ const price = getPrice();
           </select>
         </div>
 
-        <button type="submit" id="reg-submit" class="btn-primary w-full py-3 text-[15px] font-semibold rounded">
+        <button type="submit" id="reg-submit" data-price={price}
+                class="btn-primary w-full py-3 text-[15px] font-semibold rounded">
           Join Tonight for ${price}
         </button>
 
@@ -155,12 +156,13 @@ const price = getPrice();
 
 </Layout>
 
-<script define:vars={{ price }}>
+<script>
   // ── Registration form submit → create payment intent ──
   const regForm = document.getElementById('reg-form');
   const regError = document.getElementById('reg-error');
   const modal = document.getElementById('payment-modal');
   const modalClose = document.getElementById('modal-close');
+  const price = document.getElementById('reg-submit').dataset.price;
   let stripeElements = null;
 
   regForm?.addEventListener('submit', async (e) => {
