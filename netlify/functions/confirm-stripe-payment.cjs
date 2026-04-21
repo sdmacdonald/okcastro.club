@@ -20,7 +20,7 @@ exports.handler = async (event, context) => {
     endpointSecret
   );
 
-  if (stripeEvent.type === "payment_intent.succeeded") {
+  if (stripeEvent.type === "checkout.session.completed") {
     const { metadata } = stripeEvent.data.object;
     const name = metadata.name.split(" ");
     let msg;

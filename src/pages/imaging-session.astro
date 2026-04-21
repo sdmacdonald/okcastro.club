@@ -1,0 +1,139 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+---
+
+<Layout title="Okie-Tex PixInsight Imaging Session">
+  <Navigation slot="nav" />
+
+  <!-- Hero -->
+  <section class="segment-dark w-full max-w-3xl">
+    <h1 class="text-4xl xl:text-6xl">PixInsight Imaging Session — Intermediate Course.</h1>
+    <p class="text-sm font-semibold mt-3 tracking-widest uppercase" style="color: #9ea3b0;">Instructor: Jon Talbot</p>
+    <hr class="my-4 border-white/20" />
+    <p class="text-block">
+      This year's imaging session is an intermediate-level workshop designed for
+      astrophotographers who are ready to move beyond the basics.
+      <strong>Attendees must have PixInsight installed on their laptops before arriving</strong>
+      — once registration fills out, Jon will send detailed instructions on the datasets
+      and additional resources you'll need to download in advance.
+    </p>
+    <p class="text-block">
+      The course covers two core workflows for imaging with color CMOS cameras:
+    </p>
+    <p class="text-block text-left">
+      <strong>Part 1 — RGB Color Processing</strong><br />
+      Jon will walk through his complete workflow for processing a typical RGB color image
+      from start to finish. The techniques covered apply equally to mono and color cameras,
+      making this section valuable regardless of your imaging setup.
+    </p>
+    <p class="text-block text-left">
+      <strong>Part 2 — Narrowband + RGB with Color CMOS</strong><br />
+      This section digs into the specifics of combining RGB and narrowband data using a
+      color CMOS camera and dual narrowband filters — an increasingly popular approach
+      that comes with its own set of challenges. Jon will detail his full workflow using
+      the latest PixInsight tools, including an overview of what's new in the software
+      for handling all types of imaging data.
+    </p>
+    <p class="text-block italic" style="color: #9ea3b0;">Space is limited. Registration details coming soon.</p>
+  </section>
+
+  <!-- Registration card -->
+  <section class="segment-card w-full max-w-xl">
+    <h2 class="text-xl xl:text-2xl">Reserve your seat.</h2>
+    <hr class="my-4 border-white/20" />
+    <p class="my-4 text-sm" style="color: #9ea3b0;">
+      Each seat is $100 per person. You must be registered for the Okie-Tex
+      Star Party to attend.
+    </p>
+
+    <form id="imaging-form" name="imaging-session" class="text-left mt-4">
+      <input type="hidden" name="item" value="imaging-session" />
+
+      <div class="space-y-4">
+        <div>
+          <label class="form-label" for="name">Name:</label>
+          <input class="form-input" id="name" name="name" type="text" placeholder="Your name" required />
+        </div>
+
+        <div>
+          <label class="form-label" for="email">Email:</label>
+          <input class="form-input" id="email" name="email" type="email" placeholder="Your email" required />
+        </div>
+      </div>
+
+      <button class="btn-primary mt-6" id="submit-btn" type="submit">Sign Up</button>
+
+      <p class="mt-2 text-xs leading-relaxed" style="color: #5c6070;">
+        You must be an Okie-Tex 2025 registrant to join this class. If you haven't registered,
+        please do so at www.okie-tex.com
+      </p>
+    </form>
+  </section>
+
+  <!-- About Jon -->
+  <section class="segment-dark w-full max-w-3xl">
+    <h2 class="text-xl xl:text-2xl">About Jon Talbot.</h2>
+    <hr class="my-4 border-white/20" />
+    <p class="text-block">
+      Jon Talbot, formerly a Flight Meteorologist with the Air Force
+      Reserve's "Hurricane Hunters" at Keesler AFB, MS, contributed crucial
+      data to the National Hurricane Center over 34 years, navigating
+      through more than 150 Hurricanes and Tropical Cyclones.
+    </p>
+    <p class="text-block">
+      In retirement, his focus has shifted to astronomical imaging, a field
+      he entered in 1999 after acquiring a Meade 4" reflector telescope. His
+      engagement with astronomy deepened after upgrading his equipment and
+      constructing an observatory to house a computerized Meade 8"LX200 and
+      his first CCD camera in 2002. Now, Talbot employs advanced gear
+      including a Software Bisque Paramount MYT mount, Stellarvue
+      refractors, and a custom-made carbon fiber Newtonian astrograph for
+      his astrophotography.
+    </p>
+    <p class="text-block">
+      The challenge and satisfaction of capturing celestial images have been
+      a significant and rewarding part of his post-military life. Talbot is
+      a familiar face at the Okie-Tex Star Party, where his contributions
+      and experiences enrich the event. He has also been a keynote speaker
+      at the Texas Star Party, sharing his expertise and inspiring the
+      amateur astronomer community.
+    </p>
+    <p class="text-block">
+      Read more about Jon, and see some of his incredible astroimages at
+      <a href="http://starscapeimaging.com/" target="_blank" rel="noopener noreferrer">
+        his website ↗
+      </a>.
+    </p>
+  </section>
+</Layout>
+
+<script>
+  const form = document.getElementById('imaging-form') as HTMLFormElement;
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Processing…';
+
+    const data = Object.fromEntries(new FormData(form));
+
+    try {
+      const res = await fetch('/.netlify/functions/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) throw new Error('Request failed');
+
+      const { url } = await res.json();
+      window.location.href = url;
+    } catch (err) {
+      console.error(err);
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Sign Up';
+    }
+  });
+</script>

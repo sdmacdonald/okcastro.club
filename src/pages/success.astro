@@ -1,0 +1,82 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+---
+
+<Layout title="Thank You — Oklahoma City Astronomy Club">
+  <Navigation slot="nav" />
+
+  <section class="segment-dark w-full max-w-3xl text-center">
+    <img src="/okcac-logo__white.png" alt="OKCAC logo" class="w-64 mx-auto mb-6 opacity-90" />
+
+    <h1 id="thank-you-heading" class="text-4xl xl:text-6xl" style="color: #e8a020;">Thank you!</h1>
+    <hr class="my-4 border-white/20" />
+
+    <!-- Membership message -->
+    <div id="membership-msg" class="hidden pb-6 w-full space-y-4">
+      <p class="text-block">
+        Welcome to the club. A receipt has been emailed to you.
+        Our membership coordinator will be in touch with additional
+        information about your new membership.
+      </p>
+      <p class="text-block">
+        We look forward to meeting you and exploring the night sky together.
+      </p>
+      <p class="text-block">
+        Questions in the meantime? Reach us at
+        <a href="mailto:membership@okcastroclub.com">membership@okcastroclub.com</a>.
+      </p>
+    </div>
+
+    <!-- Imaging session message -->
+    <div id="imaging-msg" class="hidden pb-6 w-full space-y-4">
+      <p class="text-block">
+        You're all set for the Okie-Tex PixInsight Imaging Session.
+      </p>
+      <p class="text-block">
+        Make sure your Okie-Tex registration is current — Jon will send
+        dataset downloads and pre-work instructions as the star party
+        approaches. You'll need PixInsight installed on your laptop before
+        arriving.
+      </p>
+      <p class="text-block">
+        Questions? Send them to
+        <a href="mailto:payments@okie-tex.com">payments@okie-tex.com</a>.
+      </p>
+    </div>
+
+    <!-- Fallback -->
+    <div id="fallback-msg" class="hidden pb-6 w-full">
+      <p class="text-block" style="color: #9ea3b0;">
+        You may have reached this page in error. If you just completed a
+        registration, check your email for details — or reach out at
+        <a href="mailto:webmaster@okcastroclub.com">webmaster@okcastroclub.com</a>.
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const item = params.get('item');
+  const name = params.get('name');
+
+  const heading = document.getElementById('thank-you-heading');
+  const membershipMsg = document.getElementById('membership-msg');
+  const imagingMsg = document.getElementById('imaging-msg');
+  const fallbackMsg = document.getElementById('fallback-msg');
+
+  if (name && heading) {
+    const firstName = name.split(' ')[0];
+    heading.textContent = `Thank you, ${firstName}.`;
+  }
+
+  if (item === 'membership') {
+    membershipMsg?.classList.remove('hidden');
+  } else if (item === 'imaging-session') {
+    imagingMsg?.classList.remove('hidden');
+  } else {
+    fallbackMsg?.classList.remove('hidden');
+    if (heading) heading.textContent = 'Thank you.';
+  }
+</script>

@@ -1,0 +1,166 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+import { tables, text, monthOptions } from '../assets/data/observingTargets.js';
+import { getMonth } from '../assets/data/getDate.js';
+
+const { month: initialMonth, value: initialMonthValue } = getMonth();
+---
+
+<Layout
+  title="Night Sky Observing — Oklahoma City Astronomy Club"
+  bg="linear-gradient(rgba(13,15,24,0.85), rgba(13,15,24,0.65)), url('/M33-rod-gallagher.jpg')"
+>
+  <Navigation slot="nav" />
+
+  <!-- Hero / Controls -->
+  <section class="segment-dark w-full max-w-3xl">
+    <h1 id="month-heading" class="text-4xl xl:text-6xl">
+      Night Sky Observing: {initialMonth}
+    </h1>
+    <p class="text-sm font-semibold mt-3 tracking-widest uppercase" style="color: #9ea3b0;">
+      by Rod Gallagher, Master Observer
+    </p>
+
+    <div class="flex flex-wrap justify-center gap-4 my-6">
+      <!-- Jump to section -->
+      <select
+        id="section-select"
+        class="max-w-xs rounded px-3 py-2 text-sm font-semibold cursor-pointer border-0 transition-colors"
+        style="background: #e8a020; color: #0d0f18;"
+      >
+        <option value="">Jump to a list</option>
+        {tables.map((table) => (
+          <option value={table.id}>{table.title}</option>
+        ))}
+      </select>
+
+      <!-- Change month -->
+      <select
+        id="month-select"
+        class="max-w-xs rounded px-3 py-2 text-sm font-semibold cursor-pointer transition-colors"
+        style="background: #161b2e; color: #f0ece4; border: 1px solid rgba(255,255,255,0.2);"
+      >
+        <option value="">Change month</option>
+        {monthOptions.map((m) => (
+          <option value={m.value} data-month={m.month}>{m.month}</option>
+        ))}
+      </select>
+    </div>
+
+    {text.map((block) =>
+      typeof block === 'string'
+        ? <p class="text-block text-left">{block}</p>
+        : <p class="text-block text-left font-bold" set:html={block.html} />
+    )}
+  </section>
+
+  <!-- Table sections -->
+  {tables.map((table) => (
+    <section class="segment-card w-full max-w-5xl" id={table.id}>
+      <h2 class="text-xl xl:text-2xl">{table.title}</h2>
+      <hr class="my-4 border-white/20" />
+
+      {table.description.map((block: string | { html: string }) =>
+        typeof block === 'string'
+          ? <p class="text-block text-left">{block}</p>
+          : <p class="text-block text-left font-bold" set:html={block.html} />
+      )}
+
+      <div class="mt-4 overflow-x-auto rounded-md text-sm max-w-[300px] md:max-w-[725px] lg:max-w-none font-mono"
+        style="border: 1px solid rgba(255,255,255,0.10); box-shadow: 0 2px 8px rgba(0,0,0,0.4);">
+        <table class="w-full border-collapse">
+          <thead class="text-xs uppercase" style="background: #1c2340; color: #9ea3b0;">
+            <tr>
+              {table.title === 'Double Star Observing Program' && <th class="px-3 py-2 text-left">Id</th>}
+              <th class="px-3 py-2 text-left">Name</th>
+              <th class="px-3 py-2 text-left">Type</th>
+              <th class="px-3 py-2 text-left">RA</th>
+              <th class="px-3 py-2 text-left">Dec</th>
+              <th class="px-3 py-2 text-left">Magnitude</th>
+              {table.title === 'Messier Observing Program' && <th class="px-3 py-2 text-left">Binocular</th>}
+              {table.title !== 'Double Star Observing Program' && <th class="px-3 py-2 text-left">Image</th>}
+              {table.title === 'Double Star Observing Program' && (
+                <>
+                  <th class="px-3 py-2 text-left">Mag 2</th>
+                  <th class="px-3 py-2 text-left">Separation</th>
+                </>
+              )}
+            </tr>
+          </thead>
+          <tbody>
+            {table.targets.map((target: any) => (
+              <tr
+                class="target-row"
+                data-month={target.user_Month}
+                style="border-top: 1px solid rgba(255,255,255,0.07);"
+              >
+                <td class="px-3 py-2" style="color: #f0ece4;">{target.id}</td>
+                {table.title === 'Double Star Observing Program' && (
+                  <td class="px-3 py-2" style="color: #f0ece4;">
+                    {Array.isArray(target.name) ? target.name.join(', ') : target.name}
+                  </td>
+                )}
+                <td class="px-3 py-2" style="color: #9ea3b0;">{target.objecttype}</td>
+                <td class="px-3 py-2" style="color: #9ea3b0;">{target.ra}</td>
+                <td class="px-3 py-2" style="color: #9ea3b0;">{target.dec}</td>
+                <td class="px-3 py-2" style="color: #9ea3b0;">{target.magnitude}</td>
+                {table.title === 'Messier Observing Program' && (
+                  <td class="px-3 py-2" style="color: #9ea3b0;">{target.user_Binocular}</td>
+                )}
+                {table.title !== 'Double Star Observing Program' && (
+                  <td class="px-3 py-2">
+                    {target.user_ImageURL && (
+                      <a href={target.user_ImageURL} target="_blank" rel="noopener noreferrer" aria-label="View image">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4" style="color: #7ab4e0;">
+                          <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+                          <circle cx="9" cy="9" r="2"/>
+                          <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+                        </svg>
+                      </a>
+                    )}
+                  </td>
+                )}
+                {table.title === 'Double Star Observing Program' && (
+                  <>
+                    <td class="px-3 py-2" style="color: #9ea3b0;">{target.magnitude2}</td>
+                    <td class="px-3 py-2" style="color: #9ea3b0;">{target.separation}</td>
+                  </>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  ))}
+</Layout>
+
+<script define:vars={{ initialMonthValue }}>
+  function filterByMonth(monthValue) {
+    document.querySelectorAll('tr.target-row').forEach((row) => {
+      row.style.display = String(row.dataset.month) === String(monthValue) ? '' : 'none';
+    });
+  }
+
+  filterByMonth(initialMonthValue);
+
+  const monthSelect = document.getElementById('month-select');
+  const heading = document.getElementById('month-heading');
+
+  monthSelect?.addEventListener('change', (e) => {
+    const select = e.target;
+    const selectedOption = select.options[select.selectedIndex];
+    if (!select.value) return;
+    filterByMonth(parseInt(select.value));
+    if (heading) heading.textContent = `Night Sky Observing: ${selectedOption.dataset.month}`;
+  });
+
+  const sectionSelect = document.getElementById('section-select');
+  sectionSelect?.addEventListener('change', (e) => {
+    const id = e.target.value;
+    if (id) {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+</script>

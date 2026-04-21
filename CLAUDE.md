@@ -58,11 +58,11 @@ Never hardcode keys. All secrets live in `.env` (local, not committed) and Netli
 
 ## Content Workflow
 
-Page content lives in the Obsidian vault at `../obsidian-vault/content/` (relative to repo root). When updating page copy, read from those markdown files rather than editing JSX strings directly. The mapping is:
+Page content lives in the Obsidian vault at `../Obsidian/okietex/content/` (relative to repo root). When updating page copy, read from those markdown files rather than editing JSX strings directly. The mapping is:
 
-- `content/home.md` → `src/pages/` member registration page
-- `content/observing.md` → `src/pages/` observing guide page
-- `content/imaging.md` → `src/pages/` imaging session page
+- `content/home.md` → `src/pages/` member registration page *(file not yet created — extract from JSX first)*
+- `content/observing.md` → `src/pages/` observing guide page *(file not yet created — extract from JSX first)*
+- `content/imaging.md` → `src/pages/` imaging session page (draft exists as `PixInsight Imaging Session - Website Draft.md`)
 
 If a page component exists in `src/pages/` but has no corresponding file in `content/`, extract the page's display text and save it to the appropriate `content/*.md` file before making edits. Do not edit JSX string content directly.
 
@@ -71,6 +71,6 @@ If a page component exists in `src/pages/` but has no corresponding file in `con
 - Always validate Stripe webhook signatures in `confirm-stripe-payment.cjs` — never skip this
 - Netlify Functions are CommonJS (`.cjs`) — do not use ES module `import` syntax in them
 - `VITE_` prefix required for any env var accessed in React client code; never expose `STRIPE_SK` or `SENDGRID_API_KEY` to the client
-- `getPrice.js` is used in both frontend and Netlify function — changes affect both; test both sides
+- `getPrice.js` lives in `src/assets/data/` and is imported by the frontend. The Netlify function duplicates this logic — if prices change, update both `getPrice.js` and `create-payment-intent.cjs`
 - Chakra UI handles all layout via props — no separate CSS files; use Chakra's array syntax for responsive breakpoints
 - SendGrid is only called from Netlify Functions, never from client-side code

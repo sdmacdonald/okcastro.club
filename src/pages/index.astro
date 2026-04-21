@@ -1,0 +1,143 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+import { getPrice } from '../assets/data/getPrice.js';
+import { states } from '../assets/data/states.js';
+
+const price = getPrice();
+---
+
+<Layout title="Oklahoma City Astronomy Club — Join">
+  <Navigation slot="nav" />
+
+  <!-- Hero -->
+  <section class="segment-dark w-full max-w-3xl">
+    <h1 class="text-4xl xl:text-6xl">Explore the Night Sky with Us.</h1>
+    <hr class="my-4 border-white/20" />
+    <p class="text-block">
+      The Oklahoma City Astronomy Club has been helping metro area residents
+      observe the wonders and mysteries of our night sky since 1958. We use
+      telescopes, binoculars, cameras and our own eyes to observe and deepen
+      our understanding of the universe.
+    </p>
+  </section>
+
+  <!-- Registration card -->
+  <section class="segment-card w-full max-w-xl">
+    <h2 class="text-xl xl:text-2xl">New Member Registration</h2>
+    <hr class="my-4 border-white/20" />
+
+    <form id="register-form" name="register" class="text-left mt-4">
+      <input type="hidden" name="item" value="membership" />
+
+      <div class="space-y-4">
+        <div>
+          <label class="form-label" for="name">Name:</label>
+          <input class="form-input" id="name" name="name" type="text" placeholder="Leo Spaceman" required />
+        </div>
+
+        <div>
+          <label class="form-label" for="email">Email:</label>
+          <input class="form-input" id="email" name="email" type="email" placeholder="cosmo@example.com" required />
+        </div>
+
+        <hr class="border-white/10" />
+
+        <div>
+          <label class="form-label" for="address">Address:</label>
+          <input class="form-input" id="address" name="address" type="text" placeholder="A1A Beachfront Ave" />
+          <p class="mt-1 text-xs leading-relaxed" style="color: #9ea3b0;" id="address-helper">
+            Providing your address is optional and is used by the Astronomical
+            League to mail quarterly issues of
+            <a href="https://www.astroleague.org/reflector" target="_blank" rel="noopener noreferrer">The Reflector</a>.
+          </p>
+        </div>
+
+        <div>
+          <label class="form-label" for="city">City:</label>
+          <input class="form-input" id="city" name="city" type="text" placeholder="Oklahoma City" disabled />
+        </div>
+
+        <div class="flex gap-4 items-end">
+          <div class="flex-1">
+            <label class="form-label" for="state">State:</label>
+            <select class="form-select" id="state" name="state" disabled>
+              {states.map((s) => (
+                <option value={s}>{s}</option>
+              ))}
+            </select>
+          </div>
+          <div class="w-32">
+            <label class="form-label" for="zip">Zip:</label>
+            <input class="form-input" id="zip" name="zip" type="number" placeholder="73013" disabled />
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-primary mt-6" id="submit-btn" type="submit">
+        Join Tonight for ${price}
+      </button>
+
+      <p class="mt-2 text-xs leading-relaxed" style="color: #5c6070;">
+        Club dues are $36 and renew on April 1. Your first year of membership is
+        pro-rated. January - March are $36 + the pro-rated price (Online only).
+      </p>
+
+      <div class="mt-6 flex items-start gap-2 rounded p-3 text-xs" style="background: rgba(13,15,24,0.5); border-left: 3px solid #e8a020;">
+        <svg xmlns="http://www.w3.org/2000/svg" class="mt-0.5 h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke-width="2" style="stroke: #e8a020;">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <span style="color: #9ea3b0;">
+          Problems with this form? Let us know:
+          <a href="mailto:webmaster@okcastroclub.com" class="font-medium ml-1">webmaster@okcastroclub.com</a>
+        </span>
+      </div>
+    </form>
+  </section>
+</Layout>
+
+<script>
+  // Enable city/state/zip when address has a value
+  const addressInput = document.getElementById('address') as HTMLInputElement;
+  const dependentFields = ['city', 'state', 'zip'].map(
+    (id) => document.getElementById(id) as HTMLInputElement | HTMLSelectElement
+  );
+
+  addressInput?.addEventListener('input', () => {
+    const hasAddress = addressInput.value.trim().length > 0;
+    dependentFields.forEach((el) => {
+      el.disabled = !hasAddress;
+    });
+  });
+
+  // Form submission — POST to Netlify function, redirect to Stripe Checkout
+  const form = document.getElementById('register-form') as HTMLFormElement;
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Processing…';
+
+    const data = Object.fromEntries(new FormData(form));
+
+    try {
+      const res = await fetch('/.netlify/functions/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) throw new Error('Request failed');
+
+      const { url } = await res.json();
+      window.location.href = url;
+    } catch (err) {
+      console.error(err);
+      submitBtn.disabled = false;
+      submitBtn.textContent = `Join Tonight for $${price}`;
+    }
+  });
+</script>
