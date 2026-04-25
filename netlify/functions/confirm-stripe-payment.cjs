@@ -109,7 +109,7 @@ async function sendImagingConfirmation({ name, email, amount }) {
       `Your seat in the Okie-Tex PixInsight Imaging Workshop is confirmed. Payment of $${dollars} received.`,
       ``,
       `Workshop details:`,
-      `  Dates:    Sunday–Monday, September 21–22`,
+      `  Dates:    Sunday–Monday, October 11`,
       `  Location: Kenton Senior Center, Kenton, OK`,
       `  Time:     10am–4:30pm CT (lunch break included)`,
       ``,
