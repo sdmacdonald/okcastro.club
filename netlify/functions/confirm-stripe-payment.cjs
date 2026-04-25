@@ -1,47 +1,42 @@
-// netlify/functions/confirm-stripe-payment.cjs
-// Stripe webhook handler — fires on payment_intent.succeeded.
-// Validates the webhook signature, then sends a SendGrid confirmation email.
-//
-// ENV VARS REQUIRED:
-//   STRIPE_SK                   — Stripe secret key
-//   STRIPE_ES                   — Stripe webhook signing secret (from Stripe dashboard)
-//   SENDGRID_API_KEY            — SendGrid API key
-//   SENDGRID_FROM               — From address for membership emails (e.g. "OKCAC <noreply@okcastroclub.com>")
-//   SENDGRID_FROM_OTSP          — From address for OTSP/imaging emails
-//   SENDGRID_BCC                — BCC address (club treasurer/admin)
-//   SENDGRID_MEMBERSHIP         — SendGrid template ID for membership confirmation
-//   SENDGRID_ERROR_RECIPIENT    — Address to notify on webhook errors
-
 'use strict';
 
 const stripe = require('stripe')(process.env.STRIPE_SK);
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
+const MEMBERSHIP_TEMPLATE_ID = '953aa278a8f34d2a9f85b9ed0622ca4d';
+const IMAGING_TEMPLATE_ID = '391abf270f1742699767e84fbded8084';
+
+function getRawBody(event) {
+  if (event.isBase64Encoded && typeof event.body === 'string') {
+    return Buffer.from(event.body, 'base64').toString('utf8');
+  }
+  return event.body;
+}
+
+function formatDollars(amount) {
+  const n = Number(amount);
+  if (!Number.isFinite(n) || n <= 0) return null;
+  return (n / 100).toFixed(2);
+}
+
 exports.handler = async (event) => {
-  // Only accept POST from Stripe
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method not allowed' };
   }
 
-  // ── Validate Stripe webhook signature ──────────────────────
-  const sig = event.headers['stripe-signature'];
+  const sig = event.headers && (event.headers['stripe-signature'] || event.headers['Stripe-Signature']);
+  const rawBody = getRawBody(event);
   let stripeEvent;
 
   try {
-    stripeEvent = stripe.webhooks.constructEvent(
-      event.body,
-      sig,
-      process.env.STRIPE_ES
-    );
+    stripeEvent = stripe.webhooks.constructEvent(rawBody, sig, process.env.STRIPE_ES);
   } catch (err) {
-    console.error('Webhook signature verification failed:', err.message);
-    // Notify admin of bad signature (possible replay attack or misconfiguration)
-    await notifyError(`Webhook signature failed: ${err.message}`).catch(() => {});
-    return { statusCode: 400, body: `Webhook Error: ${err.message}` };
+    console.error('Webhook signature verification failed:', err && err.message);
+    await notifyError(`Webhook signature failed: ${err && err.message}`).catch(() => {});
+    return { statusCode: 400, body: `Webhook Error: ${err && err.message}` };
   }
 
-  // ── Handle payment_intent.succeeded ───────────────────────
   if (stripeEvent.type === 'payment_intent.succeeded') {
     const pi = stripeEvent.data.object;
     const { item, name, email, amount } = pi.metadata || {};
@@ -51,73 +46,46 @@ exports.handler = async (event) => {
       return { statusCode: 200, body: 'OK (no email)' };
     }
 
+    const dollars = formatDollars(amount);
+    if (!dollars) {
+      console.warn('Missing or invalid amount in PaymentIntent metadata — skipping send.');
+      return { statusCode: 200, body: 'OK (no amount)' };
+    }
+
     try {
       if (item === 'imaging-session') {
-        await sendImagingConfirmation({ name, email, amount });
+        await sendImagingConfirmation({ name, email, amount, item, dollars });
       } else {
-        // Default: membership
-        await sendMembershipConfirmation({ name, email, amount });
+        await sendMembershipConfirmation({ name, email, amount, item, dollars });
       }
     } catch (err) {
-      console.error('SendGrid error:', err.message);
-      await notifyError(`SendGrid failed for ${email}: ${err.message}`).catch(() => {});
-      // Return 200 so Stripe doesn't retry — email failure is non-fatal for payment record
+      console.error('SendGrid error:', err && err.message);
+      await notifyError(`SendGrid failed for ${email}: ${err && err.message}`).catch(() => {});
     }
+  } else {
+    console.log(`Ignoring event type: ${stripeEvent.type}`);
   }
 
   return { statusCode: 200, body: 'OK' };
 };
 
-// ── Email senders ──────────────────────────────────────────
-
-async function sendMembershipConfirmation({ name, email, amount }) {
-  const dollars = (parseInt(amount) / 100).toFixed(2);
-  const msg = {
+async function sendMembershipConfirmation({ name, email, amount, item, dollars }) {
+  await sgMail.send({
     to: email,
     from: process.env.SENDGRID_FROM,
     bcc: process.env.SENDGRID_BCC,
-    templateId: process.env.SENDGRID_MEMBERSHIP,
-    dynamicTemplateData: {
-      name,
-      amount: dollars,
-      club: 'Oklahoma City Astronomy Club',
-    },
-    // Plain text fallback if no template configured
-    subject: 'Welcome to the Oklahoma City Astronomy Club!',
-    text: `Hi ${name},\n\nThank you for joining the Oklahoma City Astronomy Club! Your payment of $${dollars} has been received.\n\nClear skies,\nOKCAC`,
-  };
-
-  // Use template if ID configured, otherwise send plain message
-  if (!process.env.SENDGRID_MEMBERSHIP) {
-    delete msg.templateId;
-    delete msg.dynamicTemplateData;
-  }
-
-  await sgMail.send(msg);
+    templateId: MEMBERSHIP_TEMPLATE_ID,
+    dynamicTemplateData: { name, email, item, amount, dollars },
+  });
 }
 
-async function sendImagingConfirmation({ name, email, amount }) {
-  const dollars = (parseInt(amount) / 100).toFixed(2);
+async function sendImagingConfirmation({ name, email, amount, item, dollars }) {
   await sgMail.send({
     to: email,
     from: process.env.SENDGRID_FROM_OTSP || process.env.SENDGRID_FROM,
     bcc: process.env.SENDGRID_BCC,
-    subject: 'Your Okie-Tex PixInsight Workshop seat is confirmed!',
-    text: [
-      `Hi ${name},`,
-      ``,
-      `Your seat in the Okie-Tex PixInsight Imaging Workshop is confirmed. Payment of $${dollars} received.`,
-      ``,
-      `Workshop details:`,
-      `  Dates:    Sunday–Monday, October 11`,
-      `  Location: Kenton Senior Center, Kenton, OK`,
-      `  Time:     10am–4:30pm CT (lunch break included)`,
-      ``,
-      `You must be registered for the Okie-Tex Star Party to attend.`,
-      ``,
-      `Clear skies,`,
-      `Okie-Tex Star Party`,
-    ].join('\n'),
+    templateId: IMAGING_TEMPLATE_ID,
+    dynamicTemplateData: { name, email, item, amount, dollars },
   });
 }
 
@@ -131,3 +99,6 @@ async function notifyError(message) {
     text: message,
   });
 }
+
+module.exports.getRawBody = getRawBody;
+module.exports.formatDollars = formatDollars;

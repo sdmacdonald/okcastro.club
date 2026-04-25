@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+.astro
 firebaseConfig.js
 *.local
 
@@ -27,3 +28,7 @@ firebaseConfig.js
 
 # Local Netlify folder
 .netlify
+
+# Claude Code
+CLAUDE.md
+.claude/
