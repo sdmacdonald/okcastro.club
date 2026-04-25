@@ -21,14 +21,6 @@
 - `/imaging-session` — Okie-Tex PixInsight Workshop registration + payment
 - `/success` — Post-payment confirmation
 
-## Key env vars (Netlify dashboard + local `.env`)
-
-- `STRIPE_SK` — Stripe secret key
-- `PUBLIC_STRIPE_PK` — Stripe publishable key (client-safe, `PUBLIC_` prefix required for Astro)
-- `STRIPE_ES` — Stripe webhook signing secret
-- `SENDGRID_API_KEY`, `SENDGRID_FROM`, `SENDGRID_FROM_OTSP`, `SENDGRID_BCC`, `SENDGRID_MEMBERSHIP`, `SENDGRID_ERROR_RECIPIENT`
-
 ## Contact
 
-Danny MacDonald, newsletter editor, Oklahoma City Astronomy Club
-editor@okcastroclub.com
+webmaster@okcastroclub.com
