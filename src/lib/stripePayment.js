@@ -13,6 +13,23 @@ export function initPayment({
   const errorEl = document.getElementById(errorId);
   const modal = document.getElementById('payment-modal');
   const modalClose = document.getElementById('modal-close');
+  const paymentForm = document.getElementById('payment-form');
+
+  let session = null;
+
+  function tearDown() {
+    if (!session) return;
+    try { session.paymentEl.unmount(); } catch (_) {}
+    paymentForm.removeEventListener('submit', session.payHandler);
+    session = null;
+  }
+
+  function closeModal() {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    tearDown();
+    localStorage.removeItem('otsp_member');
+  }
 
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -20,6 +37,8 @@ export function initPayment({
     submitBtn.disabled = true;
     submitBtn.textContent = 'Processing…';
     errorEl.classList.add('hidden');
+
+    tearDown();
 
     const data = { ...collectData(form), item };
 
@@ -55,7 +74,7 @@ export function initPayment({
       modal.classList.add('flex');
       paymentEl.mount('#payment-element');
 
-      document.getElementById('payment-form').addEventListener('submit', async (ev) => {
+      const payHandler = async (ev) => {
         ev.preventDefault();
         const paySubmit = document.getElementById('payment-submit');
         paySubmit.disabled = true;
@@ -75,7 +94,10 @@ export function initPayment({
           paySubmit.disabled = false;
           paySubmit.textContent = payLabel;
         }
-      }, { once: true });
+      };
+
+      paymentForm.addEventListener('submit', payHandler);
+      session = { paymentEl, payHandler };
     } catch (err) {
       errorEl.textContent = err.message;
       errorEl.classList.remove('hidden');
@@ -85,8 +107,5 @@ export function initPayment({
     }
   });
 
-  modalClose?.addEventListener('click', () => {
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-  });
+  modalClose?.addEventListener('click', closeModal);
 }
