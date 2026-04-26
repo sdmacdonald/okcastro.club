@@ -110,20 +110,4 @@
   .btn-primary:active:not(:disabled) {
     transform: scale(0.98);
   }
-  .segment-dark {
-    @apply p-10 mx-3 my-6 text-center rounded-lg;
-    background: #161b2e;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
-  }
-  .segment-card {
-    @apply p-10 mx-3 my-6 text-center rounded-lg;
-    background: #1c2340;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
-  }
-  .text-block {
-    @apply text-sm xl:text-base leading-loose mx-8 my-4 block;
-    color: #f0ece4;
-  }
 }

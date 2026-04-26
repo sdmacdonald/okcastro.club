@@ -1,14 +1,5 @@
-// netlify/functions/create-checkout-session.cjs
 // Creates a Stripe PaymentIntent and returns clientSecret to the client.
 // Handles membership and imaging-session items.
-//
-// ENV VARS (set in Netlify dashboard + local .env):
-//   STRIPE_SK        — Stripe secret key (server-side only)
-//
-// NOTE: Astro client env vars use PUBLIC_ prefix.
-//   Update your .env and Netlify env:
-//     OLD: VITE_STRIPE_PK  →  NEW: PUBLIC_STRIPE_PK
-//     OLD: VITE_BASE_URL   →  no longer needed (relative fetch paths work in Astro)
 
 'use strict';
 

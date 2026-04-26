@@ -1,7 +1,5 @@
 import { describe, it, expect, vi, afterEach, beforeAll } from 'vitest';
 
-vi.mock('dotenv', () => ({ config: vi.fn() }));
-
 let getMembershipPrice, MEMBERSHIP_PRICES, handler;
 beforeAll(async () => {
   const mod = await import('../netlify/functions/create-checkout-session.cjs');
@@ -92,10 +90,6 @@ describe('imaging-session form fields', () => {
     expect(payload).toHaveProperty('name');
     expect(payload).toHaveProperty('email');
     expect(payload.item).toBe('imaging-session');
-  });
-
-  it('imaging-session price is $100 (10000 cents)', () => {
-    expect(100 * 100).toBe(10000);
   });
 });
 
