@@ -15,13 +15,18 @@ export function initPayment({
   const modalClose = document.getElementById('modal-close');
   const paymentForm = document.getElementById('payment-form');
 
-  let session = null;
+  let active = null;
 
   function tearDown() {
-    if (!session) return;
-    try { session.paymentEl.unmount(); } catch (_) {}
-    paymentForm.removeEventListener('submit', session.payHandler);
-    session = null;
+    if (!active) return;
+    active.aborted = true;
+    if (active.paymentEl) {
+      try { active.paymentEl.unmount(); } catch (_) {}
+    }
+    if (active.payHandler) {
+      paymentForm.removeEventListener('submit', active.payHandler);
+    }
+    active = null;
   }
 
   function closeModal() {
@@ -39,6 +44,8 @@ export function initPayment({
     errorEl.classList.add('hidden');
 
     tearDown();
+    const attempt = { aborted: false };
+    active = attempt;
 
     const data = { ...collectData(form), item };
 
@@ -48,8 +55,10 @@ export function initPayment({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
+      if (attempt.aborted) return;
       if (!res.ok) throw new Error((await res.json()).error || 'Payment setup failed.');
       const { clientSecret, metadata } = await res.json();
+      if (attempt.aborted) return;
 
       localStorage.setItem('otsp_member', JSON.stringify({ ...data, amount: metadata.amount }));
 
@@ -69,11 +78,15 @@ export function initPayment({
         },
       });
       const paymentEl = elements.create('payment');
+      attempt.paymentEl = paymentEl;
 
       modal.classList.remove('hidden');
       modal.classList.add('flex');
       paymentEl.mount('#payment-element');
-      paymentEl.on('ready', () => paymentEl.focus());
+      paymentEl.on('ready', () => {
+        if (attempt.aborted) return;
+        paymentEl.focus();
+      });
 
       const payHandler = async (ev) => {
         ev.preventDefault();
@@ -96,10 +109,13 @@ export function initPayment({
           paySubmit.textContent = payLabel;
         }
       };
-
+      attempt.payHandler = payHandler;
       paymentForm.addEventListener('submit', payHandler);
-      session = { paymentEl, payHandler };
     } catch (err) {
+      if (attempt.aborted) {
+        console.warn('Payment setup aborted by user; suppressed:', err && err.message);
+        return;
+      }
       errorEl.textContent = err.message;
       errorEl.classList.remove('hidden');
     } finally {
