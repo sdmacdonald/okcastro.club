@@ -1,0 +1,40 @@
+---
+interface Props {
+  subtitle: string;
+  subtitleClass?: string;
+  closeButtonClass?: string;
+  submitClass: string;
+  submitLabel: string;
+}
+const {
+  subtitle,
+  subtitleClass = 'text-ds-text-2',
+  closeButtonClass = 'text-ds-text-2 hover:text-ds-text',
+  submitClass,
+  submitLabel,
+} = Astro.props;
+---
+<div id="payment-modal"
+     class="fixed inset-0 z-[200] hidden items-center justify-center p-4"
+     style="background: rgba(9,11,20,0.85); backdrop-filter: blur(4px);">
+  <div class="bg-ds-surface border border-white/[0.09] rounded-lg shadow-[0_8px_48px_rgba(0,0,0,0.7)]
+              w-full max-w-md p-8">
+    <div class="flex items-start justify-between mb-6">
+      <div>
+        <h3 class="font-display font-bold text-ds-text text-[22px] leading-tight">Complete payment</h3>
+        <p class:list={['font-body text-[13px] mt-1', subtitleClass]}>{subtitle}</p>
+      </div>
+      <button id="modal-close" type="button" aria-label="Close"
+              class:list={[closeButtonClass, 'transition-colors mt-1']}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <form id="payment-form">
+      <div id="payment-element" class="mb-5"></div>
+      <div id="payment-error" class="hidden mb-4 text-[13px] text-ds-pink"></div>
+      <button type="submit" id="payment-submit" class={submitClass}>{submitLabel}</button>
+    </form>
+  </div>
+</div>
