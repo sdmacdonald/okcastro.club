@@ -73,6 +73,7 @@ export function initPayment({
       modal.classList.remove('hidden');
       modal.classList.add('flex');
       paymentEl.mount('#payment-element');
+      paymentEl.on('ready', () => paymentEl.focus());
 
       const payHandler = async (ev) => {
         ev.preventDefault();
