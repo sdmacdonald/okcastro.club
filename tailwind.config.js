@@ -16,6 +16,7 @@ export default {
           'pink':    '#e8608a',
           'sky':     '#7ab4e0',
           'sky-h':   '#a8d4f0',
+          'otsp':    '#4a90c4',
           'text':    '#f0ece4',
           'text-2':  '#9ea3b0',
           'text-3':  '#5c6070',

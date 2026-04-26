@@ -15,13 +15,13 @@ import Hero from '../components/Hero.astro';
       PixInsight Imaging Session<br>
       <span style="font-size: clamp(20px,3vw,36px); opacity:0.75">Intermediate Course</span>
     </h1>
-    <p class="font-body text-[14px] font-semibold uppercase tracking-widest" style="color:#9ea3b0">
+    <p class="font-body text-[14px] font-semibold uppercase tracking-widest text-ds-text-2">
       Presented by Jon Talbot
     </p>
   </Hero>
 
   <!-- ── Two-column: info + form ────────────────────────────── -->
-  <section class="py-20 px-6" style="background:#111421">
+  <section class="bg-ds-raised py-20 px-6">
     <div class="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
 
       <!-- Info column -->
@@ -42,7 +42,7 @@ import Hero from '../components/Hero.astro';
             The course covers two core workflows for imaging with color CMOS cameras:
           </p>
           <div>
-            <p class="font-body text-[10px] font-bold uppercase tracking-[0.1em] mb-2" style="color:#7ab4e0">Part 1: RGB Color Processing</p>
+            <p class="font-body text-[10px] font-bold uppercase tracking-[0.1em] mb-2 text-ds-sky">Part 1: RGB Color Processing</p>
             <p class="font-body text-[14px] text-ds-text-2 leading-[1.75]">
               Jon will walk through his complete workflow for processing a typical RGB color image
               from start to finish. The techniques covered apply equally to mono and color cameras,
@@ -50,7 +50,7 @@ import Hero from '../components/Hero.astro';
             </p>
           </div>
           <div>
-            <p class="font-body text-[10px] font-bold uppercase tracking-[0.1em] mb-2" style="color:#7ab4e0">Part 2: Narrowband + RGB with Color CMOS</p>
+            <p class="font-body text-[10px] font-bold uppercase tracking-[0.1em] mb-2 text-ds-sky">Part 2: Narrowband + RGB with Color CMOS</p>
             <p class="font-body text-[14px] text-ds-text-2 leading-[1.75]">
               This section digs into the specifics of combining RGB and narrowband data using a
               color CMOS camera and dual narrowband filters, an increasingly popular approach
@@ -66,7 +66,7 @@ import Hero from '../components/Hero.astro';
 
         <hr class="border-white/[0.08] mb-6" />
 
-        <p class="font-body text-[10px] font-bold uppercase tracking-[0.1em] mb-3" style="color:#7ab4e0">
+        <p class="font-body text-[10px] font-bold uppercase tracking-[0.1em] mb-3 text-ds-sky">
           About the Instructor
         </p>
         <p class="font-body text-[14px] text-ds-text leading-[1.75] mb-3">
@@ -76,14 +76,13 @@ import Hero from '../components/Hero.astro';
           speaker at the Texas Star Party.
         </p>
         <a href="http://starscapeimaging.com/" target="_blank" rel="noreferrer"
-           class="font-body text-[13px] underline underline-offset-2 transition-colors"
-           style="color:#7ab4e0">
+           class="font-body text-[13px] underline underline-offset-2 transition-colors text-ds-sky">
           starscapeimaging.com ↗
         </a>
       </div>
 
       <!-- Form column -->
-      <div class="rounded-lg p-8" style="background:#161b2e; border:1px solid rgba(255,255,255,0.1)">
+      <div class="rounded-lg p-8 bg-ds-surface border border-white/10">
         <h2 class="font-display font-bold text-ds-text text-[clamp(20px,2.5vw,26px)] tracking-tight mb-1">
           Reserve Your Seat
         </h2>
@@ -93,24 +92,20 @@ import Hero from '../components/Hero.astro';
 
         <form id="imaging-form" novalidate>
           <div class="mb-4">
-            <label class="form-label" for="img-name">Full Name <span style="color:#e8608a">*</span></label>
+            <label class="form-label" for="img-name">Full Name <span class="text-ds-pink">*</span></label>
             <input id="img-name" name="name" type="text" class="form-input"
                    placeholder="Leo Spaceman" required autocomplete="name" />
           </div>
           <div class="mb-6">
-            <label class="form-label" for="img-email">Email Address <span style="color:#e8608a">*</span></label>
+            <label class="form-label" for="img-email">Email Address <span class="text-ds-pink">*</span></label>
             <input id="img-email" name="email" type="email" class="form-input"
                    placeholder="cosmo@example.com" required autocomplete="email" />
           </div>
           <button type="submit" id="img-submit"
-                  class="w-full py-3 text-[15px] font-semibold rounded font-body transition-colors"
-                  style="background:#4a90c4; color:#f0ece4">
+                  class="bg-ds-otsp text-ds-text w-full py-3 text-[15px] font-semibold rounded font-body transition-colors">
             Reserve Seat — $100
           </button>
-          <div id="img-error"
-               class="hidden mt-3 p-3 rounded border text-[13px]"
-               style="border-color:rgba(232,96,138,0.4);background:rgba(232,96,138,0.1);color:#e8608a">
-          </div>
+          <div id="img-error" class="hidden mt-3 p-3 rounded border border-ds-pink/40 bg-ds-pink/10 text-ds-pink text-[13px]"></div>
         </form>
       </div>
 
@@ -139,8 +134,7 @@ import Hero from '../components/Hero.astro';
         <div id="payment-element" class="mb-5"></div>
         <div id="payment-error" class="hidden mb-4 text-[13px] text-ds-pink"></div>
         <button type="submit" id="payment-submit"
-                class="w-full py-3 text-[15px] font-semibold rounded font-body"
-                style="background:#4a90c4; color:#f0ece4">
+                class="bg-ds-otsp text-ds-text w-full py-3 text-[15px] font-semibold rounded font-body">
           Pay $100
         </button>
       </form>
