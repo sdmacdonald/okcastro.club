@@ -29,5 +29,8 @@ firebaseConfig.js
 # Local Netlify folder
 .netlify
 
-# Claude Code — track shared project config; ignore user-local overrides
+# Claude Code — track shared project config; ignore user-local overrides and skill caches
 .claude/settings.local.json
+.claude/skills/
+.agents/
+deno.lock

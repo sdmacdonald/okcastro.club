@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `netlify dev` — runs Astro + Netlify Functions together; required for testing payment flows end-to-end
 - `npm run build` — production build to `dist/`
 - `npm test` — runs Vitest once (no watch). Use `npx vitest <file>` to run a single test file, or `npx vitest -t "<name>"` to filter by test name.
-- Node 20 (see `.nvmrc`)
+- Node 24 (see `.nvmrc` and `netlify.toml`)
 
 ## Architecture
 
