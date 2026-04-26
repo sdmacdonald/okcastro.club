@@ -61,7 +61,10 @@ Astro file-based routing in `src/pages/`:
 
 All pages share `src/layouts/Layout.astro`, which loads Stripe.js globally so payment pages don't need their own script tag.
 
+## Conventions
+
+- **Omit comments.** Prefer well-named identifiers and self-explanatory code. Only add a comment when the WHY is non-obvious — a hidden constraint, a subtle invariant, or a workaround for a specific bug. Don't write comments that restate what the code does.
+
 ## Notes
 
-- `CLAUDE.md` and `.claude/` are gitignored — this file is local-only.
-- `vite.config.js` is leftover from a pre-Astro era and isn't used by the Astro build; don't rely on it.
+- `CLAUDE.md` and `.claude/` are tracked by git (intentional — these belong to the repo). Only `.claude/settings.local.json` stays ignored as a per-user override.
