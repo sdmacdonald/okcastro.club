@@ -2,6 +2,7 @@
 // src/pages/observing.astro
 // Night Sky Observing Guide
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
 import { tables, text, monthOptions } from '../assets/data/observingTargets.js';
 import { getMonth } from '../assets/data/getDate.js';
 
@@ -10,9 +11,7 @@ const currentMonth = getMonth(); // { value: number (1-12), month: string }
 <Layout title="Night Sky Observing Guide">
 
   <!-- ── Hero ──────────────────────────────────────────────── -->
-  <section class="relative text-center px-6 pt-20 pb-16"
-    style="background: linear-gradient(to bottom, rgba(9,11,20,0.6) 0%, rgba(9,11,20,0.9) 100%), url('/M33-rod-gallagher.jpg') center / cover no-repeat;">
-
+  <Hero image="/M33-rod-gallagher.jpg">
     <p class="font-body text-[11px] font-bold uppercase tracking-[0.14em] text-ds-gold mb-4">Deep Sky Guide</p>
     <h1 class="font-display font-bold text-ds-text leading-[1.1] tracking-tight mb-3"
         style="font-size: clamp(34px,5vw,60px)">
@@ -29,7 +28,7 @@ const currentMonth = getMonth(); // { value: number (1-12), month: string }
         <option value={m.value} selected={m.value === currentMonth.value}>{m.month}</option>
       ))}
     </select>
-  </section>
+  </Hero>
 
   <!-- ── Intro text ─────────────────────────────────────────── -->
   <section class="bg-ds-raised py-10 px-6">

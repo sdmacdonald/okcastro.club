@@ -2,13 +2,12 @@
 // src/pages/imaging-session.astro
 // Okie-Tex PixInsight Imaging Workshop registration
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
 ---
 <Layout title="PixInsight Imaging Workshop — Okie-Tex Star Party">
 
   <!-- ── Hero ──────────────────────────────────────────────── -->
-  <section class="relative text-center px-6 pt-20 pb-16"
-    style="background: linear-gradient(to bottom, rgba(9,11,20,0.55) 0%, rgba(9,11,20,0.88) 100%), url('/bg.jpg') center / cover no-repeat;">
-
+  <Hero image="/bg.jpg" overlay={[0.55, 0.88]}>
     <img src="/otsp-logo__white.png" alt="Okie-Tex Star Party"
          class="mx-auto" style="height:220px; opacity:0.95; margin-bottom:-16px" />
     <h1 class="font-display font-bold text-ds-text leading-[1.1] tracking-tight mb-3"
@@ -19,7 +18,7 @@ import Layout from '../layouts/Layout.astro';
     <p class="font-body text-[14px] font-semibold uppercase tracking-widest" style="color:#9ea3b0">
       Presented by Jon Talbot
     </p>
-  </section>
+  </Hero>
 
   <!-- ── Two-column: info + form ────────────────────────────── -->
   <section class="py-20 px-6" style="background:#111421">

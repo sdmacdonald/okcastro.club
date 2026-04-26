@@ -4,12 +4,11 @@
 // Stripe redirects here after payment with ?payment_intent=... appended automatically.
 // We read ?item=membership|imaging to show the right copy.
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
 ---
 <Layout title="Payment Confirmed">
 
-  <section class="relative text-center px-6 pt-24 pb-32 min-h-[80vh] flex flex-col items-center justify-center"
-    style="background: linear-gradient(to bottom, rgba(9,11,20,0.72), rgba(9,11,20,0.95)), url('/bg.jpg') center / cover no-repeat;">
-
+  <Hero image="/bg.jpg" overlay={[0.72, 0.95]} class="pt-24 pb-32 px-6 min-h-[80vh] flex flex-col items-center justify-center">
     <div class="text-[36px] mb-4 text-ds-gold" aria-hidden="true">✦</div>
 
     <h1 id="success-heading"
@@ -38,8 +37,7 @@ import Layout from '../layouts/Layout.astro';
       <p class="font-body text-ds-text/70 mt-4">Check your email for details.</p>
       <a href="/" class="mt-6 inline-block text-ds-sky underline">← Back to home</a>
     </noscript>
-
-  </section>
+  </Hero>
 
 </Layout>
 

@@ -2,6 +2,7 @@
 // src/pages/index.astro
 // Home / New Member Registration
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
 import { getPrice } from '../assets/data/getPrice.js';
 import { states } from '../assets/data/states.js';
 
@@ -10,9 +11,7 @@ const price = getPrice();
 <Layout title="Join the Oklahoma City Astronomy Club">
 
   <!-- ── Hero ──────────────────────────────────────────────── -->
-  <section class="relative text-center px-6 pt-24 pb-20"
-    style="background: linear-gradient(to bottom, rgba(9,11,20,0.55) 0%, rgba(9,11,20,0.88) 100%), url('/bg.jpg') center 40% / cover no-repeat;">
-
+  <Hero image="/bg.jpg" position="center 40%" overlay={[0.55, 0.88]} class="pt-24 pb-20 px-6">
     <img src="/okcac-logo__white.png" alt="Oklahoma City Astronomy Club"
          class="h-16 mx-auto mb-6 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]" />
 
@@ -33,7 +32,7 @@ const price = getPrice();
         Night Sky Observing
       </a>
     </div>
-  </section>
+  </Hero>
 
   <!-- ── Stats strip ────────────────────────────────────────── -->
   <section class="bg-ds-raised py-12 px-6">

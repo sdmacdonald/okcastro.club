@@ -1,0 +1,19 @@
+---
+interface Props {
+  image: string;
+  overlay?: [number, number];
+  position?: string;
+  class?: string;
+}
+const {
+  image,
+  overlay = [0.6, 0.9],
+  position = 'center',
+  class: className = 'pt-20 pb-16 px-6',
+} = Astro.props;
+const [top, bottom] = overlay;
+const background = `linear-gradient(to bottom, rgba(9,11,20,${top}) 0%, rgba(9,11,20,${bottom}) 100%), url('${image}') ${position} / cover no-repeat`;
+---
+<section class={`relative text-center ${className}`} style={`background: ${background};`}>
+  <slot />
+</section>
