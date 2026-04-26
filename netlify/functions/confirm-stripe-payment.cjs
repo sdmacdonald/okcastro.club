@@ -1,19 +1,18 @@
 'use strict';
 
-let _stripe;
-let _sgMail;
+const _clients = { stripe: null, sgMail: null };
 
 function getStripe() {
-  if (!_stripe) _stripe = require('stripe')(process.env.STRIPE_SK);
-  return _stripe;
+  if (!_clients.stripe) _clients.stripe = require('stripe')(process.env.STRIPE_SK);
+  return _clients.stripe;
 }
 
 function getSendGrid() {
-  if (!_sgMail) {
-    _sgMail = require('@sendgrid/mail');
-    _sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  if (!_clients.sgMail) {
+    _clients.sgMail = require('@sendgrid/mail');
+    _clients.sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   }
-  return _sgMail;
+  return _clients.sgMail;
 }
 
 function getRawBody(event) {
@@ -113,3 +112,4 @@ async function notifyError(message) {
 
 module.exports.getRawBody = getRawBody;
 module.exports.formatDollars = formatDollars;
+module.exports._clients = _clients;
