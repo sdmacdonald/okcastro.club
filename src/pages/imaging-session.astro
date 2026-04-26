@@ -1,8 +1,7 @@
 ---
-// src/pages/imaging-session.astro
-// Okie-Tex PixInsight Imaging Workshop registration
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
+import StripePaymentModal from '../components/StripePaymentModal.astro';
 ---
 <Layout title="PixInsight Imaging Workshop — Okie-Tex Star Party">
 
@@ -113,118 +112,30 @@ import Hero from '../components/Hero.astro';
   </section>
 
   <!-- ── Stripe Payment Modal ───────────────────────────────── -->
-  <div id="payment-modal"
-       class="fixed inset-0 z-[200] hidden items-center justify-center p-4"
-       style="background: rgba(9,11,20,0.85); backdrop-filter: blur(4px);">
-    <div class="bg-ds-surface border border-white/[0.09] rounded-lg shadow-[0_8px_48px_rgba(0,0,0,0.7)]
-                w-full max-w-md p-8">
-      <div class="flex items-start justify-between mb-6">
-        <div>
-          <h3 class="font-display font-bold text-ds-text text-[22px] leading-tight">Complete payment</h3>
-          <p class="font-body text-[13px] text-ds-text-3 mt-1">PixInsight Workshop — $100</p>
-        </div>
-        <button id="modal-close" type="button" aria-label="Close"
-                class="text-ds-text-3 hover:text-ds-text transition-colors mt-1">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
-        </button>
-      </div>
-      <form id="payment-form">
-        <div id="payment-element" class="mb-5"></div>
-        <div id="payment-error" class="hidden mb-4 text-[13px] text-ds-pink"></div>
-        <button type="submit" id="payment-submit"
-                class="bg-ds-otsp text-ds-text w-full py-3 text-[15px] font-semibold rounded font-body">
-          Pay $100
-        </button>
-      </form>
-    </div>
-  </div>
+  <StripePaymentModal
+    subtitle="PixInsight Workshop — $100"
+    subtitleClass="text-ds-text-3"
+    closeButtonClass="text-ds-text-3 hover:text-ds-text"
+    submitClass="bg-ds-otsp text-ds-text w-full py-3 text-[15px] font-semibold rounded font-body"
+    submitLabel="Pay $100"
+  />
 
 </Layout>
 
 <script>
-  const form = document.getElementById('imaging-form');
-  const imgError = document.getElementById('img-error');
-  const modal = document.getElementById('payment-modal');
-  const modalClose = document.getElementById('modal-close');
+  import { initPayment } from '../lib/stripePayment.js';
 
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const submitBtn = document.getElementById('img-submit');
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Processing…';
-    imgError.classList.add('hidden');
-
-    const data = {
+  initPayment({
+    formId: 'imaging-form',
+    submitId: 'img-submit',
+    errorId: 'img-error',
+    item: 'imaging-session',
+    successItem: 'imaging',
+    collectData: (form) => ({
       name: form.name.value,
       email: form.email.value,
-      item: 'imaging-session',
-    };
-
-    try {
-      const res = await fetch('/.netlify/functions/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error((await res.json()).error || 'Payment setup failed.');
-      const { clientSecret, metadata } = await res.json();
-
-      localStorage.setItem('otsp_member', JSON.stringify({ ...data, amount: metadata.amount }));
-
-      const stripe = Stripe(import.meta.env.PUBLIC_STRIPE_PK);
-      const elements = stripe.elements({
-        clientSecret,
-        appearance: {
-          theme: 'night',
-          variables: {
-            colorBackground: '#161b2e',
-            colorPrimary: '#4a90c4',
-            colorText: '#f0ece4',
-            colorTextSecondary: '#9ea3b0',
-            borderRadius: '6px',
-          },
-        },
-      });
-      const paymentEl = elements.create('payment');
-
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-      paymentEl.mount('#payment-element');
-
-      document.getElementById('payment-form').addEventListener('submit', async (ev) => {
-        ev.preventDefault();
-        document.getElementById('payment-submit').disabled = true;
-        document.getElementById('payment-submit').textContent = 'Processing…';
-        document.getElementById('payment-error').classList.add('hidden');
-
-        const { error } = await stripe.confirmPayment({
-          elements,
-          confirmParams: {
-            return_url: `${window.location.origin}/success?item=imaging`,
-          },
-        });
-        if (error) {
-          const errEl = document.getElementById('payment-error');
-          errEl.textContent = error.message;
-          errEl.classList.remove('hidden');
-          document.getElementById('payment-submit').disabled = false;
-          document.getElementById('payment-submit').textContent = 'Pay $100';
-        }
-      }, { once: true });
-
-    } catch (err) {
-      imgError.textContent = err.message;
-      imgError.classList.remove('hidden');
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Reserve Seat — $100';
-    }
-  });
-
-  modalClose?.addEventListener('click', () => {
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
+    }),
+    submitLabel: 'Reserve Seat — $100',
+    payLabel: 'Pay $100',
   });
 </script>
