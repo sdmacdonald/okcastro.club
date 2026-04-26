@@ -1,11 +1,20 @@
 'use strict';
 
-const stripe = require('stripe')(process.env.STRIPE_SK);
-const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+let _stripe;
+let _sgMail;
 
-const MEMBERSHIP_TEMPLATE_ID = 'd-953aa278a8f34d2a9f85b9ed0622ca4d';
-const IMAGING_TEMPLATE_ID = 'd-391abf270f1742699767e84fbded8084';
+function getStripe() {
+  if (!_stripe) _stripe = require('stripe')(process.env.STRIPE_SK);
+  return _stripe;
+}
+
+function getSendGrid() {
+  if (!_sgMail) {
+    _sgMail = require('@sendgrid/mail');
+    _sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  }
+  return _sgMail;
+}
 
 function getRawBody(event) {
   if (event.isBase64Encoded && typeof event.body === 'string') {
@@ -30,7 +39,7 @@ exports.handler = async (event) => {
   let stripeEvent;
 
   try {
-    stripeEvent = stripe.webhooks.constructEvent(rawBody, sig, process.env.STRIPE_ES);
+    stripeEvent = getStripe().webhooks.constructEvent(rawBody, sig, process.env.STRIPE_ES);
   } catch (err) {
     console.error('Webhook signature verification failed:', err && err.message);
     await notifyError(`Webhook signature failed: ${err && err.message}`).catch(() => {});
@@ -72,21 +81,21 @@ exports.handler = async (event) => {
 };
 
 async function sendMembershipConfirmation({ name, email, amount, item, dollars }) {
-  await sgMail.send({
+  await getSendGrid().send({
     to: email,
     from: process.env.SENDGRID_FROM,
     bcc: process.env.SENDGRID_BCC,
-    templateId: MEMBERSHIP_TEMPLATE_ID,
+    templateId: process.env.SENDGRID_MEMBERSHIP_TEMPLATE_ID,
     dynamicTemplateData: { name, email, item, amount, dollars },
   });
 }
 
 async function sendImagingConfirmation({ name, email, amount, item, dollars }) {
-  await sgMail.send({
+  await getSendGrid().send({
     to: email,
     from: process.env.SENDGRID_FROM_OTSP || process.env.SENDGRID_FROM,
     bcc: process.env.SENDGRID_BCC,
-    templateId: IMAGING_TEMPLATE_ID,
+    templateId: process.env.SENDGRID_IMAGING_TEMPLATE_ID,
     dynamicTemplateData: { name, email, item, amount, dollars },
   });
 }
@@ -94,7 +103,7 @@ async function sendImagingConfirmation({ name, email, amount, item, dollars }) {
 async function notifyError(message) {
   const recipient = process.env.SENDGRID_ERROR_RECIPIENT;
   if (!recipient) return;
-  await sgMail.send({
+  await getSendGrid().send({
     to: recipient,
     from: process.env.SENDGRID_FROM,
     subject: '[OTSP] Webhook error',
