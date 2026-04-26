@@ -4,8 +4,8 @@ const stripe = require('stripe')(process.env.STRIPE_SK);
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-const MEMBERSHIP_TEMPLATE_ID = '953aa278a8f34d2a9f85b9ed0622ca4d';
-const IMAGING_TEMPLATE_ID = '391abf270f1742699767e84fbded8084';
+const MEMBERSHIP_TEMPLATE_ID = 'd-953aa278a8f34d2a9f85b9ed0622ca4d';
+const IMAGING_TEMPLATE_ID = 'd-391abf270f1742699767e84fbded8084';
 
 function getRawBody(event) {
   if (event.isBase64Encoded && typeof event.body === 'string') {
@@ -59,8 +59,10 @@ exports.handler = async (event) => {
         await sendMembershipConfirmation({ name, email, amount, item, dollars });
       }
     } catch (err) {
-      console.error('SendGrid error:', err && err.message);
-      await notifyError(`SendGrid failed for ${email}: ${err && err.message}`).catch(() => {});
+      const body = err && err.response && err.response.body;
+      const detail = body ? JSON.stringify(body) : (err && err.message);
+      console.error('SendGrid error:', detail);
+      await notifyError(`SendGrid failed for ${email}: ${detail}`).catch(() => {});
     }
   } else {
     console.log(`Ignoring event type: ${stripeEvent.type}`);
