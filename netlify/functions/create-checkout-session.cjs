@@ -1,5 +1,5 @@
 // Creates a Stripe PaymentIntent and returns clientSecret to the client.
-// Handles membership and imaging-session items.
+// Handles membership, member-renewal, cro-membership, and imaging-session items.
 
 'use strict';
 
@@ -14,6 +14,14 @@ const ITEMS = {
   'membership': {
     name: 'OKCAC Annual Membership',
     getAmount: () => getMembershipPrice() * 100, // cents
+  },
+  'member-renewal': {
+    name: 'OKCAC Membership Renewal',
+    getAmount: () => 3600, // $36.00 flat
+  },
+  'cro-membership': {
+    name: 'Cheddar Ranch Observatory Membership',
+    getAmount: () => 9600, // $96.00 flat
   },
   'imaging-session': {
     name: 'Okie-Tex PixInsight Imaging Workshop',
@@ -38,7 +46,7 @@ const handler = async (event) => {
     return respond(400, { error: 'Invalid JSON body' });
   }
 
-  const { name, email, address, city, state, zip, item } = body;
+  const { name, email, phone, address, city, state, zip, item } = body;
 
   // item is required — no default
   if (!item) {
@@ -68,6 +76,7 @@ const handler = async (event) => {
         amount: String(amount),
         name,
         email,
+        phone: phone || '',
         address: address || '',
         city: city || '',
         state: state || '',

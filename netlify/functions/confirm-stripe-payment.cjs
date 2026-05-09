@@ -47,7 +47,7 @@ exports.handler = async (event) => {
 
   if (stripeEvent.type === 'payment_intent.succeeded') {
     const pi = stripeEvent.data.object;
-    const { item, name, email, amount } = pi.metadata || {};
+    const { item, name, email, phone, amount } = pi.metadata || {};
 
     if (!email) {
       console.warn('No email in PaymentIntent metadata — skipping confirmation send.');
@@ -61,11 +61,7 @@ exports.handler = async (event) => {
     }
 
     try {
-      if (item === 'imaging-session') {
-        await sendImagingConfirmation({ name, email, amount, item, dollars });
-      } else {
-        await sendMembershipConfirmation({ name, email, amount, item, dollars });
-      }
+      await sendConfirmation({ name, email, phone, amount, item, dollars });
     } catch (err) {
       const body = err && err.response && err.response.body;
       const detail = body ? JSON.stringify(body) : (err && err.message);
@@ -79,23 +75,39 @@ exports.handler = async (event) => {
   return { statusCode: 200, body: 'OK' };
 };
 
-async function sendMembershipConfirmation({ name, email, amount, item, dollars }) {
-  await getSendGrid().send({
-    to: email,
-    from: process.env.SENDGRID_FROM,
-    bcc: process.env.SENDGRID_BCC,
-    templateId: process.env.SENDGRID_MEMBERSHIP_TEMPLATE_ID,
-    dynamicTemplateData: { name, email, item, amount, dollars },
-  });
+function getItemConfig(item) {
+  switch (item) {
+    case 'imaging-session':
+      return {
+        templateId: process.env.SENDGRID_IMAGING_TEMPLATE_ID,
+        from: process.env.SENDGRID_FROM_OTSP || process.env.SENDGRID_FROM,
+      };
+    case 'member-renewal':
+      return {
+        templateId: process.env.SENDGRID_RENEWAL_TEMPLATE_ID || process.env.SENDGRID_MEMBERSHIP_TEMPLATE_ID,
+        from: process.env.SENDGRID_FROM,
+      };
+    case 'cro-membership':
+      return {
+        templateId: process.env.SENDGRID_CRO_TEMPLATE_ID || process.env.SENDGRID_MEMBERSHIP_TEMPLATE_ID,
+        from: process.env.SENDGRID_FROM,
+      };
+    default:
+      return {
+        templateId: process.env.SENDGRID_MEMBERSHIP_TEMPLATE_ID,
+        from: process.env.SENDGRID_FROM,
+      };
+  }
 }
 
-async function sendImagingConfirmation({ name, email, amount, item, dollars }) {
+async function sendConfirmation({ name, email, phone, amount, item, dollars }) {
+  const { templateId, from } = getItemConfig(item);
   await getSendGrid().send({
     to: email,
-    from: process.env.SENDGRID_FROM_OTSP || process.env.SENDGRID_FROM,
+    from,
     bcc: process.env.SENDGRID_BCC,
-    templateId: process.env.SENDGRID_IMAGING_TEMPLATE_ID,
-    dynamicTemplateData: { name, email, item, amount, dollars },
+    templateId,
+    dynamicTemplateData: { name, email, phone, item, amount, dollars },
   });
 }
 
