@@ -1,0 +1,129 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import StripePaymentModal from '../components/StripePaymentModal.astro';
+---
+<Layout title="Cheddar Ranch Observatory Membership">
+
+  <!-- ── Hero ──────────────────────────────────────────────── -->
+  <Hero image="/bg.jpg" overlay={[0.55, 0.88]}>
+    <img src="/okcac-logo__white.png" alt="Oklahoma City Astronomy Club"
+         class="h-16 mx-auto mb-6 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]" />
+    <h1 class="font-display font-bold text-ds-text leading-[1.1] tracking-tight mb-3"
+        style="font-size: clamp(32px,5vw,56px)">
+      Cheddar Ranch Observatory<br>
+      <span style="font-size: clamp(20px,3vw,36px); opacity:0.75">Annual Membership — $96</span>
+    </h1>
+    <p class="font-body text-[14px] font-semibold uppercase tracking-widest text-ds-text-2">
+      For Active OKCAC Members
+    </p>
+  </Hero>
+
+  <!-- ── Two-column: info + form ────────────────────────────── -->
+  <section class="bg-ds-raised py-20 px-6">
+    <div class="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+
+      <!-- Info column -->
+      <div>
+        <h2 class="font-display font-bold text-ds-text text-[clamp(20px,2.5vw,28px)] tracking-tight mb-4">
+          About CRO Membership
+        </h2>
+
+        <div class="space-y-5 mb-8">
+          <p class="font-body text-[14px] text-ds-text-2 leading-[1.75]">
+            Cheddar Ranch Observatory is the club's private dark-sky observing site,
+            available year-round to CRO members in good standing.
+          </p>
+        </div>
+
+        <div class="rounded border border-ds-gold/40 bg-ds-gold/[0.06] p-5 mb-6">
+          <p class="font-body text-[10px] font-bold uppercase tracking-[0.1em] mb-2 text-ds-gold">
+            Eligibility
+          </p>
+          <p class="font-body text-[14px] text-ds-text leading-[1.75]">
+            CRO membership is available <strong>only</strong> to OKCAC members who
+            have been in the club for <strong>at least 3 months</strong>. If you've
+            joined more recently, please wait until you reach the 3-month mark
+            before purchasing.
+          </p>
+        </div>
+
+        <hr class="border-white/[0.08] mb-6" />
+
+        <h3 class="font-display font-bold text-ds-text text-[clamp(16px,2vw,20px)] tracking-tight mb-3">
+          Getting Your Gate Key
+        </h3>
+        <p class="font-body text-[14px] text-ds-text-2 leading-[1.75] mb-3">
+          Keys are distributed at monthly club meetings. If you're unable to attend,
+          email
+          <a href="mailto:quartermaster@okcastroclub.com"
+             class="text-ds-gold hover:text-ds-gold-h underline underline-offset-2 transition-colors">
+            quartermaster@okcastroclub.com
+          </a>
+          to arrange pickup.
+        </p>
+      </div>
+
+      <!-- Form column -->
+      <div class="rounded-lg p-8 bg-ds-surface border border-white/10">
+        <h2 class="font-display font-bold text-ds-text text-[clamp(20px,2.5vw,26px)] tracking-tight mb-1">
+          Purchase CRO Membership
+        </h2>
+        <p class="font-body text-[13px] text-ds-text-2 mb-7">
+          $96 per year. OKCAC members only.
+        </p>
+
+        <form id="cro-form" novalidate>
+          <div class="mb-4">
+            <label class="form-label" for="cro-name">Full Name <span class="text-ds-pink">*</span></label>
+            <input id="cro-name" name="name" type="text" class="form-input"
+                   placeholder="Leo Spaceman" required autocomplete="name" />
+          </div>
+          <div class="mb-4">
+            <label class="form-label" for="cro-phone">Phone Number <span class="text-ds-pink">*</span></label>
+            <input id="cro-phone" name="phone" type="tel" class="form-input"
+                   placeholder="(405) 555-0100" required autocomplete="tel" />
+          </div>
+          <div class="mb-6">
+            <label class="form-label" for="cro-email">Email Address <span class="text-ds-pink">*</span></label>
+            <input id="cro-email" name="email" type="email" class="form-input"
+                   placeholder="cosmo@example.com" required autocomplete="email" />
+          </div>
+          <button type="submit" id="cro-submit"
+                  class="btn-primary w-full py-3 text-[15px] font-semibold rounded">
+            Purchase CRO Membership — $96
+          </button>
+          <div id="cro-error" class="hidden mt-3 p-3 rounded border border-ds-pink/40 bg-ds-pink/10 text-ds-pink text-[13px]"></div>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Stripe Payment Modal ───────────────────────────────── -->
+  <StripePaymentModal
+    subtitle="Cheddar Ranch Observatory Membership — $96"
+    submitClass="btn-primary w-full py-3 text-[15px] font-semibold rounded"
+    submitLabel="Pay $96"
+  />
+
+</Layout>
+
+<script>
+  import { initPayment } from '../lib/stripePayment.js';
+
+  initPayment({
+    formId: 'cro-form',
+    submitId: 'cro-submit',
+    errorId: 'cro-error',
+    item: 'cro-membership',
+    successItem: 'cro-membership',
+    collectData: (form) => ({
+      name: form.name.value,
+      email: form.email.value,
+      phone: form.phone.value,
+    }),
+    submitLabel: 'Purchase CRO Membership — $96',
+    payLabel: 'Pay $96',
+  });
+</script>

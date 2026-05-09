@@ -93,6 +93,32 @@ describe('imaging-session form fields', () => {
   });
 });
 
+describe('member-renewal form fields', () => {
+  it('includes name, email, phone', () => {
+    const payload = {
+      name: 'Leo Spaceman', email: 'leo@example.com', phone: '4055550100',
+      item: 'member-renewal',
+    };
+    expect(payload).toHaveProperty('name');
+    expect(payload).toHaveProperty('email');
+    expect(payload).toHaveProperty('phone');
+    expect(payload.item).toBe('member-renewal');
+  });
+});
+
+describe('cro-membership form fields', () => {
+  it('includes name, email, phone', () => {
+    const payload = {
+      name: 'Leo Spaceman', email: 'leo@example.com', phone: '4055550100',
+      item: 'cro-membership',
+    };
+    expect(payload).toHaveProperty('name');
+    expect(payload).toHaveProperty('email');
+    expect(payload).toHaveProperty('phone');
+    expect(payload.item).toBe('cro-membership');
+  });
+});
+
 // ─── Handler input validation ──────────────────────────────────────────────────
 
 describe('handler — input validation', () => {

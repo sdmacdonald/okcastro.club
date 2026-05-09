@@ -177,6 +177,47 @@ describe('handler — template selection by item', () => {
     await handler(makeEvent());
     expect(send.mock.calls[0][0].templateId).toBe('d-membership-test');
   });
+
+  it('uses RENEWAL template ID when set for item=member-renewal', async () => {
+    vi.stubEnv('SENDGRID_RENEWAL_TEMPLATE_ID', 'd-renewal-test');
+    constructEvent.mockReturnValue(makeSucceededEvent({
+      name: 'Leo', email: 'leo@example.com', phone: '4055550100', amount: '3600', item: 'member-renewal',
+    }));
+    send.mockResolvedValue();
+    await handler(makeEvent());
+    expect(send.mock.calls[0][0].templateId).toBe('d-renewal-test');
+    expect(send.mock.calls[0][0].dynamicTemplateData).toMatchObject({ phone: '4055550100' });
+  });
+
+  it('member-renewal falls back to MEMBERSHIP template when RENEWAL is unset', async () => {
+    vi.stubEnv('SENDGRID_RENEWAL_TEMPLATE_ID', '');
+    constructEvent.mockReturnValue(makeSucceededEvent({
+      name: 'Leo', email: 'leo@example.com', amount: '3600', item: 'member-renewal',
+    }));
+    send.mockResolvedValue();
+    await handler(makeEvent());
+    expect(send.mock.calls[0][0].templateId).toBe('d-membership-test');
+  });
+
+  it('uses CRO template ID when set for item=cro-membership', async () => {
+    vi.stubEnv('SENDGRID_CRO_TEMPLATE_ID', 'd-cro-test');
+    constructEvent.mockReturnValue(makeSucceededEvent({
+      name: 'Leo', email: 'leo@example.com', phone: '4055550100', amount: '9600', item: 'cro-membership',
+    }));
+    send.mockResolvedValue();
+    await handler(makeEvent());
+    expect(send.mock.calls[0][0].templateId).toBe('d-cro-test');
+  });
+
+  it('cro-membership falls back to MEMBERSHIP template when CRO is unset', async () => {
+    vi.stubEnv('SENDGRID_CRO_TEMPLATE_ID', '');
+    constructEvent.mockReturnValue(makeSucceededEvent({
+      name: 'Leo', email: 'leo@example.com', amount: '9600', item: 'cro-membership',
+    }));
+    send.mockResolvedValue();
+    await handler(makeEvent());
+    expect(send.mock.calls[0][0].templateId).toBe('d-membership-test');
+  });
 });
 
 describe('handler — SendGrid failure', () => {

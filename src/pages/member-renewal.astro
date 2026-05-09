@@ -1,0 +1,88 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import StripePaymentModal from '../components/StripePaymentModal.astro';
+---
+<Layout title="Renew Your OKCAC Membership">
+
+  <!-- ── Hero ──────────────────────────────────────────────── -->
+  <Hero image="/bg.jpg" position="center 40%" overlay={[0.55, 0.88]} class="pt-24 pb-20 px-6">
+    <img src="/okcac-logo__white.png" alt="Oklahoma City Astronomy Club"
+         class="h-16 mx-auto mb-6 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]" />
+
+    <h1 class="font-display font-bold text-ds-text leading-[1.08] tracking-tight mb-5"
+        style="font-size: clamp(38px,6vw,68px)">
+      Renew your<br>membership.
+    </h1>
+    <p class="font-body text-[17px] text-ds-text-2 max-w-[520px] mx-auto leading-relaxed">
+      Annual dues are $36. Renews April 1.
+    </p>
+  </Hero>
+
+  <!-- ── Renewal form ──────────────────────────────────────── -->
+  <section class="bg-ds-bg py-20 px-6">
+    <div class="max-w-[540px] mx-auto">
+      <h2 class="font-display font-bold text-ds-text text-[clamp(22px,3vw,32px)] tracking-tight mb-1">
+        Membership Renewal
+      </h2>
+      <p class="font-body text-[13px] text-ds-text-2 mb-8">
+        Renew your annual OKCAC membership for $36.
+      </p>
+
+      <form id="renewal-form" novalidate>
+        <div class="mb-4">
+          <label class="form-label" for="renewal-name">Full Name <span class="text-ds-pink">*</span></label>
+          <input id="renewal-name" name="name" type="text" class="form-input"
+                 placeholder="Leo Spaceman" required autocomplete="name" />
+        </div>
+        <div class="mb-4">
+          <label class="form-label" for="renewal-phone">Phone Number <span class="text-ds-pink">*</span></label>
+          <input id="renewal-phone" name="phone" type="tel" class="form-input"
+                 placeholder="(405) 555-0100" required autocomplete="tel" />
+        </div>
+        <div class="mb-6">
+          <label class="form-label" for="renewal-email">Email Address <span class="text-ds-pink">*</span></label>
+          <input id="renewal-email" name="email" type="email" class="form-input"
+                 placeholder="cosmo@example.com" required autocomplete="email" />
+        </div>
+
+        <button type="submit" id="renewal-submit"
+                class="btn-primary w-full py-3 text-[15px] font-semibold rounded">
+          Renew for $36
+        </button>
+
+        <p class="text-[11px] text-ds-text-2 text-center mt-3">
+          Questions? <a href="mailto:webmaster@okcastroclub.com" class="text-ds-sky hover:text-ds-sky-h underline underline-offset-2 transition-colors">webmaster@okcastroclub.com</a>
+        </p>
+        <div id="renewal-error" class="hidden mt-3 p-3 rounded border border-ds-pink/40 bg-ds-pink/10 text-ds-pink text-[13px]"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ── Stripe Payment Modal ───────────────────────────────── -->
+  <StripePaymentModal
+    subtitle="OKCAC Membership Renewal — $36"
+    submitClass="btn-primary w-full py-3 text-[15px] font-semibold rounded"
+    submitLabel="Pay $36"
+  />
+
+</Layout>
+
+<script>
+  import { initPayment } from '../lib/stripePayment.js';
+
+  initPayment({
+    formId: 'renewal-form',
+    submitId: 'renewal-submit',
+    errorId: 'renewal-error',
+    item: 'member-renewal',
+    successItem: 'member-renewal',
+    collectData: (form) => ({
+      name: form.name.value,
+      email: form.email.value,
+      phone: form.phone.value,
+    }),
+    submitLabel: 'Renew for $36',
+    payLabel: 'Pay $36',
+  });
+</script>
